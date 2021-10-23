@@ -63,6 +63,7 @@ public class HomeController {
 
 
 //
+
 //        if(userService.findEmail(user.getEmail())==true){
 //
 //            System.out.println("JEst taki uzytkownik");
