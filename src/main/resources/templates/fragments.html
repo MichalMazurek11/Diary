@@ -19,14 +19,15 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<!--<li class="nav-item"><a class="nav-link" href="#" th:href="@{/user/home}"><i class="fa fa-home mr-2"></i>HOME</a></li>-->
-					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/templates/home/oceny}">OCENY</a></li>
-					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/templates/home/nieobecnosci}">NIEOBECNOSCI</a></li>
-					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/templates/home/prace_domowe}">PRACE DOMOWE</a></li>
-					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/templates/home/ustawienia}">USTAWIENIA</a></li>
-					<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/templates/home/director}">ADMIN</a></li>
+					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/home/oceny}">OCENY</a></li>
+					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/home/nieobecnosci}">NIEOBECNOSCI</a></li>
+					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/home/prace_domowe}">PRACE DOMOWE</a></li>
+					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/home/ustawienia}">USTAWIENIA</a></li>
+					<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director}">ADMIN</a></li>
+					<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/rejestracja_uzytkownikow}">REJESTRACJE</a></li>
 				</ul>
 				<ul class="nav my-auto mr-4">
-					<li sec:authorize="isAuthenticated()" class="nav-item"><a href="#" class="text-info" th:href="@{/templates/home/ustawienia}"><i class="fas fa-shopping-cart"></i> KONTO</a></li>
+					<li sec:authorize="isAuthenticated()" class="nav-item"><a href="#" class="text-info" th:href="@{/home/ustawienia}"><i class="fas fa-shopping-cart"></i> KONTO</a></li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0" form-method="post"
 					th:action="@{/logout}">

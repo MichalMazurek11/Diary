@@ -31,8 +31,9 @@ public class User {
 
     @Column(unique = true)
     private String email;
+
     //Chyba do usuniecia ?
-    private String permissions;
+    private String type;
 
     private String role;
 
