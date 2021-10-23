@@ -31,14 +31,6 @@ public class HomeController {
         this.userService = userService;
         this.passwordEncoder =passwordEncoder;
 
-//        User user = new User();
-//
-//
-//        user.setPassword(passwordEncoder.encode("123"));
-//
-//        user.setEmail("123@wp.pl");
-//        user.setRole("USER");
-//        userService.save(user);
 
     }
 
