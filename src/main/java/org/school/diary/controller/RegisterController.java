@@ -15,7 +15,7 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping
-public class HomeController {
+public class RegisterController {
 
 
     @Autowired
@@ -24,19 +24,18 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-
-
     @Autowired
-    public HomeController(UserService userService, PasswordEncoder passwordEncoder) {
+    public RegisterController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder =passwordEncoder;
 
 
     }
 
-
-    @GetMapping("/home/hi")
+    //PANEL PO ZALOGOWANIU
+    @GetMapping("/home")
     public String firstPage(Principal prin, Model model) {
+
         return "/home/hi";
     }
 
@@ -47,17 +46,20 @@ public class HomeController {
         return "login";
     }
 
-    @GetMapping({"/home/index", "/"})
-    public String index(Principal prin, Model model) {
 
-        return "/home/index";
-    }
+//    @GetMapping({"/home/index"})
+//    public String index(Principal prin, Model model) {
+//
+//        return "/home/index";
+//    }
 
+    //PANEL DO REJESTRACJI
     @GetMapping("signup")
     public String signUp() {
         return "signup";
     }
 
+    //PRZYCISK REJESTRACJI
     @PostMapping("signup")
     public String signup( @ModelAttribute User user){
 
