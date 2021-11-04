@@ -19,7 +19,7 @@ public class UserPrincipalDetailService implements UserDetailsService {
 
         User user = userRepository.findByEmail(username);
         UserPrincipal userPrincipal = new UserPrincipal(user);
-        System.out.println("Znaleziony uzytkownik: "+ userPrincipal.getUsername() + " haslo: "+ userPrincipal.getPassword());
+      //  System.out.println("Znaleziony uzytkownik: "+ userPrincipal.getUsername() + " haslo: "+ userPrincipal.getPassword());
         return userPrincipal;
     }
 }

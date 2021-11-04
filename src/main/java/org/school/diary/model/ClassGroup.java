@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Class {
+public class ClassGroup {
 
     @Id
     @GeneratedValue
@@ -27,6 +27,17 @@ public class Class {
     @JoinColumn(name = "supervisor_id", referencedColumnName = "id")
     private Teacher supervisor;
 
-    @OneToMany(mappedBy = "studentsClass")
+    @OneToMany(mappedBy = "studentsClassGroup")
     private Set<Student> students = new HashSet<>();
+
+
+    @Override
+    public String toString() {
+        return "ClassGroup{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", supervisor=" + supervisor +
+                ", students=" + students +
+                '}';
+    }
 }

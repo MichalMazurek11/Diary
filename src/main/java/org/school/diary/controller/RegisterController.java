@@ -36,7 +36,7 @@ public class RegisterController {
     @GetMapping("/home")
     public String firstPage(Principal prin, Model model) {
 
-        return "/home/hi";
+        return "/home/home_page";
     }
 
     //PANEL LOGOWANIA

@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -28,10 +30,15 @@ public class Student {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "class_id", referencedColumnName = "id")
-    private Class studentsClass;
+    @JoinColumn(name = "classGroup_id", referencedColumnName = "id")
+    private ClassGroup studentsClassGroup;
 
     @ManyToOne
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
     private Parent parent;
+
+    @OneToMany(mappedBy = "student")
+    private Set<Mark> marksStudent = new HashSet<>();
+
+
 }

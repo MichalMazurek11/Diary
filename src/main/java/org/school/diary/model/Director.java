@@ -8,11 +8,12 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Date;
 
-@Entity
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Director {
 
     @Id

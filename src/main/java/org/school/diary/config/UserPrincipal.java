@@ -10,8 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class UserPrincipal implements UserDetails {
-    // po co to ?
-    private static final long serialVersionUID = 1L;
+
 
     private User user;
 

@@ -3,41 +3,75 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!-- Fragment #1 : Headerfiles contains css and js references -->
 <head th:fragment="headerfiles">
-<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 <title>Dziennik elektroniczny</title>
-<link th:href="@{~/bootstrap.min.css}" rel="stylesheet">
-<link th:href="@{~/fontawesome/css/all.css}" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<!-- Brand -->
+		<a class="navbar-brand" href="/home" style="margin-left: 25%;">E-dzienniczek</a>
 
-	<!-- Fragment #2 : Navbar contains nav links -->
-	<div th:fragment="nav">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<div class="container">
-			<a class="navbar-brand" href="#" th:href="@{/home}">E-dziennik</a>
+		<!-- Links -->
+		<ul class="navbar-nav mr-auto" >
+<!--			<li class="nav-item">-->
+<!--				<a class="nav-link" href="#">Link 1</a>-->
+<!--			</li>-->
+<!--			<li class="nav-item">-->
+<!--				<a class="nav-link" href="#">Link 2</a>-->
+<!--			</li>-->
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto">
-					<!--<li class="nav-item"><a class="nav-link" href="#" th:href="@{/user/home}"><i class="fa fa-home mr-2"></i>HOME</a></li>-->
-					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/home/oceny}">OCENY</a></li>
-					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/home/nieobecnosci}">NIEOBECNOSCI</a></li>
-					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/home/prace_domowe}">PRACE DOMOWE</a></li>
-					<li sec:authorize="hasRole('ROLE_USER')"><a class="nav-link" href="#" th:href="@{/home/ustawienia}">USTAWIENIA</a></li>
-					<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director}">ADMIN</a></li>
-					<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/rejestracja_uzytkownikow}">REJESTRACJE</a></li>
-				</ul>
-				<ul class="nav my-auto mr-4">
-					<li sec:authorize="isAuthenticated()" class="nav-item"><a href="#" class="text-info" th:href="@{/home/ustawienia}"><i class="fas fa-shopping-cart"></i> KONTO</a></li>
-				</ul>
-				<form class="form-inline my-2 my-lg-0" form-method="post"
-					th:action="@{/logout}">
-					<button sec:authorize="isAuthenticated()" class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="submit">Logout</button>
-					<button sec:authorize="isAnonymous()" th:href="@{~/login}" class="btn btn-outline-info my-2 my-sm-0 btn-sm" type="submit">Login</button>
-				</form>
-			</div>
-			</div>
-		</nav>
-	</div>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/plan_lekcji}">Plan lekcji</a></li>
+			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/plan_lekcji}">Plan lekcji</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a  class="nav-link" href="#" th:href="@{/home/oceny}">Oceny</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/nieobecnosci}">Frekwencja</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/prace_domowe}">Prace domowe</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/ustawienia}">Ustawienia</a></li>
+			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director}">ADMIN</a></li>
+			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/rejestracja_uzytkownikow}">REJESTRACJE</a></li>
+			<!-- Dropdown -->
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" sec:authorize="hasRole('ROLE_DIRECTOR')">Nauczyciel
+				</a>
+				<div class="dropdown-menu" >
+					<a class="dropdown-item" sec:authorize="hasRole('ROLE_DIRECTOR')" th:href="@{/home/dodaj_nauczyciela}">Dodaj nauczyciela</a>
+					<a class="dropdown-item" href="#">Usuń nauczyciela</a>
+					<a class="dropdown-item" href="#"></a>
+				</div>
+			</li>
+
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" sec:authorize="hasRole('ROLE_DIRECTOR')">Klasa
+				</a>
+				<div class="dropdown-menu" >
+					<a class="dropdown-item" th:href="@{/home/dodaj_klase}">Dodaj klase</a>
+					<a class="dropdown-item" href="#">Usuń klase</a>
+					<a class="dropdown-item" th:href="@{/home/dodaj_ucznia_do_klasy}">Dodaj ucznia do klasy</a>
+				</div>
+			</li>
+
+			<!--NAUCZYCIEL-->
+
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">OCENY
+				</a>
+				<div class="dropdown-menu" >
+					<a class="dropdown-item" th:href="@{/home/dodaj_ocene}">Dodaj OCENĘ</a>
+
+				</div>
+			</li>
+
+		</ul>
+
+		<form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">
+			<button sec:authorize="isAuthenticated()" class="btn btn-danger" type="submit">Wyloguj</button>
+			<button sec:authorize="isAnonymous()" th:href="@{~/login}" class="btn btn-primary" type="submit">Zaloguj</button>
+		</form>
+	</nav>
 
 </body>
 </html>
