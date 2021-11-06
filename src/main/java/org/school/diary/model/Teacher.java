@@ -15,20 +15,23 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Teacher {
+public class Teacher extends User{
 
-    @Id
-    @GeneratedValue
-    private long id;
+//    @Id
+//    @GeneratedValue
+//    private long id;
 
     private String firstName;
     private String lastName;
     private Date dateBirth;
 
-    @OneToOne(cascade = CascadeType.ALL)
+  /*  @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private User user;*/
 
     @OneToMany(mappedBy = "teacher")
     private Set<Mark> marksTeacher = new HashSet<>();
+
+    @OneToMany()
+    private Set<Subject> subjects;
 }

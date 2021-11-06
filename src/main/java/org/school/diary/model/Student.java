@@ -15,19 +15,19 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Student {
+public class Student extends User{
 
-    @Id
-    @GeneratedValue
-    private long id;
+//    @Id
+//    @GeneratedValue
+//    private long id;
 
     private String firstName;
     private String lastName;
     private Date dateBirth;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private User user;
 
     @ManyToOne
     @JoinColumn(name = "classGroup_id", referencedColumnName = "id")

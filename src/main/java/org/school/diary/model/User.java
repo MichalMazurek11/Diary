@@ -13,19 +13,20 @@ import java.util.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User  {
 
     @Id
     @GeneratedValue
     private long id;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String pesel;
 
     private String password;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String email;
 
     //Chyba do usuniecia ?

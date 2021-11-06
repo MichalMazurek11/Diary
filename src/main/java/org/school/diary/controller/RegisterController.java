@@ -79,7 +79,7 @@ public class RegisterController {
 //        user.setAccountStatus(Status.AKTYWNE);
 //        user.setType(Type.USER);
         user.setType("NIEAKTYWNE");
-        user.setRole("USER");
+        user.setRole("STUDENT");
         userService.save(user);
         return "redirect:/login";       // przekierowanie na adres metodą GET
 

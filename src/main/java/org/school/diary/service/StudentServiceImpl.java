@@ -23,7 +23,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findByUser(User user) {
-        return studentRepository.findByUser(user);
+//        return studentRepository.findByUser(user);
+    return null;
     }
 
     @Override

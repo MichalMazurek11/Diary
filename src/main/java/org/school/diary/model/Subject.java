@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,5 +28,8 @@ public class Subject {
 
     @OneToMany(mappedBy = "subject")
     private Set<Mark> marksSubject = new HashSet<>();
+
+    @OneToMany()
+    private List<Teacher> teachers;
 
 }

@@ -14,17 +14,17 @@ import java.sql.Date;
 @Getter
 @Setter
 @Entity
-public class Director {
+public class Director extends User{
 
-    @Id
-    @GeneratedValue
-    private long id;
+//    @Id
+//    @GeneratedValue
+//    private long id;
 
     private String firstName;
     private String lastName;
     private Date dateBirth;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private User user;
 }
