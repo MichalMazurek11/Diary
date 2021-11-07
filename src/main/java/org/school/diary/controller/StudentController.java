@@ -40,7 +40,7 @@ public class StudentController {
 
         String login = auth.getName();
         System.out.println("LOGIN: "+ login);
-        User user = userService.findByEmail(login);
+//        User user = userService.findByEmail(login);
 //        Student student = studentService.findByUser(user);
 
 

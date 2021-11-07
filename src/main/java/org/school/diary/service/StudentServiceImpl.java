@@ -1,7 +1,6 @@
 package org.school.diary.service;
 
 import org.school.diary.dao.StudentRepository;
-import org.school.diary.dao.UserRepository;
 import org.school.diary.model.Student;
 import org.school.diary.model.User;
 import org.springframework.beans.factory.annotation.Autowired;

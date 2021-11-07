@@ -1,5 +1,7 @@
 package org.school.diary.config;
 
+import lombok.RequiredArgsConstructor;
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,15 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.persistence.EntityManagerFactory;
+
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private UserPrincipalDetailService userPrincipalDetailService;
-
-    public SpringSecurityConfiguration(UserPrincipalDetailService userPrincipalDetailService) {
-        this.userPrincipalDetailService = userPrincipalDetailService;
-    }
+    private final UserPrincipalDetailService userPrincipalDetailService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
