@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.school.diary.model.common.Teacher;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,8 @@ public class Subject {
     private long id;
 
     private String name;
+
+    private String pesel;
 
     @OneToMany(mappedBy = "subject")
     private Set<Mark> marksSubject = new HashSet<>();

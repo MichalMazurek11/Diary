@@ -1,8 +1,9 @@
 package org.school.diary.service;
 
 import org.school.diary.dao.StudentRepository;
-import org.school.diary.model.Student;
-import org.school.diary.model.User;
+import org.school.diary.model.common.PersonRelatedWithSchool;
+import org.school.diary.model.common.Student;
+import org.school.diary.model.common.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,13 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
+    public void save(PersonRelatedWithSchool student) {
+         studentRepository.save((Student) student);
+    }
+
+    @Override
     public void saveStudent(Student student) {
-         studentRepository.save(student);
+        studentRepository.save(student);
     }
 
     @Override

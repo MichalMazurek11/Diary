@@ -7,21 +7,42 @@
     <div style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 24px; padding: 24px;">
         <div class="card">
             <div class="card-header">
-                <i class="fa fa-user"></i> Zarejestruj się</div>
+                <i class="fa fa-userDTO"></i> Zarejestruj się
+            </div>
             <div class="card-block" style="padding: 24px;">
-                <form th:action="@{/signup}" method="post">
-                        <div class="form-group">
-                            <label for="email">Email</label> <input type="text" class="form-control" id="email" name="email" placeholder="email">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password">Password</label> <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                        </div>
+                <form th:action="@{/signup}" th:object="${userDto}" method="post">
 
 
-                        <div class="form-actions" style="margin-top: 12px;">
-                            <button type="submit" class="btn btn-success">Zarejestruj</button>
-                        </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="email" th:field="*{email}">
+                        <p th:each="error:${#fields.hasErrors('email')}" th:text="*{email}">Name Error</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label> <input type="password" class="form-control" id="password"
+                                                                      name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="pesel">Pesel</label> <input type="text" class="form-control" id="pesel" name="pesel"
+                                                                placeholder="pesel">
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">Data urodzin</label> <input type="date" class="form-control" id="birthDate" name="birthDate"
+                                                                placeholder="birthDate">
+                    </div>
+                    <div class="form-group">
+                        <label>rola
+                        <select name="personRole" multiple size="4">
+                            <option value="abc">ABC</option>
+                        </select>
+                        </label>
+                    </div>
+
+
+                    <div class="form-actions" style="margin-top: 12px;">
+                        <button type="submit" class="btn btn-success">Zarejestruj</button>
+                    </div>
 
                 </form>
             </div>

@@ -1,18 +1,17 @@
 package org.school.diary.config;
 
-import org.school.diary.model.User;
+import org.school.diary.model.common.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
 
-    private User user;
+    private final User user;
 
     public UserPrincipal(User user) {
         this.user = user;
@@ -20,17 +19,8 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-
-
-        user.getRoleList().forEach(r -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority( "ROLE_" + r);
-            authorities.add(authority);
-        });
-
-
-
-        return authorities;
+        return user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
     @Override
@@ -40,9 +30,8 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getPersonRelatedWithSchool().getEmail();
     }
-
 
 
     @Override

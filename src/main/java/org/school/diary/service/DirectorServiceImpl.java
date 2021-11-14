@@ -1,20 +1,22 @@
 package org.school.diary.service;
 
 
+import lombok.RequiredArgsConstructor;
 import org.school.diary.dao.DirectorRepository;
-import org.school.diary.model.Director;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.school.diary.model.common.Director;
+import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class DirectorServiceImpl implements DirectorService {
 
-    @Autowired
-    private DirectorRepository directorRepository;
+    private final DirectorRepository directorRepository;
+
 
     @Override
-    public void save(Director director) {
-        directorRepository.save(director);
+    public void save(PersonRelatedWithSchool director) {
+        directorRepository.save((Director) director);
 
     }
 

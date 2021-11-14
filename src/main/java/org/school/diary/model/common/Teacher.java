@@ -1,9 +1,11 @@
-package org.school.diary.model;
+package org.school.diary.model.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.school.diary.model.Mark;
+import org.school.diary.model.Subject;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -15,19 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Teacher extends User{
-
-//    @Id
-//    @GeneratedValue
-//    private long id;
-
-    private String firstName;
-    private String lastName;
-    private Date dateBirth;
-
-  /*  @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;*/
+public class Teacher extends PersonRelatedWithSchool{
 
     @OneToMany(mappedBy = "teacher")
     private Set<Mark> marksTeacher = new HashSet<>();

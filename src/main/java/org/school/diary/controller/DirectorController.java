@@ -2,21 +2,16 @@ package org.school.diary.controller;
 
 
 import org.school.diary.model.ClassGroup;
-import org.school.diary.model.Student;
-import org.school.diary.model.Teacher;
-import org.school.diary.model.User;
+import org.school.diary.model.common.Student;
+import org.school.diary.model.common.Teacher;
 import org.school.diary.service.ClassGroupService;
 import org.school.diary.service.StudentService;
 import org.school.diary.service.TeacherService;
 import org.school.diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;

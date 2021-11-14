@@ -2,35 +2,34 @@ package org.school.diary.controller;
 
 
 
-import org.school.diary.model.User;
+import lombok.RequiredArgsConstructor;
+import org.school.diary.dto.UserDTO;
+import org.school.diary.mappers.SignedUserMapper;
+import org.school.diary.model.common.User;
 import org.school.diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 
 @Controller
 @RequestMapping
+@RequiredArgsConstructor
+@Validated
 public class RegisterController {
 
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    public RegisterController(UserService userService, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.passwordEncoder =passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
 
-    }
 
     //PANEL PO ZALOGOWANIU
     @GetMapping("/home")
@@ -55,32 +54,15 @@ public class RegisterController {
 
     //PANEL DO REJESTRACJI
     @GetMapping("signup")
-    public String signUp() {
+    public String signUp(Model model) {
+       model.addAttribute("userDto", new UserDTO());
         return "signup";
     }
 
     //PRZYCISK REJESTRACJI
     @PostMapping("signup")
-    public String signup( @ModelAttribute User user){
-
-
-//
-
-//        if(userService.findEmail(user.getEmail())==true){
-//
-//            System.out.println("JEst taki uzytkownik");
-//        }
-//        if(userService.find(user.getEmail()) == true){
-//
-//            System.out.println("Istnieje taki uzytkownik");
-//        }
-
-//        user.setCreatedDate(LocalDateTime.now());
-//        user.setAccountStatus(Status.AKTYWNE);
-//        user.setType(Type.USER);
-//        user.setType("NIEAKTYWNE");
-//        user.setRole("STUDENT");
-//        userService.save(user);
+    public String signup(@Valid UserDTO userDTO, BindingResult result){
+        userService.saveNewUser(userDTO);
         return "redirect:/login";       // przekierowanie na adres metodą GET
 
     }

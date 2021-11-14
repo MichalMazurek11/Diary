@@ -1,10 +1,8 @@
 package org.school.diary.service;
 
-import org.school.diary.dao.DirectorRepository;
 import org.school.diary.dao.MarkRepository;
-import org.school.diary.model.Director;
 import org.school.diary.model.Mark;
-import org.school.diary.model.Student;
+import org.school.diary.model.common.Student;
 import org.school.diary.model.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

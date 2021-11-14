@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.school.diary.model.common.Student;
+import org.school.diary.model.common.Teacher;
 
 import javax.persistence.*;
 import java.util.HashSet;

@@ -4,6 +4,7 @@ package org.school.diary.service;
 import org.school.diary.dao.DirectorRepository;
 import org.school.diary.dao.ParentRepository;
 import org.school.diary.model.Parent;
+import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ public class ParentServiceImpl implements ParentService{
     private ParentRepository parentRepository;
 
     @Override
-    public void save(Parent parent) {
-        parentRepository.save(parent);
+    public void save(PersonRelatedWithSchool parent) {
+        parentRepository.save((Parent)parent);
     }
 
     @Override
