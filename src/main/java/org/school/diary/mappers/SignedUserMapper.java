@@ -32,6 +32,8 @@ public class SignedUserMapper {
                 break;
         }
         personRelatedWithSchool.setEmail(userDTO.getEmail());
+        personRelatedWithSchool.setFirstName(userDTO.getFirstName());
+        personRelatedWithSchool.setLastName(userDTO.getLastName());
 //        personRelatedWithSchool.setFirstName(userDTO.get);//TODO add firstname to form
         personRelatedWithSchool.setDateBirth(LocalDate.parse(userDTO.getBirthDate()));
         personRelatedWithSchool.setPesel(userDTO.getPesel());

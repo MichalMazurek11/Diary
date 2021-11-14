@@ -1,37 +1,47 @@
 package org.school.diary.dto;
 
 import lombok.*;
-import org.school.diary.model.Role;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class UserDTO {
 
-    @NotNull(message = "Cannot be null")
-    @Size(min=2, max=30)
-    @NotEmpty
+    @NotBlank(message = "Pole nie może byc puste")
+    private String firstName;
+
+    @NotBlank(message = "Pole nie może byc puste")
+    private String lastName;
+
+    @NotBlank(message = "Pole nie może byc puste")
+    @Email(message = "Musisz podac email")
     private String email;
-    @NotNull(message = "Cannot be null")
-    @Size(min=2, max=30)
-    @NotEmpty
+
+    @Size(min=1, max=20, message = "Haslo musi mieć minimum 1 znak")
     private String password;
-    @NotNull(message = "Cannot be null")
-    @Size(min=2, max=30)
-    @NotEmpty
+
+    @Pattern(regexp = "^[0-9]{9}$", message = "Podaj PESEL")
     private String pesel;
-    @NotNull(message = "Cannot be null")
-    @Size(min=2, max=30)
-    @NotEmpty
+
+    @NotBlank(message = "Wybierz date urodzin")
     private String birthDate;
-    @NotNull(message = "Cannot be null")
-    @Size(min=2, max=30)
-    @NotEmpty
+
+    @NotBlank(message = "Wybierz role")
     private String personRole;
+
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", pesel='" + pesel + '\'' +
+                ", birthDate='" + birthDate + '\'' +
+                ", personRole='" + personRole + '\'' +
+                '}';
+    }
+
 }

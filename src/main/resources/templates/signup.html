@@ -1,54 +1,91 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments.html :: headerfiles">
     <title>Rejestracja</title>
+
 </head>
+<script>
+    function showDiv(divId, element)
+    {
+    if(document.getElementById(divId).style.display = element.value == 'PARENT'){
+        document.getElementById('parentKids').disabled=false;
+    }else{
+        document.getElementById('parentKids').disabled=true;
+    }
+    }
+
+</script>
 <body>
 <div class="container">
-    <div style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 24px; padding: 24px;">
+    <div style="width: 800px; margin-left: auto; margin-right: auto; margin-top: 24px; padding: 24px;">
         <div class="card">
             <div class="card-header">
-                <i class="fa fa-userDTO"></i> Zarejestruj się
-            </div>
+                <i class="fa fa-user"></i> Zarejestruj się</div>
             <div class="card-block" style="padding: 24px;">
-                <form th:action="@{/signup}" th:object="${userDto}" method="post">
+                <form th:action="@{/signup}" method="post" th:object="${userDTO}">
 
-
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="text" class="form-control" id="email" name="email" placeholder="email" th:field="*{email}">
-                        <p th:each="error:${#fields.hasErrors('email')}" th:text="*{email}">Name Error</p>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <i class="fa fa-envelope" aria-hidden="true"></i>    <input type="text" class="form-control" id="email" name="email"  placeholder="Email" th:field="*{email}">
+                            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert">Name Error</p>
+                            <span  align="center" th:if="${message}">	<div class="alert alert-danger" role="alert">
+                             <span th:text="${message}">  </span></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password">Haslo</label>
+                            <i class="fa fa-lock"  aria-hidden="true"></i>  <input type="password" class="form-control" id="password"  name="password"  placeholder="Password" th:field="*{password}" >
+                            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger" role="alert">Name Error</p>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="password">Password</label> <input type="password" class="form-control" id="password"
-                                                                      name="password" placeholder="Password">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="firstName">Imię</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="Imie" th:field="*{firstName}">
+                            <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger" role="alert">Name Error</p>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="lastName">Nazwisko</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Imie" th:field="*{lastName}">
+                            <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger" role="alert">Name Error</p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="pesel">Pesel</label> <input type="text" class="form-control" id="pesel" name="pesel"
-                                                                placeholder="pesel">
-                    </div>
-                    <div class="form-group">
-                        <label for="birthDate">Data urodzin</label> <input type="date" class="form-control" id="birthDate" name="birthDate"
-                                                                placeholder="birthDate">
-                    </div>
-                    <div class="form-group">
-                        <label>rola
-                        <select name="personRole" multiple size="4">
-                            <option value="abc">ABC</option>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                        <label for="personRole">Rola</label>
+                        <select class="form-control" id="personRole" name="personRole" onchange="showDiv('parentKids', this)"  >
+                            <option></option>
+                            <option th:each="role : ${listOfRoles}" th:value="${role.name}" th:text="${role.name}" ></option>
                         </select>
-                        </label>
+                        <p th:if="${#fields.hasErrors('personRole')}" th:errors="*{personRole}" class="alert alert-danger" role="alert">Name Error</p>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="parentKids">PESEL Dziecka</label>
+<!--                            th:disabled="${menu.id == null}"-->
+                            <input style=" disabled: true;" class="form-control" type="text" id="parentKids" name="parentKids" disabled >
+                        </div>
                     </div>
-
-
-                    <div class="form-actions" style="margin-top: 12px;">
-                        <button type="submit" class="btn btn-success">Zarejestruj</button>
+                    <div  style=" display: none;" id="hidden_div">This is a hidden div</div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="birthDate">Data urodzin</label> <input type="date" class="form-control" id="birthDate" name="birthDate"
+                                                                               placeholder="birthDate" th:field="*{birthDate}">
+                            <p th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="alert alert-danger" role="alert">Name Error</p>
+                        </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="pesel">PESEL</label>
+                                                <input type="text" class="form-control" id="pesel" name="pesel" placeholder="" th:field="*{pesel}">
+                                                <p th:if="${#fields.hasErrors('pesel')}" th:errors="*{pesel}" class="alert alert-danger" role="alert">Name Error</p>
+                                            </div>
                     </div>
-
+                    <div>
+                   <button type="submit" class="btn btn-primary" style="float: right;">Zarejestruj się</button>
                 </form>
+                <form th:action="@{/login}" method="GET"><button style="float: left;" type="submit" class="btn btn-info">Cofnij</button></form>
+        </div>
             </div>
         </div>
     </div>
-</div>
+
 </body>
 </html>
 

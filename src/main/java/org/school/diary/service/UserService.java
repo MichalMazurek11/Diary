@@ -13,4 +13,5 @@ public interface UserService {
     public List<User> listUsers();
 
     void saveNewUser(UserDTO userDTO);
+
 }
