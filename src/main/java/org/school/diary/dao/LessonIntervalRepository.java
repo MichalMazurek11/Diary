@@ -1,10 +1,10 @@
 package org.school.diary.dao;
 
 
-import org.school.diary.model.LessonPlan;
+import org.school.diary.model.LessonInterval;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LessonPlanRepository extends JpaRepository<LessonPlan, Long> {
+public interface LessonIntervalRepository extends JpaRepository<LessonInterval, Long> {
 }

@@ -1,15 +1,13 @@
 package org.school.diary.model.common;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.school.diary.model.Mark;
 import org.school.diary.model.Subject;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,9 +17,13 @@ import java.util.Set;
 @Setter
 public class Teacher extends PersonRelatedWithSchool{
 
+    public Teacher(String firstName, String lastName) {
+        super(firstName, lastName);
+    }
+
     @OneToMany(mappedBy = "teacher")
     private Set<Mark> marksTeacher = new HashSet<>();
 
-    @OneToMany()
+    @ManyToMany(mappedBy = "teachers")
     private Set<Subject> subjects;
 }

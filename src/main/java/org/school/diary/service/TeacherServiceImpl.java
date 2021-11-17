@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -31,4 +32,15 @@ public class TeacherServiceImpl implements TeacherService{
     public void save(PersonRelatedWithSchool teacher) {
         teacherRepository.save((Teacher) teacher);
     }
+
+    @Override
+    public void saveAllTeachers(Set<Teacher> teachers) {
+        teacherRepository.saveAll(teachers);
+    }
+
+    @Override
+    public List<Teacher> getTeachers() {
+        return teacherRepository.findAll();
+    }
+
 }

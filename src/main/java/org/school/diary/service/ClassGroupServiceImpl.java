@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -34,6 +35,11 @@ public class ClassGroupServiceImpl implements ClassGroupService {
     @Override
     public ClassGroup findById(long id) {
         return classGroupRepository.findById(id);
+    }
+
+    @Override
+    public void saveClassGroups(Set<ClassGroup> classGroups) {
+        classGroupRepository.saveAll(classGroups);
     }
 
 

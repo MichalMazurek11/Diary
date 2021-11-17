@@ -1,9 +1,6 @@
 package org.school.diary.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 
@@ -13,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 public class ClassGroup {
@@ -22,10 +19,10 @@ public class ClassGroup {
     @GeneratedValue
     private long id;
 
-
+    @NonNull
     private String name;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
+    @OneToOne()
     @JoinColumn(name = "supervisor_id", referencedColumnName = "id")
     private Teacher supervisor;
 

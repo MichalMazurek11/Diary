@@ -1,15 +1,9 @@
 package org.school.diary.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.school.diary.model.common.Teacher;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Subject {
 
     @Id
@@ -27,12 +22,15 @@ public class Subject {
 
     private String name;
 
-    private String pesel;
-
     @OneToMany(mappedBy = "subject")
     private Set<Mark> marksSubject = new HashSet<>();
 
-    @OneToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "subjects_teachers",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id")
+    )
     private List<Teacher> teachers;
 
 }
