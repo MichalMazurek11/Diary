@@ -1,10 +1,13 @@
 package org.school.diary;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
+import org.school.diary.dao.RoleRepository;
 import org.school.diary.model.*;
 import org.school.diary.model.common.Director;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Teacher;
+import org.school.diary.model.common.User;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,6 +30,8 @@ public class DbInit implements CommandLineRunner {
     private final LessonIntervalService lessonIntervalService;
     private final WeekdayService weekdayService;
     private final LessonHourService lessonHourService;
+    private final RoleRepository roleRepository;
+    private final UserService userService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -150,10 +155,17 @@ public class DbInit implements CommandLineRunner {
         director.setDateBirth(LocalDate.parse("1980-01-01"));
         director.setEmail("dyrektor@wp.pl");
         directorService.save(director);
+
+        User user = new User();
+        Role directorRole = roleRepository.findAll().stream().filter(role -> role.getName().equalsIgnoreCase("director")).findFirst().orElseThrow(() -> new NullPointerException());
+        user.setRoles(Collections.singleton(directorRole));
+        user.setPersonRelatedWithSchool(director);
+        user.setPassword("qwerty");
+        userService.save(user);
     }
 
     private void createLessonPlan() {
-        final int qtyOfLessonsInTheSameTime = 9;
+        final int qtyOfLessonsInTheSameTime = 4;
         List<LessonHour> lessonHours = new ArrayList<>();
         List<Subject> subjects = subjectService.listAllSubject();
         List<ClassGroup> classGroups = classGroupService.listClassGroups();
