@@ -1,4 +1,4 @@
-package org.school.diary.model;
+package org.school.diary.model.common;
 
 
 import lombok.AllArgsConstructor;

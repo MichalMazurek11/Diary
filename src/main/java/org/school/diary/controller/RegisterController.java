@@ -80,10 +80,9 @@ public class RegisterController {
 
         listOfRoles.add("student");
         listOfRoles.add("parent");
-        listOfRoles.add("teacher");
-        listOfRoles.add("director");
 
-        System.out.println(bindingResult.getTarget());
+
+
         if(bindingResult.hasErrors()){
 
             model.addAttribute("listOfRoles",roleService.listOfRoles() );
@@ -94,10 +93,8 @@ public class RegisterController {
         }
 
 
-
-
         model.addAttribute("userDTO", new UserDTO());
-        model.addAttribute("listOfRoles", listOfRoles);
+        model.addAttribute("listOfRoles", roleService.listOfRoles());
         return "redirect:/login";       // przekierowanie na adres metodą GET
     }
 

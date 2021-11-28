@@ -22,4 +22,9 @@ public class WeekdayServiceImpl implements WeekdayService {
     public List<Weekday> findAll() {
         return weekdayRepository.findAll();
     }
+
+    @Override
+    public Weekday findWeekdayByDayName(String name) {
+        return weekdayRepository.findWeekdayByDayName(name);
+    }
 }

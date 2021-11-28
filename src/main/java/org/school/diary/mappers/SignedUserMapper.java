@@ -1,8 +1,7 @@
 package org.school.diary.mappers;
 
 import org.school.diary.dto.UserDTO;
-import org.school.diary.model.Parent;
-import org.school.diary.model.Role;
+import org.school.diary.model.common.Parent;
 import org.school.diary.model.common.Director;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
@@ -10,7 +9,6 @@ import org.school.diary.model.common.Teacher;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Component
 public class SignedUserMapper {

@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.school.diary.model.ClassGroup;
+import org.school.diary.model.Exam;
 import org.school.diary.model.Mark;
-import org.school.diary.model.Parent;
+import org.school.diary.model.NoteToJournal;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,5 +31,7 @@ public class Student extends PersonRelatedWithSchool{
     @OneToMany(mappedBy = "student")
     private Set<Mark> marksStudent = new HashSet<>();
 
+    @OneToMany(mappedBy = "student")
+    private Set<NoteToJournal> noteToJournalsStudent = new HashSet<>();
 
 }

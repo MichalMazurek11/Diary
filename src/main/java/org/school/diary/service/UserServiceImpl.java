@@ -6,7 +6,7 @@ import org.school.diary.dao.RoleRepository;
 import org.school.diary.dao.UserRepository;
 import org.school.diary.dto.UserDTO;
 import org.school.diary.mappers.SignedUserMapper;
-import org.school.diary.model.Parent;
+import org.school.diary.model.common.Parent;
 import org.school.diary.model.Role;
 import org.school.diary.model.common.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService{
         User user = new User();
         user.setRoles(Collections.singleton(userRole));
         user.setPersonRelatedWithSchool(personRelatedWithSchool);
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
     }
 

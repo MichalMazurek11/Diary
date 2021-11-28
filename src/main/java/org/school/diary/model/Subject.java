@@ -33,4 +33,8 @@ public class Subject {
     )
     private List<Teacher> teachers;
 
+    @OneToMany(mappedBy = "subject")
+    private Set<Exam> examsSubject = new HashSet<>();
+
+
 }

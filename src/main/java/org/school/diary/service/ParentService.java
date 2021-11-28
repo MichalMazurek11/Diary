@@ -1,6 +1,5 @@
 package org.school.diary.service;
 
-import org.school.diary.model.Parent;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 
 public interface ParentService {

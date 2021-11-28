@@ -9,4 +9,6 @@ public interface WeekdayService {
     void saveAllWeekdays(List<Weekday> weekdays);
 
     List<Weekday> findAll();
+
+    Weekday findWeekdayByDayName(String name);
 }

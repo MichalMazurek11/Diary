@@ -1,9 +1,8 @@
 package org.school.diary.service;
 
 
-import org.school.diary.dao.DirectorRepository;
 import org.school.diary.dao.ParentRepository;
-import org.school.diary.model.Parent;
+import org.school.diary.model.common.Parent;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

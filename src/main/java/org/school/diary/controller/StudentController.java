@@ -1,5 +1,9 @@
 package org.school.diary.controller;
 
+import lombok.NonNull;
+import org.school.diary.model.ClassGroup;
+import org.school.diary.model.LessonHour;
+import org.school.diary.model.Weekday;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,6 +31,12 @@ public class StudentController {
     @Autowired
     MarkService markService;
 
+    @Autowired
+    LessonHourService lessonHourService;
+
+    @Autowired
+    WeekdayService weekdayService;
+
 
     //WYSWIETLENIE PANELU OCEN STUDENTA
     @GetMapping("/home/uczen/oceny")
@@ -42,6 +52,26 @@ public class StudentController {
         return "/student/get-student-marks";
     }
 
+
+
+    //WYSWIETLENIE PANELU OCEN STUDENTA
+    @GetMapping("/home/uczen/plan_lekcji")
+    public String getSchedule(Model model) {
+
+     ClassGroup classGroup =  classGroupService.findById(1);
+   //  LessonHour lessonHour = (LessonHour) lessonHourService.findAllByClassGroup(classGroup);
+    // System.out.println("Classgroup: " + lessonHour.getWeekday().getDayName() + lessonHour.getLessonInterval().getBeginLesson() + lessonHour.getSubject().getName());
+
+        Weekday wtorek = new Weekday();
+        wtorek =  weekdayService.findWeekdayByDayName("wtorek");
+
+        Weekday poniedzialek = new Weekday();
+        poniedzialek =  weekdayService.findWeekdayByDayName("poniedziałek");
+
+        model.addAttribute("lessonGroupList",lessonHourService.findAllByClassGroup(classGroup));
+        model.addAttribute("lessonGroupListWTO",lessonHourService.findLessonHourByClassGroupAndWeekday(classGroup,wtorek));
+        return "/user/get-schedule";
+    }
 
 
 }

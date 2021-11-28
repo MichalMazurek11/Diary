@@ -39,4 +39,19 @@ public class LessonHour {
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "day_of_week_id", referencedColumnName = "id")
     private Weekday weekday;
+
+
+
+
+    @Override
+    public String toString() {
+        return "LessonHour{" +
+                "id=" + id +
+                ", subject=" + subject +
+                ", lessonInterval=" + lessonInterval +
+                ", classGroup=" + classGroup +
+                ", teacher=" + teacher +
+                ", weekday=" + weekday +
+                '}';
+    }
 }
