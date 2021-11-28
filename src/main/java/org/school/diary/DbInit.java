@@ -1,8 +1,17 @@
 package org.school.diary;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
+import org.school.diary.dao.RoleRepository;
 import org.school.diary.model.*;
+<<<<<<< HEAD
 import org.school.diary.model.common.*;
+=======
+import org.school.diary.model.common.Director;
+import org.school.diary.model.common.PersonRelatedWithSchool;
+import org.school.diary.model.common.Teacher;
+import org.school.diary.model.common.User;
+>>>>>>> e7dcc20e9b95048191cc78d1859ea9668ed0a0d7
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,8 +35,13 @@ public class DbInit implements CommandLineRunner {
     private final LessonIntervalService lessonIntervalService;
     private final WeekdayService weekdayService;
     private final LessonHourService lessonHourService;
+<<<<<<< HEAD
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+=======
+    private final RoleRepository roleRepository;
+    private final UserService userService;
+>>>>>>> e7dcc20e9b95048191cc78d1859ea9668ed0a0d7
 
     @Override
     public void run(String... args) throws Exception {
@@ -157,10 +171,23 @@ public class DbInit implements CommandLineRunner {
 
         directorService.save(director);
 
+<<<<<<< HEAD
     }
 
     private void createLessonPlan() {
         final int qtyOfLessonsInTheSameTime = 9; // ile kasy moze miec jednoczesnie zajecia
+=======
+        User user = new User();
+        Role directorRole = roleRepository.findAll().stream().filter(role -> role.getName().equalsIgnoreCase("director")).findFirst().orElseThrow(() -> new NullPointerException());
+        user.setRoles(Collections.singleton(directorRole));
+        user.setPersonRelatedWithSchool(director);
+        user.setPassword("qwerty");
+        userService.save(user);
+    }
+
+    private void createLessonPlan() {
+        final int qtyOfLessonsInTheSameTime = 4;
+>>>>>>> e7dcc20e9b95048191cc78d1859ea9668ed0a0d7
         List<LessonHour> lessonHours = new ArrayList<>();
         List<Subject> subjects = subjectService.listAllSubject();
         List<ClassGroup> classGroups = classGroupService.listClassGroups();
