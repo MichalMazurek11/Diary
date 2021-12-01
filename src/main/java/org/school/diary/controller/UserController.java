@@ -1,7 +1,7 @@
 package org.school.diary.controller;
 
 
-import org.school.diary.service.ClassGroupService;
+import org.school.diary.service.ClassRoomService;
 import org.school.diary.service.StudentService;
 import org.school.diary.service.TeacherService;
 import org.school.diary.service.UserService;
@@ -15,7 +15,7 @@ public class UserController {
 
 
     @Autowired
-    ClassGroupService classGroupService;
+    ClassRoomService classGroupService;
 
     @Autowired
     UserService userService;

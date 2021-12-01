@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.school.diary.dao.RoleRepository;
 import org.school.diary.model.*;
-import org.school.diary.model.common.Director;
-import org.school.diary.model.common.PersonRelatedWithSchool;
-import org.school.diary.model.common.Teacher;
-import org.school.diary.model.common.User;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -32,17 +29,18 @@ public class DbInit implements CommandLineRunner {
     private final LessonHourService lessonHourService;
     private final RoleRepository roleRepository;
     private final UserService userService;
+    private final ClassRoomService classRoomService;
 
     @Override
     public void run(String... args) throws Exception {
-//        createStudents();
-//        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
-//        createTeachers();
-//        createSubjects();
-//        createLessonIntervals();
-//        createWeekdays();
-//        createLessonPlan();
-     //   createDirector();
+     //   createStudents();
+        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
+        createTeachers();
+        createSubjects();
+        createLessonIntervals();
+        createWeekdays();
+        createLessonPlan();
+        createDirector();
 
     }
 
@@ -59,10 +57,13 @@ public class DbInit implements CommandLineRunner {
     private void createLessonIntervals() {
         final int lessonTime = 45;
         final int[] breaks = new int[]{5, 10, 20};
+        List<Integer> givenList = Arrays.asList(4,5,6,7,8,9);
+        Random rand = new Random();
+        int randomElement = givenList.get(rand.nextInt(givenList.size()));
         final Random random = new Random();
         List<LessonInterval> lessonIntervals = new ArrayList<>();
-        LocalTime tempTime = LocalTime.of(7, 45);
-        for (int i = 1; i < 10; i++) {
+        LocalTime tempTime = LocalTime.of(8, 00);
+        for (int i = 1; i < randomElement; i++) {
             lessonIntervals.add(new LessonInterval(i, tempTime, tempTime.plusMinutes(lessonTime)));
             tempTime = tempTime.plusMinutes(lessonTime);
             tempTime = tempTime.plusMinutes(breaks[random.nextInt(breaks.length)]);
@@ -94,6 +95,7 @@ public class DbInit implements CommandLineRunner {
                 .map(entry -> new Teacher(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toSet());
         teacherService.saveAllTeachers(teachers);
+
     }
 
     private void createStudents() {
@@ -157,8 +159,8 @@ public class DbInit implements CommandLineRunner {
         directorService.save(director);
 
         User user = new User();
-        Role role = (Role) Hibernate.unproxy(roleRepository.getById(4L));
-        user.setRoles(Collections.singleton(role));
+        Role directorRole = roleRepository.findAll().stream().filter(role -> role.getName().equalsIgnoreCase("director")).findFirst().orElseThrow(() -> new NullPointerException());
+        user.setRoles(Collections.singleton(directorRole));
         user.setPersonRelatedWithSchool(director);
         user.setPassword("qwerty");
         userService.save(user);
@@ -171,11 +173,22 @@ public class DbInit implements CommandLineRunner {
         List<ClassGroup> classGroups = classGroupService.listClassGroups();
         List<LessonInterval> allIntervals = lessonIntervalService.findAllIntervals();
         List<Weekday> weekdays = weekdayService.findAll();
+        List<ClassRoom> classRooms = classRoomService.getAll();
         Random random = new Random();
+
         for (int i = 0; i < weekdays.size(); i++) {
             final Weekday weekday = weekdays.get(i);
             for (int j = 0; j < allIntervals.size(); j++) {
+                Set<ClassRoom> classRoomsAtTheSameTime = new HashSet<>();
                 for (int k = 0; k < qtyOfLessonsInTheSameTime; k++) {
+                    int idxOfClassRoom = random.nextInt(classRooms.size());
+                    ClassRoom chosenClassRoom = classRooms.get(idxOfClassRoom);
+                    if (classRoomsAtTheSameTime.contains(chosenClassRoom)){
+                        k--;
+                        continue;
+                    }
+                    classRoomsAtTheSameTime.add(chosenClassRoom);
+
                     int factorOfBreak = random.nextInt(qtyOfLessonsInTheSameTime) + 1;
                     if (factorOfBreak == qtyOfLessonsInTheSameTime) {
                         continue;

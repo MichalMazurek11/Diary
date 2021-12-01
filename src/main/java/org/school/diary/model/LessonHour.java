@@ -40,7 +40,10 @@ public class LessonHour {
     @JoinColumn(name = "day_of_week_id", referencedColumnName = "id")
     private Weekday weekday;
 
-
+    @NonNull
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "class_room_id", referencedColumnName = "id")
+    private ClassRoom classRoom;
 
 
     @Override

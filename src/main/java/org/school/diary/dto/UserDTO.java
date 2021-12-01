@@ -23,7 +23,7 @@ public class UserDTO {
     @Size(min=1, max=20, message = "Haslo musi mieć minimum 1 znak")
     private String password;
 
-    @Pattern(regexp = "^[0-9]{9}$", message = "Podaj PESEL")
+    @Pattern(regexp = "^[0-9]{11}$", message = "Podaj PESEL")
     private String pesel;
 
     @NotBlank(message = "Wybierz date urodzin")

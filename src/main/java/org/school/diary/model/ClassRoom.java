@@ -1,0 +1,31 @@
+package org.school.diary.model;
+
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+public class ClassRoom {
+
+    @Id
+    @GeneratedValue
+    private int id;
+    @NonNull
+    private String className;
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private ClassRoomDuty classRoomDuty;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClassRoom classRoom = (ClassRoom) o;
+        return id == classRoom.id && className.equals(classRoom.className) && classRoomDuty == classRoom.classRoomDuty;
+    }
+}

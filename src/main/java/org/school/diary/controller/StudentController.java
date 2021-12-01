@@ -1,8 +1,6 @@
 package org.school.diary.controller;
 
-import lombok.NonNull;
 import org.school.diary.model.ClassGroup;
-import org.school.diary.model.LessonHour;
 import org.school.diary.model.Weekday;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;

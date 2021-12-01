@@ -80,21 +80,21 @@ public class RegisterController {
 
         listOfRoles.add("student");
         listOfRoles.add("parent");
-
-
+        listOfRoles.add("teacher");
+        listOfRoles.add("director");
 
         if(bindingResult.hasErrors()){
-
             model.addAttribute("listOfRoles",roleService.listOfRoles() );
             return "signup";
         }else{
-
             userService.saveNewUser(userDTO);
         }
 
 
+
+
         model.addAttribute("userDTO", new UserDTO());
-        model.addAttribute("listOfRoles", roleService.listOfRoles());
+        model.addAttribute("listOfRoles", listOfRoles);
         return "redirect:/login";       // przekierowanie na adres metodą GET
     }
 

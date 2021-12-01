@@ -25,8 +25,6 @@ public class ClassGroupServiceImpl implements ClassGroupService {
             classGroupRepository.save(classGroup);
     }
 
-
-
     @Override
     public List<ClassGroup> listClassGroups() {
         return classGroupRepository.findAll();

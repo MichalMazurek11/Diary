@@ -5,6 +5,7 @@ import org.school.diary.model.ClassGroup;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 import org.school.diary.service.ClassGroupService;
+import org.school.diary.service.ClassRoomService;
 import org.school.diary.service.StudentService;
 import org.school.diary.service.TeacherService;
 import org.school.diary.service.UserService;

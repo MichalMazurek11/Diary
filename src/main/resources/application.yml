@@ -3,7 +3,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/school?serverTimezone=UTC
     username: root
-    password:
+    password: mysql2020
 
   jpa:
     properties:
@@ -12,5 +12,6 @@ spring:
         format_sql: true
     show-sql: true
     hibernate:
-      ddl-auto: update
-
+      ddl-auto: create-drop
+server:
+  port: 8082
