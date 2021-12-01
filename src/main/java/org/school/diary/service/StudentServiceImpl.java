@@ -1,6 +1,7 @@
 package org.school.diary.service;
 
 import org.school.diary.dao.StudentRepository;
+import org.school.diary.model.ClassGroup;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.User;
@@ -19,6 +20,16 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void save(PersonRelatedWithSchool student) {
          studentRepository.save((Student) student);
+    }
+
+    @Override
+    public List<Student> findStudentsByStudentsClassGroup(ClassGroup classGroup) {
+        return studentRepository.findStudentsByStudentsClassGroup(classGroup);
+    }
+
+    @Override
+    public List<Student> findByStudentsClassGroup(ClassGroup classGroup) {
+        return studentRepository.findByStudentsClassGroup(classGroup);
     }
 
     @Override

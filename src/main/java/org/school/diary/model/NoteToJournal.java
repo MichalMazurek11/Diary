@@ -34,4 +34,13 @@ public class NoteToJournal {
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private Student student;
+
+
+    public NoteToJournal(long id, String name, Date date, String type, ClassGroup classGroup) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.classGroup = classGroup;
+    }
 }
