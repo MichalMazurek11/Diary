@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.school.diary.dao.RoleRepository;
 import org.school.diary.model.*;
+import org.school.diary.model.common.Director;
+import org.school.diary.model.common.Teacher;
+import org.school.diary.model.common.User;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -35,13 +38,13 @@ public class DbInit implements CommandLineRunner {
     public void run(String... args) throws Exception {
      //   createStudents();
         createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
+        createClassRooms();
         createTeachers();
         createSubjects();
         createLessonIntervals();
         createWeekdays();
         createLessonPlan();
         createDirector();
-
     }
 
     private void createWeekdays() {
@@ -52,6 +55,41 @@ public class DbInit implements CommandLineRunner {
                 new Weekday(4, "czwartek"),
                 new Weekday(5, "piątek")
         ));
+    }
+
+    private void createClassRooms() {
+        Random random = new Random();
+        final int maxFloorNumber = 3;
+        final int maxSecondNumber = 2;
+        final int maxLastNumber = 9;
+        final int classQty = 40;
+        int peClassesQt = 2;
+        Set<ClassRoom> classRooms = new HashSet<>();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i <= classQty; i++) {
+            int floorNumber = random.nextInt(maxFloorNumber);
+            int secondNumber = random.nextInt(maxSecondNumber);
+            int lastNumber = random.nextInt(maxLastNumber);
+            String className = stringBuilder.append(floorNumber).append(secondNumber).append(lastNumber).toString();
+            ClassRoomDuty classRoomDuty = null;
+            boolean peClassesOverload = true;
+            while (peClassesOverload){
+                int classRoomDutyIdx = random.nextInt(ClassRoomDuty.values().length);
+                ClassRoomDuty chosenClassroomDuty = ClassRoomDuty.values()[classRoomDutyIdx];
+                if (chosenClassroomDuty == ClassRoomDuty.PE){
+                    if (peClassesQt==0){
+                        continue;
+                    }
+                    peClassesQt--;
+                }
+                classRoomDuty = chosenClassroomDuty;
+                peClassesOverload=false;
+            }
+            classRooms.add(new ClassRoom(className,classRoomDuty));
+            stringBuilder.setLength(0);
+        }
+        classRoomService.addClassRooms(classRooms);
+
     }
 
     private void createLessonIntervals() {
@@ -207,7 +245,7 @@ public class DbInit implements CommandLineRunner {
                         k--;
                         continue;
                     }
-                    lessonHours.add(new LessonHour(subject, lessonInterval, classGroup, teacher, weekdays.get(i)));
+                    lessonHours.add(new LessonHour(subject, lessonInterval, classGroup, teacher, weekdays.get(i),chosenClassRoom));
                 }
             }
         }
