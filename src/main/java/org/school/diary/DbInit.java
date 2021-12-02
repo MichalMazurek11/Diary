@@ -2,9 +2,10 @@ package org.school.diary;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
-import org.school.diary.dao.RoleRepository;
+import org.school.diary.dto.UserDTO;
 import org.school.diary.model.*;
 import org.school.diary.model.common.Director;
+import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 import org.school.diary.model.common.User;
 import org.school.diary.service.*;
@@ -30,9 +31,10 @@ public class DbInit implements CommandLineRunner {
     private final LessonIntervalService lessonIntervalService;
     private final WeekdayService weekdayService;
     private final LessonHourService lessonHourService;
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
     private final UserService userService;
     private final ClassRoomService classRoomService;
+    private final StudentService studentService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -45,6 +47,17 @@ public class DbInit implements CommandLineRunner {
         createWeekdays();
         createLessonPlan();
         createDirector();
+
+//        createRoles();
+    }
+
+
+    private void  createRoles(){
+        roleService.saveAllRoles(Arrays.asList(new Role(1L,"TEACHER"),
+                new Role(2L,"PARENT"),
+                new Role(3L,"STUDENT"),
+                new Role(4L,"DIRECTOR")));
+
     }
 
     private void createWeekdays() {
@@ -101,7 +114,7 @@ public class DbInit implements CommandLineRunner {
         final Random random = new Random();
         List<LessonInterval> lessonIntervals = new ArrayList<>();
         LocalTime tempTime = LocalTime.of(8, 00);
-        for (int i = 1; i < randomElement; i++) {
+        for (int i = 1; i < 10; i++) {
             lessonIntervals.add(new LessonInterval(i, tempTime, tempTime.plusMinutes(lessonTime)));
             tempTime = tempTime.plusMinutes(lessonTime);
             tempTime = tempTime.plusMinutes(breaks[random.nextInt(breaks.length)]);
@@ -202,6 +215,40 @@ public class DbInit implements CommandLineRunner {
         user.setPersonRelatedWithSchool(director);
         user.setPassword("qwerty");
         userService.save(user);
+
+        Teacher teacher = new Teacher();
+        teacher.setDateBirth(LocalDate.parse("1988-02-02"));
+        teacher.setFirstName("Maciej");
+        teacher.setLastName("Stańczak");
+        teacher.setEmail("1234@o2.pl");
+        teacher.setPesel("98609736755");
+        teacherService.save(teacher);
+
+        User user2 = new User();
+        user2.setPersonRelatedWithSchool(teacher);
+        user2.setPassword("123");
+        Role role = roleService.findRoleByName("TEACHER");
+        user2.setRoles(Collections.singleton(role));
+        userService.save(user2);
+
+        Student student = new Student();
+        student.setFirstName("Michał");
+        student.setLastName("Mazurek");
+        student.setEmail("123@o2.pl");
+        student.setPesel("12312312312");
+        student.setDateBirth(LocalDate.parse("1998-05-05"));
+
+        ClassGroup classGroup = classGroupService.findById(1L);
+        student.setStudentsClassGroup(classGroup);
+        studentService.saveStudent(student);
+
+        User user3 = new User();
+        Role role1 = roleService.findRoleByName("STUDENT");
+        user3.setRoles(Collections.singleton(role1));
+        user3.setPassword("123");
+        user3.setPersonRelatedWithSchool(student);
+        userService.save(user3);
+
     }
 
     private void createLessonPlan() {

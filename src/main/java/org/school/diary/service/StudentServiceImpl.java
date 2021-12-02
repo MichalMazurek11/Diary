@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -44,8 +45,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student findStudentById(UUID uuid) {
+        return studentRepository.findStudentById(uuid);
+    }
+
+    @Override
     public List<Student> listStudents() {
         return studentRepository.findAll();
+    }
+
+    @Override
+    public Student findOneByUuid(UUID studentUuid) {
+        return studentRepository.findOneByUuid(studentUuid);
     }
 
     @Override

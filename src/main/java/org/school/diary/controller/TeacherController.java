@@ -12,10 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Controller
 public class TeacherController {
@@ -70,15 +67,22 @@ public class TeacherController {
     }
 
     //KIEDY CHCE DODAC UWAGE/POCHWALE DO BAZY DANYCH POSTMAPPING
-    @RequestMapping( value = "/home/teacher/dodaj_uwage/classGroup",method = RequestMethod.POST)
-    public String getNoteToJournalStudent2(  NoteToJournal noteToJournal,Model model) {
+    @PostMapping( value = "/home/teacher/dodaj_uwage/classGroup")
+    public String getNoteToJournalStudent2(@RequestParam Map<String, String> requestParams, NoteToJournal noteToJournal, Model model) {
 
 
+        String studentUuid = requestParams.get("student2");
+        System.out.println("StudentUUID: "+ studentUuid);
+
+        UUID uuid = UUID.fromString(studentUuid);
+        System.out.println("STUDENT VARIANT: " + uuid.variant());
+        System.out.println("STUDENT VERSION: " + uuid.version());
+        Student student = studentService.findOneByUuid(uuid);
 
 
         Date date = new Date();
         noteToJournal.setDate(date);
-
+        noteToJournal.setStudent(student);
         noteToJournalService.save(noteToJournal);
 
         model.addAttribute("noteToJournal", new NoteToJournal());

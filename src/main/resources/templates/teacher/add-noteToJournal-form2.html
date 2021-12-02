@@ -14,8 +14,8 @@
 					<form th:action="@{'/home/teacher/dodaj_uwage/classGroup'}" th:object="${noteToJournal}" method="post" >
 						<fieldset>
 							<div class="form-group">
-								<label for="student">Klasa:  </label>
-								<select  class="custom-select" name="student" id="student" >
+								<label for="student2">Klasa:  </label>
+								<select  class="custom-select" name="student2" id="student2" >
 									<option selected></option>
 									<option th:each="student : ${listStudents}" th:value="${student.id}" th:text="${ student.firstName +' '+ student.lastName}"   ></option>
 								</select>

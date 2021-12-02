@@ -4,11 +4,7 @@ package org.school.diary.controller;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
-import org.school.diary.service.ClassGroupService;
-import org.school.diary.service.ClassRoomService;
-import org.school.diary.service.StudentService;
-import org.school.diary.service.TeacherService;
-import org.school.diary.service.UserService;
+import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -35,6 +35,9 @@ public class DirectorController {
     @Autowired
     StudentService studentService;
 
+    @Autowired
+    SubjectService subjectService;
+
 
     @GetMapping("/home/rejestracja_uzytkownikow")
     public String requestsRegisterUsers(Principal prin, Model model) {
@@ -50,14 +53,30 @@ public class DirectorController {
 
     //WYSWIETLENEI PANELU DODAWANIA NAUCZYCIELA
     @GetMapping("/home/dodaj_nauczyciela")
-    public ModelAndView addTeachers(Model model) {
+    public String getTeachers(Model model) {
         ModelAndView mv = new ModelAndView("director/add-teacher-form");
 
-
+        model.addAttribute("listSubjects", subjectService.listAllSubject());
         model.addAttribute("teacher", new Teacher());
-        return mv;
+        return "director/add-teacher-form";
     }
 
+    @PostMapping("/home/dodaj_nauczyciela")
+    public String addTeachers(@RequestParam Map<String, String> requestParams, Model model, Teacher teacher) {
+
+        List<String> listsubjects = Collections.singletonList(requestParams.get("subject"));
+        String dateBirth = requestParams.get("dateBirth2");
+
+        System.out.println("Lista: "+listsubjects);
+
+        LocalDate localDate = LocalDate.parse(dateBirth);
+
+        teacher.setDateBirth(localDate);
+        teacherService.save(teacher);
+        model.addAttribute("listSubjects", subjectService.listAllSubject());
+        model.addAttribute("teacher", new Teacher());
+        return "director/add-teacher-form";
+    }
     //KLASA
 
     //WYSWIETLENIE PANELU DODAWANIA KLASY

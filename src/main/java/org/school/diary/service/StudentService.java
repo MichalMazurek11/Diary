@@ -4,8 +4,10 @@ import org.school.diary.model.ClassGroup;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.User;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface StudentService {
 
@@ -13,7 +15,12 @@ public interface StudentService {
 
     Student findByUser(User user);
 
+    Student findStudentById(UUID uuid);
+
     public List<Student> listStudents();
+
+
+    Student findOneByUuid(UUID studentUuid);
 
     Student findById(long id);
 
