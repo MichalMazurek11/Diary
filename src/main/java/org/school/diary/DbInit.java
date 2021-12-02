@@ -197,8 +197,8 @@ public class DbInit implements CommandLineRunner {
         directorService.save(director);
 
         User user = new User();
-        Role directorRole = roleRepository.findAll().stream().filter(role -> role.getName().equalsIgnoreCase("director")).findFirst().orElseThrow(() -> new NullPointerException());
-        user.setRoles(Collections.singleton(directorRole));
+//        Role directorRole = roleRepository.findAll().stream().filter(role -> role.getName().equalsIgnoreCase("director")).findFirst().orElseThrow(() -> new NullPointerException());
+//        user.setRoles(Collections.singleton(directorRole));
         user.setPersonRelatedWithSchool(director);
         user.setPassword("qwerty");
         userService.save(user);

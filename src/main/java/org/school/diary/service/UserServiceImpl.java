@@ -2,6 +2,7 @@ package org.school.diary.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.school.diary.NotFoundException;
 import org.school.diary.dao.RoleRepository;
 import org.school.diary.dao.UserRepository;
 import org.school.diary.dto.UserDTO;
@@ -9,11 +10,13 @@ import org.school.diary.mappers.SignedUserMapper;
 import org.school.diary.model.common.Parent;
 import org.school.diary.model.Role;
 import org.school.diary.model.common.*;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,8 +48,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void saveNewUser(UserDTO userDTO) {
-        List<Role> roles = roleRepository.findAll();
-        Role userRole = roles.stream().filter(role -> role.getName().equalsIgnoreCase(userDTO.getPersonRole())).findFirst().orElseThrow(() -> new IllegalArgumentException("Podana rola nie istnieje w systemie"));
+        String personRole = userDTO.getPersonRole();
+        Role role = roleRepository.findByName(personRole.toUpperCase()).orElseThrow(NotFoundException::new);
         PersonRelatedWithSchool personRelatedWithSchool = signedUserMapper.mapPersonRelatedWithSchoolToSpecificImplementation(userDTO);
         //TODO: stworzyć fabrykę serwisów
         if (personRelatedWithSchool instanceof Teacher){
@@ -61,7 +64,7 @@ public class UserServiceImpl implements UserService{
             directorService.save(personRelatedWithSchool);
         }
         User user = new User();
-        user.setRoles(Collections.singleton(userRole));
+        user.setRoles(Collections.singleton(role));
         user.setPersonRelatedWithSchool(personRelatedWithSchool);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);

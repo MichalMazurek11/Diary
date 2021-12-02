@@ -89,10 +89,6 @@ public class RegisterController {
         }else{
             userService.saveNewUser(userDTO);
         }
-
-
-
-
         model.addAttribute("userDTO", new UserDTO());
         model.addAttribute("listOfRoles", listOfRoles);
         return "redirect:/login";       // przekierowanie na adres metodą GET
