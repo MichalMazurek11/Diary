@@ -30,4 +30,16 @@ public class Teacher extends PersonRelatedWithSchool{
 
     @OneToMany(mappedBy = "teacher")
     private Set<Exam> examsTeacher = new HashSet<>();
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Teacher teacher = (Teacher) o;
+        return Objects.equals(getId(), teacher.getId()) && Objects.equals(getEmail(), teacher.getEmail());
+    }
+
+
 }

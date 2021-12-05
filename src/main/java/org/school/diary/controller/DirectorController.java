@@ -2,6 +2,7 @@ package org.school.diary.controller;
 
 
 import org.school.diary.model.ClassGroup;
+import org.school.diary.model.Subject;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 import org.school.diary.service.*;
@@ -13,10 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping
@@ -43,8 +41,6 @@ public class DirectorController {
     public String requestsRegisterUsers(Principal prin, Model model) {
 
 
-
-
         return "/director/requestRegisterUsers";
     }
 
@@ -54,35 +50,80 @@ public class DirectorController {
     //WYSWIETLENEI PANELU DODAWANIA NAUCZYCIELA
     @GetMapping("/home/dodaj_nauczyciela")
     public String getTeachers(Model model) {
-        ModelAndView mv = new ModelAndView("director/add-teacher-form");
+        ModelAndView mv = new ModelAndView("director/add-teacher");
 
-        model.addAttribute("listSubjects", subjectService.listAllSubject());
+
+
+        model.addAttribute("listSubjects",sortSubjectByName(subjectService.listAllSubject()));
         model.addAttribute("teacher", new Teacher());
-        return "director/add-teacher-form";
+        return "director/add-teacher";
     }
 
     @PostMapping("/home/dodaj_nauczyciela")
-    public String addTeachers(@RequestParam Map<String, String> requestParams, Model model, Teacher teacher) {
+    public String addTeachers(@RequestParam("subject") Set<Subject> subjectSet,@RequestParam  Map<String, String> requestParam, @ModelAttribute Teacher teacher, Model model) {
 
-        List<String> listsubjects = Collections.singletonList(requestParams.get("subject"));
-        String dateBirth = requestParams.get("dateBirth2");
+        subjectSet.forEach(topic -> System.out.println("Przedmiot: "+topic.getName()));
 
-        System.out.println("Lista: "+listsubjects);
+        String dateString = requestParam.get("dateBirth2");
+        LocalDate localDate = LocalDate.parse(dateString);
+        teacherService.saveTeacher(teacher,localDate,subjectSet);
 
-        LocalDate localDate = LocalDate.parse(dateBirth);
 
-        teacher.setDateBirth(localDate);
-        teacherService.save(teacher);
-        model.addAttribute("listSubjects", subjectService.listAllSubject());
+
+        model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
         model.addAttribute("teacher", new Teacher());
-        return "director/add-teacher-form";
+        return "director/add-teacher";
     }
     //KLASA
+    public List<Subject> sortSubjectByName(List<Subject> tmp) {
+
+        Collections.sort(tmp, new Comparator<Subject>() {
+
+            @Override
+            public int compare(Subject a1, Subject a2) {
+                return a1.getName().compareTo(a2.getName());
+            }
+
+        });
+        return tmp;
+    }
+    //WYSWIETLENIE PANELU DODAWANIA KLASY
+    @GetMapping("/home/dodaj_wychowawce")
+    public String getSupervisorClassgroup(Model model) {
+
+        model.addAttribute("listTeachers", teacherService.listTeachers());
+        model.addAttribute("listClassGroup",sortClassGroupByName(classGroupService.listClassGroups()));
+        return "director/add-supervisor-to-classgroup";
+    }
+
+    @PostMapping("/home/dodaj_wychowawce")
+    public String addSupervisorClassgroup(Model model,ClassGroup classGroup) {
+
+        classGroupService.addClassGroup(classGroup);
+
+        model.addAttribute("listTeachers", teacherService.listTeachers());
+        model.addAttribute("listClassGroup", sortClassGroupByName(classGroupService.listClassGroups()));
+        return "director/add-supervisor-to-classgroup";
+    }
+
+    public List<ClassGroup> sortClassGroupByName(List<ClassGroup> tmp) {
+
+        Collections.sort(tmp, new Comparator<ClassGroup>() {
+
+            @Override
+            public int compare(ClassGroup a1, ClassGroup a2) {
+                return a1.getName().compareTo(a2.getName());
+            }
+
+        });
+        return tmp;
+    }
+
 
     //WYSWIETLENIE PANELU DODAWANIA KLASY
     @GetMapping("/home/dodaj_klase")
     public ModelAndView getClassGroups(Model model) {
-        ModelAndView mv = new ModelAndView("director/add-classgroup-form");
+        ModelAndView mv = new ModelAndView("director/add-classgroup");
 
 
         model.addAttribute("classGroup", new ClassGroup());
@@ -91,35 +132,32 @@ public class DirectorController {
 
     //DODANIE NOWEJ KLASY
     @PostMapping("/home/dodaj_klase")
-    public String addClassGroups(Model model, ClassGroup classGroup) {
+    public String addClassGroups(@RequestParam("supervisor") Teacher supervisor, Model model, ClassGroup classGroup) {
 
+        System.out.println("supervisor: "+ supervisor.getFirstName() + " " + supervisor.getLastName());
 
         classGroupService.addClassGroup(classGroup);
 
-        return "/director/add-classgroup-form";
+        return "/director/add-classgroup";
 
     }
 
     //WYSWIETLENIE PANELU DODAWANIE UCZNIA DO KLASY
     @GetMapping("/home/dodaj_ucznia_do_klasy")
     public String getClassGroupsUser(Model model) {
-    //    ModelAndView mv = new ModelAndView("director/add-user-to-classgroup-form");
 
 
         model.addAttribute("student", new Student());
         model.addAttribute("classGroup", new ClassGroup());
         model.addAttribute("listClassGroups",classGroupService.listClassGroups());
         model.addAttribute("liststudents",studentService.listStudents());
-        return "director/add-user-to-classgroup-form";
+        return "director/add-user-to-classgroup";
     }
 
 
     //WYSWIETLENIE PANELU DODAWANIE UCZNIA DO KLASY
     @PostMapping("/home/dodaj_ucznia/{studentId}/do_klasy/{classGroupId}")
     public String addUserToClassGroup(@RequestParam Map<String, String> requestParams,Model model ) {
-        //    ModelAndView mv = new ModelAndView("director/add-user-to-classgroup-form");
-//        System.out.println("StudentID : "  + requestParams.get("studentId") );
-//        System.out.println("ClassGroupId : "  + requestParams.get("classGroupId") );
 
         String studentId = requestParams.get("studentId");
         Student student = studentService.findById(Long.parseLong(studentId));
@@ -137,7 +175,7 @@ public class DirectorController {
         model.addAttribute("classGroup", new ClassGroup());
         model.addAttribute("listClassGroups",classGroupService.listClassGroups());
         model.addAttribute("liststudents",studentService.listStudents());
-        return "director/add-user-to-classgroup-form";
+        return "director/add-user-to-classgroup";
     }
 
 

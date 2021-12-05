@@ -39,14 +39,14 @@ public class DbInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
      //   createStudents();
-        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
-        createClassRooms();
-        createTeachers();
-        createSubjects();
-        createLessonIntervals();
-        createWeekdays();
-        createLessonPlan();
-        createDirector();
+//        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
+//        createClassRooms();
+//        createTeachers();
+//        createSubjects();
+//        createLessonIntervals();
+//        createWeekdays();
+//        createLessonPlan();
+//        createDirector();
 
 //        createRoles();
     }
@@ -248,6 +248,24 @@ public class DbInit implements CommandLineRunner {
         user3.setPassword("123");
         user3.setPersonRelatedWithSchool(student);
         userService.save(user3);
+
+        Director director2 = new Director();
+        director2.setFirstName("Mariusz");
+        director2.setLastName("Mroczek");
+        director2.setPesel("98609736754");
+        director2.setDateBirth(LocalDate.parse("1980-01-01"));
+        director2.setEmail("12345@o2.pl");
+        directorService.save(director2);
+
+        User user4 = new User();
+        Role role2 = roleService.findRoleByName("DIRECTOR");
+        user4.setRoles(Collections.singleton(role2));
+        user4.setPassword("123");
+        user4.setPersonRelatedWithSchool(director2);
+        userService.save(user4);
+
+
+
 
     }
 

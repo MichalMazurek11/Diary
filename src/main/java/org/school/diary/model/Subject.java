@@ -6,6 +6,7 @@ import org.school.diary.model.common.Teacher;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -35,6 +36,14 @@ public class Subject {
 
     @OneToMany(mappedBy = "subject")
     private Set<Exam> examsSubject = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subject subject = (Subject) o;
+        return id == subject.id && Objects.equals(name, subject.name);
+    }
 
 
 }

@@ -1,15 +1,20 @@
 package org.school.diary.service;
 
+import org.school.diary.model.Subject;
 import org.school.diary.model.common.PersonRelatedWithSchool;
+import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
 public interface TeacherService {
 
 
-    public void addTeacher(Teacher teacher);
+    public void saveTeacher(Teacher teacher, LocalDate localDate, Set<Subject> subjectSet);
+
+//    public void addTeacher(Teacher teacher);
 
     public List<Teacher> listTeachers();
 
