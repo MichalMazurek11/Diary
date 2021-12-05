@@ -12,24 +12,27 @@
 				<div class="card-block" style="padding: 24px;">
 					<div>
 
-					<form th:action="@{/home/dodaj_wychowawce}" method="post" >
+					<form th:action="@{/home/director/dodaj_wychowawce}" method="post" >
 						<fieldset>
-							<h4>Dodaj wychowawce:</h4>
+							<center><h6>Dodaj wychowawce</h6></center>
+							<br>
 							<div class="form-group">
+								<label for="classGroup">Klasa: </label>
 								<select class="custom-select" name="classGroup" id="classGroup">
 									<option selected>Wybierz Klase: </option>
 									<option th:each="classGroup : ${listClassGroup}" th:value="${classGroup.id}" th:text="${classGroup.name}" ></option>
 								</select>
 							</div>
-
+							<br/>
 							<div class="form-group">
+								<label for="supervisor">Nauczyciel: </label>
 								<select class="custom-select" name="supervisor" id="supervisor">
 									<option selected>Wybierz nauczyciela: </option>
 									<option  th:each="supervisor : ${listTeachers}" th:value="${supervisor.id}" th:text="${supervisor.firstName +' '+ supervisor.lastName}" ></option>
 								</select>
 							</div>
 
-
+							<br/>
 							<div class="form-actions" style="margin-top: 12px;"><button  type="submit" style="float: right;" class="btn btn-primary">Dodaj</button></div>
 						</fieldset>
 					</form>

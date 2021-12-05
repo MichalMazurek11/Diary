@@ -24,9 +24,12 @@ public class ClassGroupDTO {
 
     private long id;
 
+
     private String name;
 
+
     private Teacher supervisor;
+
 
     private Set<Student> students = new HashSet<>();
 

@@ -40,7 +40,7 @@ public class TeacherController {
         model.addAttribute("classGroupDTO", new ClassGroupDTO());
         model.addAttribute("classGroup", new ClassGroup());// ?
         model.addAttribute("listClassGroups",classGroupService.listClassGroups());
-        return "teacher/add-noteToJournal-form";
+        return "teacher/add-noteToJournal";
     }
     // drugi krok w ktorym nauczyciel po wybraniu klasy, wybiera ucznia, uwage/pochwale i dodaje tresc do niej
     @RequestMapping( value = "/home/teacher/dodaj_uwage/classGroup/{id}", method = RequestMethod.GET)
@@ -54,7 +54,7 @@ public class TeacherController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", "Pole nie może być puste");
             model.addAttribute("listClassGroups",classGroupService.listClassGroups());
-            return "teacher/add-noteToJournal-form";
+            return "teacher/add-noteToJournal";
         }else {
             ClassGroup classGroup = classGroupService.findById(Long.parseLong(id));
 
@@ -62,7 +62,7 @@ public class TeacherController {
             model.addAttribute("typeNoteToJournal", typeNoteToJournal);
             model.addAttribute("classGroup", new ClassGroup());
             model.addAttribute("listStudents", studentService.findStudentsByStudentsClassGroup(classGroup));
-            return "teacher/add-noteToJournal-form2";
+            return "teacher/add-noteToJournal-2";
         }
     }
 
@@ -71,13 +71,9 @@ public class TeacherController {
     public String getNoteToJournalStudent2(@RequestParam Map<String, String> requestParams, NoteToJournal noteToJournal, Model model) {
 
 
-        String studentUuid = requestParams.get("student2");
-        System.out.println("StudentUUID: "+ studentUuid);
+        String studentID = requestParams.get("student2");
 
-        UUID uuid = UUID.fromString(studentUuid);
-        System.out.println("STUDENT VARIANT: " + uuid.variant());
-        System.out.println("STUDENT VERSION: " + uuid.version());
-        Student student = studentService.findOneByUuid(uuid);
+        Student student = studentService.findById(Long.parseLong(studentID));
 
 
         Date date = new Date();

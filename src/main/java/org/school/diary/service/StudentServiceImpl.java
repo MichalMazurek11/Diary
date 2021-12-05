@@ -44,20 +44,20 @@ public class StudentServiceImpl implements StudentService {
     return null;
     }
 
-    @Override
-    public Student findStudentById(UUID uuid) {
-        return studentRepository.findStudentById(uuid);
-    }
+//    @Override
+//    public Student findStudentById(UUID uuid) {
+//        return studentRepository.findStudentById(uuid);
+//    }
 
     @Override
     public List<Student> listStudents() {
         return studentRepository.findAll();
     }
 
-    @Override
-    public Student findOneByUuid(UUID studentUuid) {
-        return studentRepository.findOneByUuid(studentUuid);
-    }
+//    @Override
+//    public Student findOneByUuid(UUID studentUuid) {
+//        return studentRepository.findOneByUuid(studentUuid);
+//    }
 
     @Override
     public Student findById(long id) {

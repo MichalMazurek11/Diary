@@ -17,12 +17,12 @@ public interface StudentRepository extends JpaRepository<Student,UUID> {
 
 //    Student findByUser(User user);
 
-    @Query("SELECT n FROM Student n WHERE n.id= ?1")
-    Student findOneByUuid(UUID studentUuid);
+//    @Query("SELECT n FROM Student n WHERE n.id= ?1")
+//    Student findOneByUuid(UUID studentUuid);
 
     List<Student> findStudentsByStudentsClassGroup(ClassGroup classGroup);
 
     List<Student> findByStudentsClassGroup(ClassGroup classGroup);
 
-    Student findStudentById(UUID uuid);
+//    Student findStudentById(UUID uuid);
 }

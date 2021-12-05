@@ -13,9 +13,10 @@
 			style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 24px; padding: 24px;">
 			<div class="card">
 				<div class="card-block" style="padding: 24px;">
-					<form th:action="@{/home/dodaj_nauczyciela}" th:object="${teacher}"  method="post" >
+					<form th:action="@{/home/director/dodaj_nauczyciela}" th:object="${teacher}"  method="post" >
 						<fieldset>
-							<center><p class="lead">Dodaj nauczyciela:</p></center>
+							<center><h6>Dodaj nauczyciela</h6></center>
+							<br>
 
 							<div class="form-group">
 								<label for="email">Email:</label>

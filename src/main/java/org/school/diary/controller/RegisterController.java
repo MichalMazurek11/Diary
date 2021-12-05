@@ -50,12 +50,6 @@ public class RegisterController {
     }
 
 
-//    @GetMapping({"/home/index"})
-//    public String index(Principal prin, Model model) {
-//
-//        return "/home/index";
-//    }
-
     //PANEL DO REJESTRACJI
     @GetMapping("/signup")
     public String signUp(Model model) {

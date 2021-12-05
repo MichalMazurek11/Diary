@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments.html :: headerfiles">
 </head>
+
 <body>
 	<header th:insert="fragments.html :: nav"></header>
 
@@ -13,8 +14,10 @@
 
 					<form th:action="@{'/home/teacher/dodaj_uwage/classGroup'}" th:object="${noteToJournal}" method="post" >
 						<fieldset>
+							<center><h6>Dodaj uwage/pochwałe</h6></center>
+							<br>
 							<div class="form-group">
-								<label for="student2">Klasa:  </label>
+								<label for="student2">Uczeń:  </label>
 								<select  class="custom-select" name="student2" id="student2" >
 									<option selected></option>
 									<option th:each="student : ${listStudents}" th:value="${student.id}" th:text="${ student.firstName +' '+ student.lastName}"   ></option>

@@ -37,14 +37,8 @@ public class StudentController {
 
 
     //WYSWIETLENIE PANELU OCEN STUDENTA
-    @GetMapping("/home/uczen/oceny")
-    public String getStudentMarks(Model model, Authentication auth) {
-        //ModelAndView mv = new ModelAndView("student/get-student-marks");
-
-        String login = auth.getName();
-        System.out.println("LOGIN: "+ login);
-//        User user = userService.findByEmail(login);
-//        Student student = studentService.findByUser(user);
+    @GetMapping("/home/student/uczen/oceny")
+    public String getStudentMarks(Model model) {
 
 
         return "/student/get-student-marks";
@@ -53,7 +47,7 @@ public class StudentController {
 
 
     //WYSWIETLENIE PANELU OCEN STUDENTA
-    @GetMapping("/home/uczen/plan_lekcji")
+    @GetMapping("/home/student/plan_lekcji")
     public String getSchedule(Model model) {
 
      ClassGroup classGroup =  classGroupService.findById(1);
@@ -68,7 +62,7 @@ public class StudentController {
 
         model.addAttribute("lessonGroupList",lessonHourService.findAllByClassGroup(classGroup));
         model.addAttribute("lessonGroupListWTO",lessonHourService.findLessonHourByClassGroupAndWeekday(classGroup,wtorek));
-        return "/user/get-schedule";
+        return "/student/get-schedule";
     }
 
 

@@ -25,23 +25,23 @@
 <!--				<a class="nav-link" href="#">Link 2</a>-->
 <!--			</li>-->
 
-			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/uczen/plan_lekcji}">Plan lekcji</a></li>
-			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/plan_lekcji}">Plan lekcji</a></li>
-			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a  class="nav-link" href="#" th:href="@{/home/oceny}">Oceny</a></li>
-			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/nieobecnosci}">Frekwencja</a></li>
-			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/prace_domowe}">Prace domowe</a></li>
-			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/ustawienia}">Ustawienia</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/plan_lekcji}">Plan lekcji</a></li>
+			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/teacher/plan_lekcji}">Plan lekcji</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a  class="nav-link" href="#" th:href="@{/home/student/oceny}">Oceny</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/nieobecnosci}">Frekwencja</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/prace_domowe}">Prace domowe</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/ustawienia}">Ustawienia</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director}">Admin</a></li>
-			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/rejestracja_uzytkownikow}">Rejestracja</a></li>
+			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/rejestracja_uzytkownikow}">Rejestracja</a></li>
 
 			<!-- Dropdown -->
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbardrop1" data-toggle="dropdown" sec:authorize="hasRole('ROLE_DIRECTOR')">Nauczyciel
 				</a>
 				<div class="dropdown-menu" >
-					<a class="dropdown-item" sec:authorize="hasRole('ROLE_DIRECTOR')" th:href="@{/home/dodaj_nauczyciela}">Dodaj nauczyciela</a>
+					<a class="dropdown-item" sec:authorize="hasRole('ROLE_DIRECTOR')" th:href="@{/home/director/dodaj_nauczyciela}">Dodaj nauczyciela</a>
 					<a class="dropdown-item" href="#">Usuń nauczyciela</a>
-					<a class="dropdown-item" sec:authorize="hasRole('ROLE_DIRECTOR')" th:href="@{/home/dodaj_wychowawce}">Dodaj wychowawcę</a>
+					<a class="dropdown-item" sec:authorize="hasRole('ROLE_DIRECTOR')" th:href="@{/home/director/dodaj_wychowawce}">Dodaj wychowawcę</a>
 				</div>
 			</li>
 
@@ -50,9 +50,9 @@
 				</a>
 
 				<div class="dropdown-menu" >
-					<a class="dropdown-item" th:href="@{/home/dodaj_klase}">Dodaj klase</a>
+					<a class="dropdown-item" th:href="@{/home/director/dodaj_klase}">Dodaj klase</a>
 					<a class="dropdown-item" href="#">Usuń klase</a>
-					<a class="dropdown-item" th:href="@{/home/dodaj_ucznia_do_klasy}">Dodaj ucznia do klasy</a>
+					<a class="dropdown-item" th:href="@{/home/director/dodaj_ucznia_do_klasy}">Dodaj ucznia do klasy</a>
 				</div>
 			</li>
 
@@ -63,7 +63,7 @@
 				</a>
 
 				<div class="dropdown-menu" >
-					<a class="dropdown-item" th:href="@{/home/dodaj_ocene}">Sprawdz obecność</a>
+					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_ocene}">Sprawdz obecność</a>
 				</div>
 			</li>
 
@@ -72,7 +72,7 @@
 				<a class="nav-link dropdown-toggle" href="#" id="navbardrop3" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Oceny
 				</a>
 				<div class="dropdown-menu" >
-					<a class="dropdown-item" th:href="@{/home/dodaj_ocene}">Dodaj ocenę</a>
+					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_ocene}">Dodaj ocenę</a>
 
 				</div>
 			</li>
@@ -87,6 +87,27 @@
 			</li>
 		</ul>
 
+		<div style="margin-right: 100px;">
+		<h4 class="text-light bg-dark"  th:each="authority : ${#authentication.getAuthorities()}"
+		   th:if="${authority.getAuthority().startsWith('ROLE_DIRECTOR')}"
+		   th:text="${authority.getAuthority().replaceFirst('ROLE_DIRECTOR', 'Dyrektor')}">
+		</h4>
+			<h4 class="text-light bg-dark"  th:each="authority : ${#authentication.getAuthorities()}"
+				th:if="${authority.getAuthority().startsWith('ROLE_TEACHER')}"
+				th:text="${authority.getAuthority().replaceFirst('ROLE_TEACHER', 'Nauczyciel')}">
+			</h4>
+
+			<h4 class="text-light bg-dark"  th:each="authority : ${#authentication.getAuthorities()}"
+				th:if="${authority.getAuthority().startsWith('ROLE_STUDENT')}"
+				th:text="${authority.getAuthority().replaceFirst('ROLE_STUDENT', 'Uczeń')}">
+			</h4>
+			<h4 class="text-light bg-dark"  th:each="authority : ${#authentication.getAuthorities()}"
+				th:if="${authority.getAuthority().startsWith('ROLE_PARENT')}"
+				th:text="${authority.getAuthority().replaceFirst('ROLE_PARENT', 'Rodzic')}">
+			</h4>
+		</div>
+
+			<h6 sec:authorize="hasAnyRole('ROLE_TEACHER')"></h6>
 			<form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">
 			<button sec:authorize="isAuthenticated()" class="btn btn-danger" type="submit">Wyloguj</button>
 			<button sec:authorize="isAnonymous()" th:href="@{~/login}" class="btn btn-primary" type="submit">Zaloguj</button>

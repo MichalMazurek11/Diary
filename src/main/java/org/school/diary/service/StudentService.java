@@ -15,12 +15,12 @@ public interface StudentService {
 
     Student findByUser(User user);
 
-    Student findStudentById(UUID uuid);
+//    Student findStudentById(UUID uuid);
 
     public List<Student> listStudents();
 
 
-    Student findOneByUuid(UUID studentUuid);
+//    Student findOneByUuid(UUID studentUuid);
 
     Student findById(long id);
 

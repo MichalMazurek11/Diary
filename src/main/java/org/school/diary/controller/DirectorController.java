@@ -1,6 +1,7 @@
 package org.school.diary.controller;
 
 
+import org.school.diary.dto.ClassGroupDTO;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.Subject;
 import org.school.diary.model.common.Student;
@@ -9,9 +10,11 @@ import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
@@ -37,7 +40,7 @@ public class DirectorController {
     SubjectService subjectService;
 
 
-    @GetMapping("/home/rejestracja_uzytkownikow")
+    @GetMapping("/home/director/rejestracja_uzytkownikow")
     public String requestsRegisterUsers(Principal prin, Model model) {
 
 
@@ -48,10 +51,8 @@ public class DirectorController {
     //NAUCZYCIEL
 
     //WYSWIETLENEI PANELU DODAWANIA NAUCZYCIELA
-    @GetMapping("/home/dodaj_nauczyciela")
+    @GetMapping("/home/director/dodaj_nauczyciela")
     public String getTeachers(Model model) {
-        ModelAndView mv = new ModelAndView("director/add-teacher");
-
 
 
         model.addAttribute("listSubjects",sortSubjectByName(subjectService.listAllSubject()));
@@ -59,7 +60,7 @@ public class DirectorController {
         return "director/add-teacher";
     }
 
-    @PostMapping("/home/dodaj_nauczyciela")
+    @PostMapping("/home/director/dodaj_nauczyciela")
     public String addTeachers(@RequestParam("subject") Set<Subject> subjectSet,@RequestParam  Map<String, String> requestParam, @ModelAttribute Teacher teacher, Model model) {
 
         subjectSet.forEach(topic -> System.out.println("Przedmiot: "+topic.getName()));
@@ -88,7 +89,7 @@ public class DirectorController {
         return tmp;
     }
     //WYSWIETLENIE PANELU DODAWANIA KLASY
-    @GetMapping("/home/dodaj_wychowawce")
+    @GetMapping("/home/director/dodaj_wychowawce")
     public String getSupervisorClassgroup(Model model) {
 
         model.addAttribute("listTeachers", teacherService.listTeachers());
@@ -96,7 +97,7 @@ public class DirectorController {
         return "director/add-supervisor-to-classgroup";
     }
 
-    @PostMapping("/home/dodaj_wychowawce")
+    @PostMapping("/home/director/dodaj_wychowawce")
     public String addSupervisorClassgroup(Model model,ClassGroup classGroup) {
 
         classGroupService.addClassGroup(classGroup);
@@ -121,29 +122,28 @@ public class DirectorController {
 
 
     //WYSWIETLENIE PANELU DODAWANIA KLASY
-    @GetMapping("/home/dodaj_klase")
-    public ModelAndView getClassGroups(Model model) {
-        ModelAndView mv = new ModelAndView("director/add-classgroup");
+    @GetMapping("/home/director/dodaj_klase")
+    public String getClassGroups(Model model) {
 
-
-        model.addAttribute("classGroup", new ClassGroup());
-        return mv;
+        model.addAttribute("classGroupDTO", new ClassGroupDTO());
+        return "director/add-classgroup";
     }
 
     //DODANIE NOWEJ KLASY
-    @PostMapping("/home/dodaj_klase")
-    public String addClassGroups(@RequestParam("supervisor") Teacher supervisor, Model model, ClassGroup classGroup) {
+    @PostMapping("/home/director/dodaj_klase")
+    public String addClassGroups(@Valid ClassGroupDTO classGroupDTO, BindingResult bindingResult,@ModelAttribute ClassGroup classGroup, Model model) {
 
-        System.out.println("supervisor: "+ supervisor.getFirstName() + " " + supervisor.getLastName());
+        if (bindingResult.hasErrors()) {
+            return "/director/add-classgroup";
+        }
 
         classGroupService.addClassGroup(classGroup);
-
         return "/director/add-classgroup";
 
     }
 
     //WYSWIETLENIE PANELU DODAWANIE UCZNIA DO KLASY
-    @GetMapping("/home/dodaj_ucznia_do_klasy")
+    @GetMapping("/home/director/dodaj_ucznia_do_klasy")
     public String getClassGroupsUser(Model model) {
 
 
@@ -151,12 +151,13 @@ public class DirectorController {
         model.addAttribute("classGroup", new ClassGroup());
         model.addAttribute("listClassGroups",classGroupService.listClassGroups());
         model.addAttribute("liststudents",studentService.listStudents());
-        return "director/add-user-to-classgroup";
+        return "director/add-student-to-classgroup";
     }
 
 
+
     //WYSWIETLENIE PANELU DODAWANIE UCZNIA DO KLASY
-    @PostMapping("/home/dodaj_ucznia/{studentId}/do_klasy/{classGroupId}")
+    @PostMapping("/home/director/dodaj_ucznia/{studentId}/do_klasy/{classGroupId}")
     public String addUserToClassGroup(@RequestParam Map<String, String> requestParams,Model model ) {
 
         String studentId = requestParams.get("studentId");
@@ -175,7 +176,7 @@ public class DirectorController {
         model.addAttribute("classGroup", new ClassGroup());
         model.addAttribute("listClassGroups",classGroupService.listClassGroups());
         model.addAttribute("liststudents",studentService.listStudents());
-        return "director/add-user-to-classgroup";
+        return "director/add-student-to-classgroup";
     }
 
 

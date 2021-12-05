@@ -19,7 +19,7 @@ public class PersonRelatedWithSchool {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private Long id;
     private String firstName;
     private String email;
     private String lastName;

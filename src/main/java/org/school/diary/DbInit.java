@@ -38,7 +38,7 @@ public class DbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-     //   createStudents();
+//        createRoles();
 //        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
 //        createClassRooms();
 //        createTeachers();
@@ -47,8 +47,8 @@ public class DbInit implements CommandLineRunner {
 //        createWeekdays();
 //        createLessonPlan();
 //        createDirector();
+//        createStudentAndTeacher();
 
-//        createRoles();
     }
 
 
@@ -149,7 +149,40 @@ public class DbInit implements CommandLineRunner {
 
     }
 
-    private void createStudents() {
+    private void createStudentAndTeacher() {
+        Student student = new Student();
+        student.setFirstName("Michał");
+        student.setLastName("Mazurek");
+        student.setEmail("123@o2.pl");
+        student.setPesel("12312312312");
+        student.setDateBirth(LocalDate.parse("1998-05-05"));
+
+        ClassGroup classGroup = classGroupService.findById(1L);
+        student.setStudentsClassGroup(classGroup);
+        studentService.saveStudent(student);
+
+        User user3 = new User();
+        Role role1 = roleService.findRoleByName("STUDENT");
+        user3.setRoles(Collections.singleton(role1));
+        user3.setPassword("123");
+        user3.setPersonRelatedWithSchool(student);
+        userService.save(user3);
+
+
+        Teacher teacher = new Teacher();
+        teacher.setDateBirth(LocalDate.parse("1988-02-02"));
+        teacher.setFirstName("Maciej");
+        teacher.setLastName("Stańczak");
+        teacher.setEmail("1234@o2.pl");
+        teacher.setPesel("98609736755");
+        teacherService.save(teacher);
+
+        User user2 = new User();
+        user2.setPersonRelatedWithSchool(teacher);
+        user2.setPassword("123");
+        Role role = roleService.findRoleByName("TEACHER");
+        user2.setRoles(Collections.singleton(role));
+        userService.save(user2);
 
     }
 
@@ -216,39 +249,8 @@ public class DbInit implements CommandLineRunner {
         user.setPassword("qwerty");
         userService.save(user);
 
-        Teacher teacher = new Teacher();
-        teacher.setDateBirth(LocalDate.parse("1988-02-02"));
-        teacher.setFirstName("Maciej");
-        teacher.setLastName("Stańczak");
-        teacher.setEmail("1234@o2.pl");
-        teacher.setPesel("98609736755");
-        teacherService.save(teacher);
 
-        User user2 = new User();
-        user2.setPersonRelatedWithSchool(teacher);
-        user2.setPassword("123");
-        Role role = roleService.findRoleByName("TEACHER");
-        user2.setRoles(Collections.singleton(role));
-        userService.save(user2);
-
-        Student student = new Student();
-        student.setFirstName("Michał");
-        student.setLastName("Mazurek");
-        student.setEmail("123@o2.pl");
-        student.setPesel("12312312312");
-        student.setDateBirth(LocalDate.parse("1998-05-05"));
-
-        ClassGroup classGroup = classGroupService.findById(1L);
-        student.setStudentsClassGroup(classGroup);
-        studentService.saveStudent(student);
-
-        User user3 = new User();
-        Role role1 = roleService.findRoleByName("STUDENT");
-        user3.setRoles(Collections.singleton(role1));
-        user3.setPassword("123");
-        user3.setPersonRelatedWithSchool(student);
-        userService.save(user3);
-
+        //moj dyrektor Michał zeby szybciej sie logowac
         Director director2 = new Director();
         director2.setFirstName("Mariusz");
         director2.setLastName("Mroczek");
