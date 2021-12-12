@@ -20,6 +20,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.school.diary.model.ClassRoomDuty.PE;
+
 @Component
 @RequiredArgsConstructor
 public class DbInit implements CommandLineRunner {
@@ -38,16 +40,16 @@ public class DbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        createRoles();
-//        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
-//        createClassRooms();
-//        createTeachers();
-//        createSubjects();
-//        createLessonIntervals();
-//        createWeekdays();
-//        createLessonPlan();
-//        createDirector();
-//        createStudentAndTeacher();
+        createRoles();
+        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
+        createClassRooms();
+        createTeachers();
+        createSubjects();
+        createLessonIntervals();
+        createWeekdays();
+        createLessonPlan();
+        createDirector();
+        createStudentAndTeacher();
 
     }
 
@@ -89,7 +91,7 @@ public class DbInit implements CommandLineRunner {
             while (peClassesOverload){
                 int classRoomDutyIdx = random.nextInt(ClassRoomDuty.values().length);
                 ClassRoomDuty chosenClassroomDuty = ClassRoomDuty.values()[classRoomDutyIdx];
-                if (chosenClassroomDuty == ClassRoomDuty.PE){
+                if (chosenClassroomDuty == PE){
                     if (peClassesQt==0){
                         continue;
                     }
@@ -280,14 +282,22 @@ public class DbInit implements CommandLineRunner {
         List<Weekday> weekdays = weekdayService.findAll();
         List<ClassRoom> classRooms = classRoomService.getAll();
         Random random = new Random();
+        List<ClassRoom> peClasses = new ArrayList<>();
 
         for (int i = 0; i < weekdays.size(); i++) {
             final Weekday weekday = weekdays.get(i);
             for (int j = 0; j < allIntervals.size(); j++) {
                 Set<ClassRoom> classRoomsAtTheSameTime = new HashSet<>();
+                int peClassesIdx = 0;
                 for (int k = 0; k < qtyOfLessonsInTheSameTime; k++) {
                     int idxOfClassRoom = random.nextInt(classRooms.size());
                     ClassRoom chosenClassRoom = classRooms.get(idxOfClassRoom);
+                    if (chosenClassRoom.getClassRoomDuty() == PE){
+                        if (peClasses.size()==2){
+                            chosenClassRoom = peClasses.get(peClassesIdx++);
+                        }
+                        peClasses.add(chosenClassRoom);
+                    }
                     if (classRoomsAtTheSameTime.contains(chosenClassRoom)){
                         k--;
                         continue;
@@ -299,6 +309,9 @@ public class DbInit implements CommandLineRunner {
                         continue;
                     }
                     Subject subject = subjects.get(random.nextInt(subjects.size() - 1));
+                    if (!subject.getName().equals("wychowanie fizyczne")&&chosenClassRoom.getClassRoomDuty() == PE){
+                        k--;
+                    }
                     List<Teacher> teachers = subject.getTeachers();
                     Teacher teacher = teachers.get(random.nextInt(teachers.size()));
                     LessonInterval lessonInterval = allIntervals.get(j);

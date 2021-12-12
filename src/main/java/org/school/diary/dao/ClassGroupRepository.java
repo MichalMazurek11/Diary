@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClassGroupRepository extends JpaRepository<ClassGroup,Long> {
 
+    ClassGroup findByName(String name);
 
     ClassGroup findById(long id);
 }
