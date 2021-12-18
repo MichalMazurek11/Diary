@@ -24,6 +24,8 @@ public class LessonHourServiceImpl implements LessonHourService {
     @Override
     public List<LessonHour> findAllByClassGroup(ClassGroup classGroup) {
         return lessonHourRepository.findAllByClassGroup(classGroup);
+
+
     }
 
     @Override
