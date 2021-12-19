@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import org.school.diary.dao.LessonHourRepository;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.LessonHour;
+import org.school.diary.model.LessonInterval;
 import org.school.diary.model.Weekday;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,10 +26,8 @@ public class LessonHourServiceImpl implements LessonHourService {
     }
 
     @Override
-    public List<LessonHour> findAllByClassGroup(ClassGroup classGroup) {
-        return lessonHourRepository.findAllByClassGroup(classGroup);
-
-
+    public Map<LessonInterval, List<LessonHour>> findAllByClassGroup(ClassGroup classGroup) {
+        return lessonHourRepository.findAllByClassGroup(classGroup).stream().collect(Collectors.groupingBy(LessonHour::getLessonInterval,TreeMap::new, Collectors.toList()));
     }
 
     @Override

@@ -39,8 +39,6 @@ public class StudentController {
     //WYSWIETLENIE PANELU OCEN STUDENTA
     @GetMapping("/home/student/uczen/oceny")
     public String getStudentMarks(Model model) {
-
-
         return "/student/get-student-marks";
     }
 
@@ -60,7 +58,7 @@ public class StudentController {
         Weekday poniedzialek = new Weekday();
         poniedzialek =  weekdayService.findWeekdayByDayName("poniedziałek");
 
-        model.addAttribute("lessonGroupList",lessonHourService.findAllByClassGroup(classGroup));
+        model.addAttribute("lessonGroupMap",lessonHourService.findAllByClassGroup(classGroup));
         model.addAttribute("lessonGroupListWTO",lessonHourService.findLessonHourByClassGroupAndWeekday(classGroup,wtorek));
         return "/student/get-schedule";
     }

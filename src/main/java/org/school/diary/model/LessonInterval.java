@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @Setter
 @Entity
 @EqualsAndHashCode
-public class LessonInterval {
+public class LessonInterval implements Comparable<LessonInterval>{
 
     @Id
     private long id;
@@ -23,4 +23,8 @@ public class LessonInterval {
     private LocalTime endLesson;
 
 
+    @Override
+    public int compareTo(LessonInterval lessonInterval) {
+        return Long.compare(id,lessonInterval.getId());
+    }
 }
