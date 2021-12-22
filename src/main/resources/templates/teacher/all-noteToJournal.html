@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments.html :: headerfiles">
+
+</head>
+
+<body>
+	<header th:insert="fragments.html :: nav"></header>
+
+	<table class="table col-7">
+		<thead>
+		<tr>
+			<th  scope="col">Treść : </th>
+			<th scope="col">Data dodania: </th>
+			<th scope="col">Typ: </th>
+			<th scope="col">Student: </th>
+			<th scope="col"> </th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="noteToJournal : ${noteToJournalList}">
+			<td th:text="${noteToJournal.name}"></td>
+			<td th:text="${noteToJournal.date}"></td>
+			<td th:text="${noteToJournal.type}"></td>
+			<td th:text="${noteToJournal.student.firstName +' '+ noteToJournal.student.lastName }"></td>
+			<td  >
+				<a  href="#" th:href="@{'/home/teacher/wyswietl/usun/'+ ${noteToJournal.id}}" class="btn btn-danger">Delete</a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</body>
+</html>

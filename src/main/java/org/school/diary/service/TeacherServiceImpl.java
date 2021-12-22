@@ -28,19 +28,24 @@ public class TeacherServiceImpl implements TeacherService{
 
     private final SubjectRepository subjectRepository;
 
-    @Override
-    public void saveTeacher(Teacher teacher, LocalDate birthDate, Set<Subject> subjectSet) {
-        Set<Subject> matchesSubjects = subjectService.listAllSubject().stream().filter(subjectSet::contains).collect(Collectors.toSet());
-        Subject subject = subjectService.listAllSubject().get(0);
-        teacher.setDateBirth(birthDate);
-        teacher.setSubjects(Collections.singleton(subject));
-        teacherRepository.save(teacher);
-        //
-        subject.getTeachers().add(teacher);
-       // subject.setTeachers(subject.getTeachers().add(teacher));
-        subjectService.saveSubjects(Collections.singleton(subject));
-    }
+//    @Override
+//    public void saveTeacher(Teacher teacher, LocalDate birthDate, Set<Subject> subjectSet) {
+//        Set<Subject> matchesSubjects = subjectService.listAllSubject().stream().filter(subjectSet::contains).collect(Collectors.toSet());
+//        Subject subject = subjectService.listAllSubject().get(0);
+//        teacher.setDateBirth(birthDate);
+//        teacher.setSubjects(Collections.singleton(subject));
+//        teacherRepository.save(teacher);
+//        //
+//        subject.getTeachers().add(teacher);
+//       // subject.setTeachers(subject.getTeachers().add(teacher));
+//        subjectService.saveSubjects(Collections.singleton(subject));
+//    }
 
+
+    @Override
+    public void saveTeacher(Teacher teacher) {
+        teacherRepository.save(teacher);
+    }
 
     @Override
     public List<Teacher> listTeachers() {
@@ -60,6 +65,11 @@ public class TeacherServiceImpl implements TeacherService{
     @Override
     public List<Teacher> getTeachers() {
         return teacherRepository.findAll();
+    }
+
+    @Override
+    public Teacher findByEmail(String email) {
+        return teacherRepository.findByEmail(email);
     }
 
 }

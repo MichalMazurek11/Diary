@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
-
+    Teacher findByEmail(String email);
 }

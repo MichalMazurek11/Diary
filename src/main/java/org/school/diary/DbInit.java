@@ -40,16 +40,16 @@ public class DbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        createRoles();
-        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
-        createClassRooms();
-        createTeachers();
-        createSubjects();
-        createLessonIntervals();
-        createWeekdays();
-        createLessonPlan();
-        createDirector();
-        createStudentAndTeacher();
+//        createRoles();
+//        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
+//        createClassRooms();
+//        createTeachers();
+//        createSubjects();
+//        createLessonIntervals();
+//        createWeekdays();
+//        createLessonPlan();
+//        createDirector();
+//        createStudentAndTeacher();
 
     }
 
@@ -110,13 +110,13 @@ public class DbInit implements CommandLineRunner {
     private void createLessonIntervals() {
         final int lessonTime = 45;
         final int[] breaks = new int[]{5, 10, 20};
-        List<Integer> givenList = Arrays.asList(4,5,6,7,8,9);
-        Random rand = new Random();
-        int randomElement = givenList.get(rand.nextInt(givenList.size()));
+//        List<Integer> givenList = Arrays.asList(4,5,6,7,8,9);
+//        Random rand = new Random();
+//        int randomElement = givenList.get(rand.nextInt(givenList.size()));
         final Random random = new Random();
         List<LessonInterval> lessonIntervals = new ArrayList<>();
         LocalTime tempTime = LocalTime.of(8, 00);
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 11; i++) {
             lessonIntervals.add(new LessonInterval(i, tempTime, tempTime.plusMinutes(lessonTime)));
             tempTime = tempTime.plusMinutes(lessonTime);
             tempTime = tempTime.plusMinutes(breaks[random.nextInt(breaks.length)]);
@@ -268,13 +268,10 @@ public class DbInit implements CommandLineRunner {
         user4.setPersonRelatedWithSchool(director2);
         userService.save(user4);
 
-
-
-
     }
 
     private void createLessonPlan() {
-        final int qtyOfLessonsInTheSameTime = 4;
+        final int qtyOfLessonsInTheSameTime = 5;
         List<LessonHour> lessonHours = new ArrayList<>();
         List<Subject> subjects = subjectService.listAllSubject();
         List<ClassGroup> classGroups = classGroupService.listClassGroups();

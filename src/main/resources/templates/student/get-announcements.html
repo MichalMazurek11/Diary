@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments.html :: headerfiles">
+</head>
+<body>
+<header th:insert="fragments.html :: nav"></header>
+
+
+<table class="table col-7">
+    <thead>
+    <tr>
+        <th  scope="col">Treść ogłoszenia: </th>
+        <th scope="col">Data dodania: </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="announcement : ${AnnouncementList}">
+        <td th:text="${announcement.text}"></td>
+        <td th:text="${announcement.dateTime}"></td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+</html>

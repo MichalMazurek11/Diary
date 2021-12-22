@@ -31,8 +31,11 @@
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/nieobecnosci}">Frekwencja</a></li>
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/prace_domowe}">Prace domowe</a></li>
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/ustawienia}">Ustawienia</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/uwagi}">Uwagi</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director}">Admin</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/rejestracja_uzytkownikow}">Rejestracja</a></li>
+			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/dodaj_ogloszenie}">Ogłoszenia</a></li>
+			<li sec:authorize="hasAnyRole('ROLE_STUDENT','ROLE_TEACHER','ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/ogloszenia}">Ogłoszenia</a></li>
 
 			<!-- Dropdown -->
 			<li class="nav-item dropdown">
@@ -82,7 +85,7 @@
 				</a>
 				<div class="dropdown-menu" >
 					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_uwage}">Dodaj uwage</a>
-					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_uwage}">Usuń uwage</a>
+					<a class="dropdown-item" th:href="@{/home/teacher/wyswietl}">Wyswietl</a>
 				</div>
 			</li>
 		</ul>

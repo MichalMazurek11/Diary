@@ -3,6 +3,7 @@ package org.school.diary.model.common;
 import lombok.*;
 import org.school.diary.model.Exam;
 import org.school.diary.model.Mark;
+import org.school.diary.model.NoteToJournal;
 import org.school.diary.model.Subject;
 
 import javax.persistence.*;
@@ -31,6 +32,8 @@ public class Teacher extends PersonRelatedWithSchool{
     @OneToMany(mappedBy = "teacher")
     private Set<Exam> examsTeacher = new HashSet<>();
 
+    @OneToMany(mappedBy = "teacher")
+    private Set<NoteToJournal> noteToJournalsTeacher = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

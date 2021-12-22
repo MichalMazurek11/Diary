@@ -19,6 +19,7 @@ public interface StudentService {
 
     public List<Student> listStudents();
 
+    Student findByEmail(String email);
 
 //    Student findOneByUuid(UUID studentUuid);
 

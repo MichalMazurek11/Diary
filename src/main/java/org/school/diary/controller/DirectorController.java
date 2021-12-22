@@ -2,6 +2,7 @@ package org.school.diary.controller;
 
 
 import org.school.diary.dto.ClassGroupDTO;
+import org.school.diary.model.Announcement;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.Subject;
 import org.school.diary.model.common.Student;
@@ -39,6 +40,9 @@ public class DirectorController {
     @Autowired
     SubjectService subjectService;
 
+    @Autowired
+    AnnouncementService announcementService;
+
 
     @GetMapping("/home/director/rejestracja_uzytkownikow")
     public String requestsRegisterUsers(Principal prin, Model model) {
@@ -67,9 +71,9 @@ public class DirectorController {
 
         String dateString = requestParam.get("dateBirth2");
         LocalDate localDate = LocalDate.parse(dateString);
-        teacherService.saveTeacher(teacher,localDate,subjectSet);
+        teacherService.saveTeacher(teacher);
 
-
+        subjectService.saveSubjects(subjectSet);
 
         model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
         model.addAttribute("teacher", new Teacher());
@@ -180,5 +184,46 @@ public class DirectorController {
     }
 
 
+    //WYSWIETLENIE OGLOSZEN
+    @GetMapping("/home/director/dodaj_ogloszenie")
+    public String getAnnouncement(Model model) {
 
+        model.addAttribute("Announcement", new Announcement());
+        model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
+        return "director/add-announcement";
+    }
+    @PostMapping("/home/director/dodaj_ogloszenie")
+    public String addAnnouncement(Announcement announcement, Model model) {
+
+        LocalDate localDate = LocalDate.now();
+
+        announcement.setDateTime(localDate);
+        announcementService.saveAnnouncement(announcement);
+
+        model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
+        return "director/add-announcement";
+    }
+
+    @GetMapping("home/director/usun_ogloszenie/{id}")
+    public String deleteAnnouncement(@PathVariable("id")String id, Model model) {
+        ModelAndView mv = new ModelAndView("admin/category-form");
+
+        announcementService.deleteAnnouncement(Integer.parseInt(id));
+
+        model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
+        return "redirect:/home/director/dodaj_ogloszenie";
+    }
+
+    public List<Announcement> sortAnnouncementbyDate(List<Announcement> tmp) {
+
+        Collections.sort(tmp, new Comparator<Announcement>() {
+
+            @Override
+            public int compare(Announcement a1, Announcement a2) {
+                return a2.getDateTime().compareTo(a1.getDateTime());
+            }
+
+        });
+        return tmp;
+    }
 }

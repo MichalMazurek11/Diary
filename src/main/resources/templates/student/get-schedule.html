@@ -12,37 +12,36 @@
 <header th:insert="fragments.html :: nav"></header>
 
 
-<!--<table class="table table-bordered text-center">-->
-<!--    <tr class="bg-light-gray" >-->
+<table class="table table-bordered text-center">
+    <tr class="bg-light-gray" >
 
-<!--        <th class="text-uppercase">Time</th>-->
-<!--        <th class="text-uppercase">Monday</th>-->
-<!--        <th class="text-uppercase">Tuesday</th>-->
-<!--        <th class="text-uppercase">Wednesday</th>-->
-<!--        <th class="text-uppercase">Thursday</th>-->
-<!--        <th class="text-uppercase">Friday</th>-->
-<!--        <th class="text-uppercase">Saturday</th>-->
-<!--    </tr>-->
+        <th class="text-uppercase">Time</th>
+        <th class="text-uppercase">Monday</th>
+        <th class="text-uppercase">Tuesday</th>
+        <th class="text-uppercase">Wednesday</th>
+        <th class="text-uppercase">Thursday</th>
+        <th class="text-uppercase">Friday</th>
+        <th class="text-uppercase">Saturday</th>
+    </tr>
 
-<!--    <th:block th:each="lesson : ${lessonGroupList}">-->
-<!--        <tr>-->
-<!--            <td> <span th:text="${lesson.lessonInterval.beginLesson}+'-'+${lesson.lessonInterval.endLesson}"></span>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <h5 th:text="${lesson.subject.name}"></h5>-->
-<!--                <h6 th:text="${lesson.teacher.firstName}+' ' +${lesson.teacher.lastName}"></h6>-->
-<!--            </td>-->
-
-
-<!--        </tr>-->
-<!--    </th:block>-->
+    <th:block th:each="lesson : ${lessonGroupListPIA}">
+        <tr>
+            <td> <span th:text="${lesson.lessonInterval.beginLesson}+'-'+${lesson.lessonInterval.endLesson}"></span>
+            </td>
+            <td>
+                <h5 th:text="${lesson.subject.name}"></h5>
+                <h6 th:text="${lesson.teacher.firstName}+' ' +${lesson.teacher.lastName}"></h6>
+            </td>
 
 
-<!--        <tr>-->
-<!--            &lt;!&ndash;<td colspan="6" th:text="${lesson.lessonInterval.endLesson}"></td>&ndash;&gt;-->
-<!--        </tr>-->
+        </tr>
+    </th:block>
+        <tr>
+            <!--<td colspan="6" th:text="${lesson.lessonInterval.endLesson}"></td>-->
+        </tr>
+</table>
 
-<!--</table>-->
+
 <div class="container">
     <div class="timetable-img text-center">
         <img src="img/content/timetable.png" alt="">
@@ -64,14 +63,10 @@
             <tr th:each="element : ${lessonGroupMap}">
                 <td class="align-middle" th:text="${element.getKey().getBeginLesson()}"></td>
                 <td th:each="lessons : ${element.getValue()}">
-                    <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13"
-                          th:text="${lessons.getSubject().name}"></span>
-                    <div class="margin-10px-top font-size14"
-                         th:text="${lessons.getLessonInterval().getBeginLesson()} + ' - ' + ${lessons.getLessonInterval().getEndLesson()}"></div>
-                    <div class="font-size13 text-light-gray"
-                         th:text="${lessons.getTeacher().getFirstName()}+ ' ' + ' ' +${lessons.getTeacher().getLastName()}"></div>
-                    <div class="font-size13 text-light-gray"
-                         th:text="'SALA: ' +  ${lessons.getClassRoom().className}"></div>
+                    <span class="bg-purple padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" th:text="${lessons.getSubject().name}"></span>
+                    <div class="margin-10px-top font-size14" th:text="${lessons.getLessonInterval().getBeginLesson()} + ' - ' + ${lessons.getLessonInterval().getEndLesson()}"></div>
+                    <div class="font-size13 text-light-gray" th:text="${lessons.getTeacher().getFirstName()}+ ' ' + ' ' +${lessons.getTeacher().getLastName()}"></div>
+                    <div class="font-size13 text-light-gray" th:text="'SALA: ' +  ${lessons.getClassRoom().className}"></div>
                 </td>
             </tr>
             </tbody>

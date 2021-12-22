@@ -12,8 +12,9 @@ import java.util.Set;
 public interface TeacherService {
 
 
-    public void saveTeacher(Teacher teacher, LocalDate localDate, Set<Subject> subjectSet);
+//    public void saveTeacher(Teacher teacher, LocalDate localDate, Set<Subject> subjectSet);
 
+    public void saveTeacher(Teacher teacher);
 //    public void addTeacher(Teacher teacher);
 
     public List<Teacher> listTeachers();
@@ -23,4 +24,7 @@ public interface TeacherService {
     void saveAllTeachers(Set<Teacher> teachers);
 
     List<Teacher> getTeachers();
+
+    Teacher findByEmail(String email);
 }
+

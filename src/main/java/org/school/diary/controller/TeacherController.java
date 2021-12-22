@@ -1,17 +1,21 @@
 package org.school.diary.controller;
 
 import org.school.diary.dto.ClassGroupDTO;
+import org.school.diary.model.Announcement;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.NoteToJournal;
 import org.school.diary.model.common.Student;
+import org.school.diary.model.common.Teacher;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -68,15 +72,16 @@ public class TeacherController {
 
     //KIEDY CHCE DODAC UWAGE/POCHWALE DO BAZY DANYCH POSTMAPPING
     @PostMapping( value = "/home/teacher/dodaj_uwage/classGroup")
-    public String getNoteToJournalStudent2(@RequestParam Map<String, String> requestParams, NoteToJournal noteToJournal, Model model) {
+    public String getNoteToJournalStudent2(@RequestParam Map<String, String> requestParams, NoteToJournal noteToJournal, Model model,Principal principal) {
 
-
+        Teacher teacher = teacherService.findByEmail(principal.getName());
         String studentID = requestParams.get("student2");
 
         Student student = studentService.findById(Long.parseLong(studentID));
 
 
         Date date = new Date();
+        noteToJournal.setTeacher(teacher);
         noteToJournal.setDate(date);
         noteToJournal.setStudent(student);
         noteToJournalService.save(noteToJournal);
@@ -84,8 +89,26 @@ public class TeacherController {
         model.addAttribute("noteToJournal", new NoteToJournal());
             return "/home/home_page";
         }
+    @GetMapping("/home/teacher/wyswietl")
+    public String getAll(Model model, Principal principal) {
+
+
+        Teacher teacher = teacherService.findByEmail(principal.getName());
+
+        model.addAttribute("noteToJournal", new NoteToJournal());
+        model.addAttribute("noteToJournalList", noteToJournalService.findAllByTeacher(teacher));
+        return "teacher/all-noteToJournal";
+    }
 
 
 
+    @GetMapping("home/teacher/wyswietl/usun/{id}")
+    public String deleteNoteToJournal(@PathVariable("id")String id) {
+
+
+        noteToJournalService.deleteNoteToJournal(Long.parseLong(id));
+
+        return "redirect:/home/teacher/wyswietl";
+    }
 
 }
