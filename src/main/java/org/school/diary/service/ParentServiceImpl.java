@@ -14,6 +14,11 @@ public class ParentServiceImpl implements ParentService{
     private ParentRepository parentRepository;
 
     @Override
+    public void saveParent(Parent parent) {
+        parentRepository.save(parent);
+    }
+
+    @Override
     public void save(PersonRelatedWithSchool parent) {
         parentRepository.save((Parent)parent);
     }

@@ -13,11 +13,13 @@ public class UserDTO {
     @NotBlank(message = "Pole nie może byc puste")
     private String firstName;
 
+    private String login;
+
     @NotBlank(message = "Pole nie może byc puste")
     private String lastName;
 
-    @NotBlank(message = "Pole nie może byc puste")
-    @Email(message = "Musisz podac email")
+//    @NotBlank(message = "Pole nie może byc puste")
+//    @Email(message = "Musisz podac email")
     private String email;
 
     @Size(min=1, max=20, message = "Haslo musi mieć minimum 1 znak")
@@ -29,19 +31,21 @@ public class UserDTO {
     @NotBlank(message = "Wybierz date urodzin")
     private String birthDate;
 
-    @NotBlank(message = "Wybierz role")
+   // @NotBlank(message = "Wybierz role")
     private String personRole;
 
 
     @Override
     public String toString() {
         return "UserDTO{" +
-                "email='" + email + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", login='" + login + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", pesel='" + pesel + '\'' +
                 ", birthDate='" + birthDate + '\'' +
                 ", personRole='" + personRole + '\'' +
                 '}';
     }
-
 }

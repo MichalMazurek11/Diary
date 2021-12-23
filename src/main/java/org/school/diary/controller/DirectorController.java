@@ -2,11 +2,15 @@ package org.school.diary.controller;
 
 
 import org.school.diary.dto.ClassGroupDTO;
+import org.school.diary.dto.UserDTO;
 import org.school.diary.model.Announcement;
 import org.school.diary.model.ClassGroup;
+import org.school.diary.model.Role;
 import org.school.diary.model.Subject;
+import org.school.diary.model.common.Parent;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
+import org.school.diary.model.common.User;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +36,9 @@ public class DirectorController {
     UserService userService;
 
     @Autowired
+    RoleService roleService;
+
+    @Autowired
     TeacherService teacherService;
 
     @Autowired
@@ -42,6 +49,9 @@ public class DirectorController {
 
     @Autowired
     AnnouncementService announcementService;
+
+    @Autowired
+    ParentService parentService;
 
 
     @GetMapping("/home/director/rejestracja_uzytkownikow")
@@ -226,4 +236,66 @@ public class DirectorController {
         });
         return tmp;
     }
+
+    //REJESTRACJA UCZNIA
+    @GetMapping("/home/director/rejestracja_ucznia_i_rodzica")
+    public String signUp(Model model) {
+
+        model.addAttribute("userDTO", new UserDTO());
+        return "director/add-student-and-parent";
+    }
+
+    //PRZYCISK REJESTRACJI
+    @PostMapping("/home/director/rejestracja_ucznia_i_rodzica")
+    public String signup(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult bindingResult, Model model){
+
+
+
+        if(bindingResult.hasErrors()){
+
+            return "director/add-student-and-parent";
+        }else{
+
+            Student student = new Student();
+            student.setLogin(userDTO.getPesel());
+            student.setFirstName(userDTO.getFirstName());
+            student.setLastName(userDTO.getLastName());
+            student.setPesel(userDTO.getPesel());
+            student.setDateBirth(LocalDate.parse(userDTO.getBirthDate()));
+
+            studentService.saveStudent(student);
+
+            User user = new User();
+            Role role1 = roleService.findRoleByName("STUDENT");
+            user.setRoles(Collections.singleton(role1));
+            user.setPassword(userDTO.getPassword());
+            user.setPersonRelatedWithSchool(student);
+            userService.save(user);
+
+            Parent parent = new Parent();
+            parent.setLogin(userDTO.getPesel()+"r");
+            parentService.save(parent);
+
+            User user2 = new User();
+            Role role2 = roleService.findRoleByName("PARENT");
+            user2.setRoles(Collections.singleton(role2));
+            user2.setPassword(userDTO.getPassword());
+            user2.setPersonRelatedWithSchool(parent);
+            userService.save(user2);
+
+            student.setParent(parent);
+            studentService.saveStudent(student);
+
+
+        }
+        model.addAttribute("userDTO", new UserDTO());
+        return "director/add-student-and-parent";       // przekierowanie na adres metodą GET
+    }
+
+
+
+
+
+
+
 }

@@ -48,19 +48,25 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void saveNewUser(UserDTO userDTO) {
+
         String personRole = userDTO.getPersonRole();
         Role role = roleRepository.findByName(personRole.toUpperCase()).orElseThrow(NotFoundException::new);
         PersonRelatedWithSchool personRelatedWithSchool = signedUserMapper.mapPersonRelatedWithSchoolToSpecificImplementation(userDTO);
+
         //TODO: stworzyć fabrykę serwisów
         if (personRelatedWithSchool instanceof Teacher){
+            personRelatedWithSchool.setLogin(userDTO.getPesel());
             teacherService.save(personRelatedWithSchool);
         } else if (personRelatedWithSchool instanceof Parent){
+            personRelatedWithSchool.setLogin(userDTO.getPesel()+"r");
             parentService.save(personRelatedWithSchool);
 
         } else if (personRelatedWithSchool instanceof Student){
+            personRelatedWithSchool.setLogin(userDTO.getPesel());
             studentService.save(personRelatedWithSchool);
 
         } else if (personRelatedWithSchool instanceof Director){
+            personRelatedWithSchool.setLogin(userDTO.getPesel());
             directorService.save(personRelatedWithSchool);
         }
         User user = new User();

@@ -157,6 +157,7 @@ public class DbInit implements CommandLineRunner {
         student.setLastName("Mazurek");
         student.setEmail("123@o2.pl");
         student.setPesel("12312312312");
+        student.setLogin("123");
         student.setDateBirth(LocalDate.parse("1998-05-05"));
 
         ClassGroup classGroup = classGroupService.findById(1L);
@@ -177,6 +178,7 @@ public class DbInit implements CommandLineRunner {
         teacher.setLastName("Stańczak");
         teacher.setEmail("1234@o2.pl");
         teacher.setPesel("98609736755");
+        teacher.setLogin("1234");
         teacherService.save(teacher);
 
         User user2 = new User();
@@ -259,6 +261,7 @@ public class DbInit implements CommandLineRunner {
         director2.setPesel("98609736754");
         director2.setDateBirth(LocalDate.parse("1980-01-01"));
         director2.setEmail("12345@o2.pl");
+        director2.setLogin("12345");
         directorService.save(director2);
 
         User user4 = new User();

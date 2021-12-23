@@ -1,18 +1,27 @@
 package org.school.diary.controller;
 
+import org.school.diary.dto.UserDTO;
 import org.school.diary.model.Announcement;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.Weekday;
 import org.school.diary.model.common.Student;
+import org.school.diary.model.common.Teacher;
+import org.school.diary.model.common.User;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -20,6 +29,9 @@ import java.util.List;
 @Controller
 @RequestMapping
 public class StudentController {
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     ClassGroupService classGroupService;
@@ -115,5 +127,40 @@ public class StudentController {
         });
         return tmp;
     }
+
+    //USTAWIENIA
+    @GetMapping("/home/student/ustawienia")
+    public String getSettings(Model model) {
+
+
+
+        model.addAttribute("userDTO", new UserDTO());
+        return "student/get-settings";
+    }
+    //USTAWIENIA
+    @PostMapping("/home/student/ustawienia")
+    public String saveSettings(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult bindingResult, Model model, Principal principal) {
+
+
+        System.out.println("Haslo:" +userDTO.getPassword());
+        Student student = studentService.findByEmail(principal.getName());
+
+        if(bindingResult.hasErrors()){
+
+            return "student/get-settings";
+        }else{
+            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
+        }
+
+
+        model.addAttribute("userDTO", new UserDTO());
+        return "student/get-settings";
+    }
+
+
+
+
+
 
 }

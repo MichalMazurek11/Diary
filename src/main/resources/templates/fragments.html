@@ -14,16 +14,11 @@
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<!-- Brand -->
-		<a class="navbar-brand" href="/home" style="margin-left: 25%;">E-dzienniczek</a>
+		<a class="navbar-brand" href="/home" style="margin-left: 20%;">E-dzienniczek</a>
 
 		<!-- Links -->
 		<ul class="navbar-nav mr-auto" >
-<!--			<li class="nav-item">-->
-<!--				<a class="nav-link" href="#">Link 1</a>-->
-<!--			</li>-->
-<!--			<li class="nav-item">-->
-<!--				<a class="nav-link" href="#">Link 2</a>-->
-<!--			</li>-->
+
 
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/plan_lekcji}">Plan lekcji</a></li>
 			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/teacher/plan_lekcji}">Plan lekcji</a></li>
@@ -32,8 +27,7 @@
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/prace_domowe}">Prace domowe</a></li>
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/ustawienia}">Ustawienia</a></li>
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/uwagi}">Uwagi</a></li>
-			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director}">Admin</a></li>
-			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/rejestracja_uzytkownikow}">Rejestracja</a></li>
+			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/rejestracja_ucznia_i_rodzica}">Rejestracja</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/dodaj_ogloszenie}">Ogłoszenia</a></li>
 			<li sec:authorize="hasAnyRole('ROLE_STUDENT','ROLE_TEACHER','ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/ogloszenia}">Ogłoszenia</a></li>
 

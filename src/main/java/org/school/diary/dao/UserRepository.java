@@ -13,4 +13,11 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "join PersonRelatedWithSchool prws on u.personRelatedWithSchool.id=prws.id " +
             "where prws.email=:email")
     User findByEmail(String email);
+
+
+    @Query("from User u " +
+            "join PersonRelatedWithSchool prws on u.personRelatedWithSchool.id=prws.id " +
+            "where prws.login=:login")
+    User findByLogin(String login);
+
 }

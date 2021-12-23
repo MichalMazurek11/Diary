@@ -40,14 +40,14 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/signup.html","/error.html","/user/index.html","/login.html").permitAll()
-                .antMatchers("/home").hasAnyRole("USER","DIRECTOR","TEACHER","STUDENT")
+                .antMatchers("/home").hasAnyRole("PARENT","DIRECTOR","TEACHER","STUDENT")
                 .antMatchers("/home/director/**", "/director/add-teacher.html").hasRole("DIRECTOR")
                 .antMatchers("/home/student/**").hasRole("STUDENT")
                 .antMatchers("/home/teacher/**").hasRole("TEACHER")
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .usernameParameter("email")
+                .usernameParameter("login")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home")//co tutaj dac?
                 .and()

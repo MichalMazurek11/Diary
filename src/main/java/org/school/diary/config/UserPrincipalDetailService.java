@@ -17,9 +17,9 @@ public class UserPrincipalDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(username);
+        User user = userRepository.findByLogin(username);
         UserPrincipal userPrincipal = new UserPrincipal(user);
-//        System.out.println("Znaleziony uzytkownik: "+ userPrincipal.getUsername() + " haslo: "+ userPrincipal.getPassword());
+        System.out.println("Znaleziony uzytkownik: "+ userPrincipal.getUsername() + " haslo: "+ userPrincipal.getPassword());
 
         if (user == null) {
             throw new UsernameNotFoundException("Unauthorized");
