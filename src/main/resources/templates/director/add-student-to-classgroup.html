@@ -27,7 +27,7 @@
 								<label for="studentId">Uczeń: </label>
 								<select class="custom-select" name="studentId" id="studentId" >
 									<option selected>Wybierz ucznia: </option>
-									<option name="lastName"  th:each="student : ${liststudents}" th:value="${student.id}" th:text="${student.firstName}" ></option>
+									<option name="lastName"  th:each="student : ${liststudents}" th:value="${student.id}" th:text="${student.firstName + ' ' + student.lastName + ' ' + student.pesel}" ></option>
 								</select>
 							</div>
 

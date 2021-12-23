@@ -37,7 +37,7 @@
 				</a>
 				<div class="dropdown-menu" >
 					<a class="dropdown-item" sec:authorize="hasRole('ROLE_DIRECTOR')" th:href="@{/home/director/dodaj_nauczyciela}">Dodaj nauczyciela</a>
-					<a class="dropdown-item" href="#">Usuń nauczyciela</a>
+					<a class="dropdown-item" sec:authorize="hasRole('ROLE_DIRECTOR')" th:href="@{/home/director/nauczyciel}">Usuń nauczyciela</a>
 					<a class="dropdown-item" sec:authorize="hasRole('ROLE_DIRECTOR')" th:href="@{/home/director/dodaj_wychowawce}">Dodaj wychowawcę</a>
 				</div>
 			</li>
@@ -48,7 +48,7 @@
 
 				<div class="dropdown-menu" >
 					<a class="dropdown-item" th:href="@{/home/director/dodaj_klase}">Dodaj klase</a>
-					<a class="dropdown-item" href="#">Usuń klase</a>
+					<a class="dropdown-item" th:href="@{/home/director/usun_klase}">Usuń klase</a>
 					<a class="dropdown-item" th:href="@{/home/director/dodaj_ucznia_do_klasy}">Dodaj ucznia do klasy</a>
 				</div>
 			</li>
@@ -84,7 +84,7 @@
 			</li>
 		</ul>
 
-		<div style="margin-right: 100px;">
+		<div style="margin-right: 30px;">
 		<h4 class="text-light bg-dark"  th:each="authority : ${#authentication.getAuthorities()}"
 		   th:if="${authority.getAuthority().startsWith('ROLE_DIRECTOR')}"
 		   th:text="${authority.getAuthority().replaceFirst('ROLE_DIRECTOR', 'Dyrektor')}">

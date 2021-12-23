@@ -35,6 +35,12 @@ public class RegisterController {
     @Autowired
     RoleService roleService;
 
+
+    @RequestMapping("/")
+    public String deafultPage()   {
+        return "/login";
+    }
+
     //PANEL PO ZALOGOWANIU
     @GetMapping("/home")
     public String firstPage(Principal prin, Model model) {

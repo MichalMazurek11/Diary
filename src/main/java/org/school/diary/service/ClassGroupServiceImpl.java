@@ -40,5 +40,10 @@ public class ClassGroupServiceImpl implements ClassGroupService {
         classGroupRepository.saveAll(classGroups);
     }
 
+    @Override
+    public void deleteClassGroup(long classGroup) {
+        classGroupRepository.deleteById(classGroup);
+    }
+
 
 }

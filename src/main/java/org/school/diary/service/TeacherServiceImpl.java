@@ -72,4 +72,9 @@ public class TeacherServiceImpl implements TeacherService{
         return teacherRepository.findByEmail(email);
     }
 
+    @Override
+    public void deleteTeacher(long teacherId) {
+        teacherRepository.deleteById(teacherId);
+    }
+
 }

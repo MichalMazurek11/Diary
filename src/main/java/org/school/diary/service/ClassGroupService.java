@@ -14,4 +14,6 @@ public interface ClassGroupService {
     ClassGroup findById(long id);
 
     void saveClassGroups(Set<ClassGroup> classGroups);
+
+    public void deleteClassGroup(long classGroup);
 }

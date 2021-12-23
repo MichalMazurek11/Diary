@@ -73,7 +73,7 @@ public class DirectorController {
         model.addAttribute("teacher", new Teacher());
         return "director/add-teacher";
     }
-
+    //Dodanie nauczyciela
     @PostMapping("/home/director/dodaj_nauczyciela")
     public String addTeachers(@RequestParam("subject") Set<Subject> subjectSet,@RequestParam  Map<String, String> requestParam, @ModelAttribute Teacher teacher, Model model) {
 
@@ -89,6 +89,41 @@ public class DirectorController {
         model.addAttribute("teacher", new Teacher());
         return "director/add-teacher";
     }
+    //USUNIECIE NAUCZYCIELA
+
+    @GetMapping("/home/director/nauczyciel")
+    public String deleteTeachersView(Model model) {
+
+
+
+        model.addAttribute("teacherList", teacherService.listTeachers());
+        return "director/delete-teacher";
+    }
+
+    @GetMapping("/home/director/usun_nauczyciela/{id}")
+    public String deleteTeachers(@PathVariable("id") String id, Model model) {
+
+
+
+        teacherService.deleteTeacher(Long.parseLong(id));model.addAttribute("teacher", new Teacher());
+        model.addAttribute("teacherList", teacherService.listTeachers());
+        return "redirect:/director/delete-teacher";
+    }
+
+
+//
+//    @GetMapping("admin/category-form/delete-Category/{categoryId}")
+//    public String deleteCategory(@PathVariable("categoryId")String categoryId) {
+//        ModelAndView mv = new ModelAndView("admin/category-form");
+//
+//        categoryService.deleteCategory(Long.parseLong(categoryId));
+//        mv.addObject("categoryList", sortByName(categoryService.listCategory()));
+//        return "redirect:/admin/category-form";
+//    }
+
+
+
+
     //KLASA
     public List<Subject> sortSubjectByName(List<Subject> tmp) {
 
@@ -170,6 +205,8 @@ public class DirectorController {
 
 
 
+
+
     //WYSWIETLENIE PANELU DODAWANIE UCZNIA DO KLASY
     @PostMapping("/home/director/dodaj_ucznia/{studentId}/do_klasy/{classGroupId}")
     public String addUserToClassGroup(@RequestParam Map<String, String> requestParams,Model model ) {
@@ -193,6 +230,32 @@ public class DirectorController {
         return "director/add-student-to-classgroup";
     }
 
+    //usuniecie klasy
+    @GetMapping("/home/director/usun_klase")
+    public String deleteClassGroupView(Model model) {
+
+
+
+        model.addAttribute("classGroup", new ClassGroup());
+        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
+        return "director/delete-classgroup";
+    }
+
+    @GetMapping("/home/director/usun_klase/{id}")
+    public String deleteClassGroup(@PathVariable("id") String id, Model model) {
+
+
+        classGroupService.deleteClassGroup(Long.parseLong(id));
+
+        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
+        return "redirect:/home/director/usun_klase";
+    }
+
+
+
+
+
+
 
     //WYSWIETLENIE OGLOSZEN
     @GetMapping("/home/director/dodaj_ogloszenie")
@@ -214,6 +277,7 @@ public class DirectorController {
         return "director/add-announcement";
     }
 
+    //USUNIECIE OGLOSZENIA
     @GetMapping("home/director/usun_ogloszenie/{id}")
     public String deleteAnnouncement(@PathVariable("id")String id, Model model) {
         ModelAndView mv = new ModelAndView("admin/category-form");

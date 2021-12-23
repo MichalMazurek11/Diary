@@ -18,7 +18,7 @@
 								<input type="text" class="form-control" id="name" name="name" th:field="*{name}" placeholder="">
 								<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger" role="alert">Name Error</p>
 							</div>
-							<div class="form-actions" ><button  type="submit"  class="btn btn-primary">Dodaj</button></div>
+							<div class="form-actions" ><button  type="submit"  style="float: right;" class="btn btn-primary">Dodaj</button></div>
 						</fieldset>
 					</form>
 				</div>

@@ -26,5 +26,7 @@ public interface TeacherService {
     List<Teacher> getTeachers();
 
     Teacher findByEmail(String email);
+
+    public void deleteTeacher(long teacherId);
 }
 
