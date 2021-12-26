@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments.html :: headerfiles">
+</head>
+<body>
+<header th:insert="fragments.html :: nav"></header>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th  scope="col"> Imie i nazwisko:  </th>
+        <th scope="col">Rola:  </th>
+        <th scope="col">PESEL:  </th>
+        <th scope="col">Data urodzenia:  </th>
+        <th scope="col">email:  </th>
+        <th scope="col">login:  </th>
+        <th scope="col"> </th>
+    </tr>
+    </thead>
+    <tbody>
+    <h4 class="text-light bg-dark"  th:each="authority : ${#authentication.getAuthorities()}"
+        th:if="${authority.getAuthority().startsWith('ROLE_TEACHER')}"
+        th:text="${authority.getAuthority().replaceFirst('ROLE_TEACHER', 'Nauczyciel')}">
+    </h4>
+
+    <tr th:each="user : ${userList}">
+        <td th:text="${user.getPersonRelatedWithSchool().firstName + ' ' + user.getPersonRelatedWithSchool().lastName}"></td>
+<!--        <td th:text="${user.roles.iterator().next().name}">[roles]</td>-->
+        <td th:if="${user.roles.iterator().next().name} == 'TEACHER'">Nauczyciel</td>
+        <td th:if="${user.roles.iterator().next().name} == 'PARENT'">Rodzic</td>
+        <td th:if="${user.roles.iterator().next().name} == 'DIRECTOR'">Dyrektor</td>
+        <td th:if="${user.roles.iterator().next().name} == 'STUDENT'">Uczeń</td>
+        <td th:text="${user.getPersonRelatedWithSchool().pesel}"></td>
+        <td th:text="${user.getPersonRelatedWithSchool().dateBirth}"></td>
+        <td th:text="${user.getPersonRelatedWithSchool().email}"></td>
+        <td th:text="${user.getPersonRelatedWithSchool().login}"></td>
+        <td  >
+            <a  href="#" th:href="@{'/home/director/konto/'+ ${user.id}}" class="btn btn-info">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

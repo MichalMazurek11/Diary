@@ -9,6 +9,7 @@ import org.school.diary.model.Subject;
 
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +26,10 @@ public class TeacherDTO {
 
     private String firstName;
 
+    @Size(min=1, max=20, message = "Haslo musi mieć minimum 1 znak")
+    private String password;
+
+    private String login;
 
     private String email;
 

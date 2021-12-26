@@ -37,13 +37,15 @@ public class UserServiceImpl implements UserService{
     @Override
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(user.getRoles());
+        user.setPersonRelatedWithSchool(user.getPersonRelatedWithSchool());
         userRepository.save(user);
     }
 
     @Override
     public List<User> listUsers() {
-        return null;
-//        return userRepository.findAll();
+//        return null;
+        return userRepository.findAll();
     }
 
     @Override
@@ -74,6 +76,11 @@ public class UserServiceImpl implements UserService{
         user.setPersonRelatedWithSchool(personRelatedWithSchool);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(user);
+    }
+
+    @Override
+    public User findUserById(long id) {
+        return userRepository.findUserById(id);
     }
 
 

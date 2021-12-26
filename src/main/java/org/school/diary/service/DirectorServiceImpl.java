@@ -25,5 +25,15 @@ public class DirectorServiceImpl implements DirectorService {
         directorRepository.deleteById(id);
     }
 
+    @Override
+    public Director findById(long id) {
+        return directorRepository.findById(id);
+    }
+
+    @Override
+    public Director findByLogin(String login) {
+        return directorRepository.findByLogin(login);
+    }
+
 
 }

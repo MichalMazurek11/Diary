@@ -156,7 +156,7 @@ public class DbInit implements CommandLineRunner {
         student.setFirstName("Michał");
         student.setLastName("Mazurek");
         student.setEmail("123@o2.pl");
-        student.setPesel("12312312312");
+        student.setPesel("123");
         student.setLogin("123");
         student.setDateBirth(LocalDate.parse("1998-05-05"));
 
@@ -177,7 +177,7 @@ public class DbInit implements CommandLineRunner {
         teacher.setFirstName("Maciej");
         teacher.setLastName("Stańczak");
         teacher.setEmail("1234@o2.pl");
-        teacher.setPesel("98609736755");
+        teacher.setPesel("1234");
         teacher.setLogin("1234");
         teacherService.save(teacher);
 
@@ -244,20 +244,23 @@ public class DbInit implements CommandLineRunner {
         director.setPesel("98609736754");
         director.setDateBirth(LocalDate.parse("1980-01-01"));
         director.setEmail("dyrektor@wp.pl");
+        director.setLogin("98609736754");
         directorService.save(director);
 
         User user = new User();
 //        Role directorRole = roleRepository.findAll().stream().filter(role -> role.getName().equalsIgnoreCase("director")).findFirst().orElseThrow(() -> new NullPointerException());
 //        user.setRoles(Collections.singleton(directorRole));
+        Role role3 = roleService.findRoleByName("DIRECTOR");
+        user.setRoles(Collections.singleton(role3));
         user.setPersonRelatedWithSchool(director);
-        user.setPassword("qwerty");
+        user.setPassword("123");
         userService.save(user);
 
 
         //moj dyrektor Michał zeby szybciej sie logowac
         Director director2 = new Director();
-        director2.setFirstName("Mariusz");
-        director2.setLastName("Mroczek");
+        director2.setFirstName("Katarzyna");
+        director2.setLastName("Laksander");
         director2.setPesel("98609736754");
         director2.setDateBirth(LocalDate.parse("1980-01-01"));
         director2.setEmail("12345@o2.pl");

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
@@ -19,5 +21,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "join PersonRelatedWithSchool prws on u.personRelatedWithSchool.id=prws.id " +
             "where prws.login=:login")
     User findByLogin(String login);
+
+
+    User findUserById(long id);
 
 }

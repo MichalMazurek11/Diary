@@ -16,41 +16,41 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="pesel">PESEL</label>
-                            <input type="text" class="form-control" id="pesel" name="pesel" placeholder="PESEL" th:field="*{pesel}">
+                            <label for="pesel">PESEL ucznia:</label>
+                            <input type="text" class="form-control" id="pesel" name="pesel" placeholder="PESEL ucznia" th:field="*{pesel}">
                             <p th:if="${#fields.hasErrors('pesel')}" th:errors="*{pesel}" class="alert alert-danger" role="alert">Name Error</p>
 <!--                            <span  align="center" th:if="${message}">	<div class="alert alert-danger" role="alert">-->
 <!--                             <span th:text="${message}">  </span></div>-->
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="password">Haslo</label>
-                            <i class="fa fa-lock"  aria-hidden="true"></i>  <input type="password" class="form-control" id="password"  name="password"  placeholder="Hasło" th:field="*{password}" >
+                            <label for="password">Haslo ucznia:</label>
+                            <i class="fa fa-lock"  aria-hidden="true"></i>  <input type="password" class="form-control" id="password"  name="password"  placeholder="Hasło ucznia" th:field="*{password}" >
                             <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger" role="alert">Name Error</p>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="firstName">Imię</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="Imię" th:field="*{firstName}">
+                            <label for="firstName">Imię ucznia:</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName"  placeholder="Imię ucznia" th:field="*{firstName}">
                             <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger" role="alert">Name Error</p>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="lastName">Nazwisko</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Nazwisko" th:field="*{lastName}">
+                            <label for="lastName">Nazwisko ucznia:</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName"  placeholder="Nazwisko ucznia" th:field="*{lastName}">
                             <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger" role="alert">Name Error</p>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="birthDate">Data urodzin</label> <input type="date" class="form-control" id="birthDate" name="birthDate"
+                            <label for="birthDate">Data urodzin ucznia:</label> <input type="date" class="form-control" id="birthDate" name="birthDate"
                                                                                placeholder="Data urodzin" th:field="*{birthDate}">
                             <p th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="alert alert-danger" role="alert">Name Error</p>
                         </div>
-<!--                        <div class="form-group col-md-6">-->
-<!--                            <label for="pesel">PESEL</label>-->
-<!--                            <input type="text" class="form-control" id="pesel" name="pesel" placeholder="" th:field="*{pesel}">-->
-<!--                            <p th:if="${#fields.hasErrors('pesel')}" th:errors="*{pesel}" class="alert alert-danger" role="alert">Name Error</p>-->
-<!--                        </div>-->
+                        <div class="form-group col-md-6">
+                            <label for="password2">Haslo rodzica:</label>
+                            <input type="password" class="form-control" id="password2" name="password2" placeholder="Hasło rodzica" >
+                            <p th:if="${message}" class="alert alert-danger" role="alert" th:text="${message}" ></p>
+                        </div>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-primary" style="float: right;">Zarejestruj</button>

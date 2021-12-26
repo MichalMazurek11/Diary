@@ -2,15 +2,13 @@ package org.school.diary.controller;
 
 
 import org.school.diary.dto.ClassGroupDTO;
+import org.school.diary.dto.TeacherDTO;
 import org.school.diary.dto.UserDTO;
 import org.school.diary.model.Announcement;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.Role;
 import org.school.diary.model.Subject;
-import org.school.diary.model.common.Parent;
-import org.school.diary.model.common.Student;
-import org.school.diary.model.common.Teacher;
-import org.school.diary.model.common.User;
+import org.school.diary.model.common.*;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Path;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -53,6 +52,9 @@ public class DirectorController {
     @Autowired
     ParentService parentService;
 
+    @Autowired
+    DirectorService directorService;
+
 
     @GetMapping("/home/director/rejestracja_uzytkownikow")
     public String requestsRegisterUsers(Principal prin, Model model) {
@@ -70,20 +72,43 @@ public class DirectorController {
 
 
         model.addAttribute("listSubjects",sortSubjectByName(subjectService.listAllSubject()));
-        model.addAttribute("teacher", new Teacher());
+        model.addAttribute("teacherDTO", new TeacherDTO());
         return "director/add-teacher";
     }
     //Dodanie nauczyciela
     @PostMapping("/home/director/dodaj_nauczyciela")
-    public String addTeachers(@RequestParam("subject") Set<Subject> subjectSet,@RequestParam  Map<String, String> requestParam, @ModelAttribute Teacher teacher, Model model) {
+    public String addTeachers(@Valid @ModelAttribute TeacherDTO teacherDTO,BindingResult bindingResult, @RequestParam("subject") Set<Subject> subjectSet,@RequestParam  Map<String, String> requestParam, Model model) {
 
+
+        if(bindingResult.hasErrors()){
+            System.out.println("1");
+
+        }
         subjectSet.forEach(topic -> System.out.println("Przedmiot: "+topic.getName()));
 
         String dateString = requestParam.get("dateBirth2");
         LocalDate localDate = LocalDate.parse(dateString);
+        teacherDTO.setLogin(teacherDTO.getPesel());
+        teacherDTO.setDateBirth(localDate);
+
+        Teacher teacher = new Teacher();
+
+        teacher.setLogin(teacherDTO.getPesel());
+        teacher.setEmail(teacherDTO.getEmail());
+        teacher.setFirstName(teacherDTO.getFirstName());
+        teacher.setLastName(teacherDTO.getLastName());
+        teacher.setDateBirth(localDate);
+        teacher.setPesel(teacherDTO.getPesel());
+      //  teacher.setSubjects();
         teacherService.saveTeacher(teacher);
 
-        subjectService.saveSubjects(subjectSet);
+        User user = new User();
+        Role role1 = roleService.findRoleByName("TEACHER");
+        user.setRoles(Collections.singleton(role1));
+        user.setPassword(teacherDTO.getPassword());
+        user.setPersonRelatedWithSchool(teacher);
+        userService.save(user);
+
 
         model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
         model.addAttribute("teacher", new Teacher());
@@ -266,10 +291,11 @@ public class DirectorController {
         return "director/add-announcement";
     }
     @PostMapping("/home/director/dodaj_ogloszenie")
-    public String addAnnouncement(Announcement announcement, Model model) {
+    public String addAnnouncement(Announcement announcement, Model model,Principal principal) {
 
         LocalDate localDate = LocalDate.now();
-
+        Director director = directorService.findByLogin(principal.getName());
+        announcement.setDirectorsAnnouncement(director);
         announcement.setDateTime(localDate);
         announcementService.saveAnnouncement(announcement);
 
@@ -311,12 +337,13 @@ public class DirectorController {
 
     //PRZYCISK REJESTRACJI
     @PostMapping("/home/director/rejestracja_ucznia_i_rodzica")
-    public String signup(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult bindingResult, Model model){
+    public String signup(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult bindingResult,@RequestParam  Map<String, String> requestParam, Model model){
 
 
+        String password2 = requestParam.get("password2");
 
-        if(bindingResult.hasErrors()){
-
+        if(bindingResult.hasErrors() || password2.equals("")){
+            model.addAttribute("message", "Pole nie może być puste");
             return "director/add-student-and-parent";
         }else{
 
@@ -343,7 +370,7 @@ public class DirectorController {
             User user2 = new User();
             Role role2 = roleService.findRoleByName("PARENT");
             user2.setRoles(Collections.singleton(role2));
-            user2.setPassword(userDTO.getPassword());
+            user2.setPassword(password2);
             user2.setPersonRelatedWithSchool(parent);
             userService.save(user2);
 
@@ -358,8 +385,44 @@ public class DirectorController {
 
 
 
+    //KONTO KONTA
+    @GetMapping("/home/director/konta")
+    public String Account(Model model) {
 
+        model.addAttribute("userList", userService.listUsers());
+        return "director/edit-user-accounts";
+    }
+    @GetMapping("/home/director/konto/{id}")
+    public String AccountChangesView(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
 
+        System.out.println("USER: "+ user);
+    //    System.out.println("USER: "+ user.getPassword().hashCode());
+    //    System.out.println("USER: "+ user.getRoles().stream().iterator());
+        model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
+        return "director/edit-account";
+    }
+    @PostMapping("/home/director/konto/{id}")
+    public String AccountChanges(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
 
+        System.out.println("test123"+ user.getPersonRelatedWithSchool().getFirstName());
+        user.getPersonRelatedWithSchool().setFirstName(user.getPersonRelatedWithSchool().getFirstName());
+      //  userService.saveNewUser(user);
+        model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
+      return "redirect:/home/director/konta";
+
+    }
+
+    //USTAWIENIA
+    @GetMapping("/home/director/ustawienia")
+    public String SettingDirector(Model model, Principal principal) {
+
+        Director director = directorService.findByLogin(principal.getName());
+        User user = userService.findUserById(director.getId());
+
+           //       String tmp = user.getPassword();
+      // System.out.println("Haslo: "+ user);
+//        model.addAttribute("user", userService.findUserById(director.getId()));
+        return "director/settings";
+    }
 
 }

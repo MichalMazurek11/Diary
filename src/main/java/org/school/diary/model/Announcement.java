@@ -2,14 +2,15 @@ package org.school.diary.model;
 
 
 import lombok.*;
+import org.school.diary.model.common.Director;
+import org.school.diary.model.common.Parent;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -27,4 +28,9 @@ public class Announcement {
 
     private LocalDate dateTime;
 
+    @ManyToOne
+    @JoinColumn(name = "director_id", referencedColumnName = "id")
+    private Director directorsAnnouncement;
 }
+
+

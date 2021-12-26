@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DirectorRepository extends JpaRepository<Director,Long> {
+
+    Director findById(long id);
+
+    Director findByLogin(String login);
 }

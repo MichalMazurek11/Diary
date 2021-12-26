@@ -35,4 +35,14 @@ public class User {
     @JoinColumn(name = "personId", referencedColumnName = "id")
     private PersonRelatedWithSchool personRelatedWithSchool;
 
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                ", personRelatedWithSchool=" + personRelatedWithSchool +
+                '}';
+    }
 }
