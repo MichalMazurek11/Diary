@@ -13,6 +13,8 @@
             <div class="card-block" style="padding: 24px;">
                 <form th:action="@{/home/director/dodaj_ogloszenie}" method="post">
                     <fieldset>
+                        <center><h6>Dodaj ogłoszenie</h6></center>
+                        <br>
                         <div class="form-group">
                             <label for="text">Treść: </label>
                             <textarea type="text" class="form-control" id="text" name="text" placeholder="Podaj treść ogłoszenia" rows="3"></textarea>
@@ -31,6 +33,7 @@
     <tr>
         <th  scope="col">Treść ogłoszenia: </th>
         <th scope="col">Data dodania: </th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>

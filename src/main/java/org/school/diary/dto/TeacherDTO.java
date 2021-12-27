@@ -7,9 +7,10 @@ import org.school.diary.model.Exam;
 import org.school.diary.model.Mark;
 import org.school.diary.model.Subject;
 
+import javax.persistence.Column;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class TeacherDTO {
 
 
     private Long id;
-
+    @NotBlank(message = "Pole nie może byc puste")
     private String firstName;
 
     @Size(min=1, max=20, message = "Haslo musi mieć minimum 1 znak")
@@ -33,19 +34,21 @@ public class TeacherDTO {
 
     private String email;
 
+    @NotBlank(message = "Pole nie może byc puste")
     private String lastName;
+
 
     private LocalDate dateBirth;
 
+    @Pattern(regexp = "^[0-9]{11}$", message = "Podaj PESEL")
     private String pesel;
 
-    @OneToMany(mappedBy = "teacher")
+
     private Set<Mark> marksTeacher = new HashSet<>();
 
-    @ManyToMany(mappedBy = "teachers")
     private Set<Subject> subjects;
 
-    @OneToMany(mappedBy = "teacher")
+
     private Set<Exam> examsTeacher = new HashSet<>();
 
 

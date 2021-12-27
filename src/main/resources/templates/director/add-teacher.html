@@ -24,11 +24,13 @@
 							</div>
 							<div class="form-group">
 								<label for="firstName">Imie:</label>
-								<input type="text" class="form-control" id="firstName" name="firstName" placeholder=""  >
+								<input type="text" class="form-control" id="firstName" name="firstName" placeholder="" th:field="*{firstName}" >
+								<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger" role="alert">Name Error</p>
 								</div>
 							<div class="form-group">
 								<label for="lastName">Nazwisko:</label>
-								<input type="text" class="form-control" id="lastName" name="lastName" placeholder="">
+								<input type="text" class="form-control" id="lastName" name="lastName" placeholder="" th:field="*{lastName}">
+								<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger" role="alert">Name Error</p>
 							</div>
 							<div class="form-group">
 								<label for="password">Hasło:</label>
@@ -40,26 +42,26 @@
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="dateBirth2">Data urodzin:</label> <input type="date" class="form-control" id="dateBirth2" name="dateBirth2"
-																					   placeholder="dateBirth" >
-
+																					   placeholder="Data urodzin" >
+<!--									<p th:if="${message}" class="alert alert-danger" role="alert" th:text="${message}" ></p>-->
 								</div>
 								<div class="form-group col-md-6">
 									<label for="pesel">PESEL:</label>
-									<input type="text" class="form-control" id="pesel" name="pesel" placeholder="" >
-
+									<input type="text" class="form-control" id="pesel" name="pesel" placeholder="" th:field="*{pesel}">
+									<p th:if="${#fields.hasErrors('pesel')}" th:errors="*{pesel}" class="alert alert-danger" role="alert">Name Error</p>
 								</div>
 							</div>
 
 
 							<div class="form-group">
-								<label for="subject">Wybierz Przedmiot:</label>
-								<select class="form-control selectpicker" name="subject" id="subject" multiple="multiple">
+								<label for="subjects">Wybierz Przedmiot:</label>
+								<select class="form-control selectpicker" name="subjects" id="subjects" multiple="multiple" >
 
 									<option th:each="subject : ${listSubjects}"
 											th:value="${subject.id}"
 											th:text="${subject.name}">
 									</option>
-
+<!--									<p th:if="${message2}" class="alert alert-danger" role="alert" th:text="${message2}" ></p>-->
 								</select>
 							</div>
 							<div class="form-actions" style="margin-top: 12px;"><button  type="submit" style="float: right;" class="btn btn-primary">Dodaj</button></div>

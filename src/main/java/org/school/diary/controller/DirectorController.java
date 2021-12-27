@@ -77,16 +77,19 @@ public class DirectorController {
     }
     //Dodanie nauczyciela
     @PostMapping("/home/director/dodaj_nauczyciela")
-    public String addTeachers(@Valid @ModelAttribute TeacherDTO teacherDTO,BindingResult bindingResult, @RequestParam("subject") Set<Subject> subjectSet,@RequestParam  Map<String, String> requestParam, Model model) {
+    public String addTeachers(@Valid @ModelAttribute TeacherDTO teacherDTO,BindingResult bindingResult, @RequestParam(value = "subjects",required = false) Set<Subject> subjectSet,@RequestParam  Map<String, String> requestParam, Model model) {
 
+        String dateString = requestParam.get("dateBirth2");
 
         if(bindingResult.hasErrors()){
-            System.out.println("1");
+            model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
+//            model.addAttribute("message", "Pole nie może być puste");
 
+            return "director/add-teacher";
         }
         subjectSet.forEach(topic -> System.out.println("Przedmiot: "+topic.getName()));
 
-        String dateString = requestParam.get("dateBirth2");
+
         LocalDate localDate = LocalDate.parse(dateString);
         teacherDTO.setLogin(teacherDTO.getPesel());
         teacherDTO.setDateBirth(localDate);
@@ -111,7 +114,7 @@ public class DirectorController {
 
 
         model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
-        model.addAttribute("teacher", new Teacher());
+        model.addAttribute("teacherDTO", new TeacherDTO());
         return "director/add-teacher";
     }
     //USUNIECIE NAUCZYCIELA
@@ -344,6 +347,7 @@ public class DirectorController {
 
         if(bindingResult.hasErrors() || password2.equals("")){
             model.addAttribute("message", "Pole nie może być puste");
+
             return "director/add-student-and-parent";
         }else{
 
