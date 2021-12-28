@@ -18,4 +18,7 @@ public interface LessonHourRepository extends JpaRepository<LessonHour, Long> {
     List<LessonHour> findLessonHourByClassGroupAndWeekday(ClassGroup classGroup, Weekday weekday);
 
     List<LessonHour> findAllByTeacher(Teacher teacher);
+
+    @Override
+    void deleteAll();
 }

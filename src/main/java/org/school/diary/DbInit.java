@@ -114,7 +114,7 @@ public class DbInit implements CommandLineRunner {
         final Random random = new Random();
         List<LessonInterval> lessonIntervals = new ArrayList<>();
         LocalTime tempTime = LocalTime.of(8, 00);
-        for (int i = 1; i < 11; i++) {
+        for (int i = 1; i < 10; i++) {
             lessonIntervals.add(new LessonInterval(i, tempTime, tempTime.plusMinutes(lessonTime)));
             tempTime = tempTime.plusMinutes(lessonTime);
             tempTime = tempTime.plusMinutes(breaks[random.nextInt(breaks.length)]);

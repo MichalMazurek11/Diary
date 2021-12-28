@@ -18,4 +18,6 @@ public interface LessonHourService {
     List<LessonHour> findLessonHourByClassGroupAndWeekday(ClassGroup classGroup, Weekday weekday);
 
     List<LessonHour> findAllByTeacher(Teacher teacher);
+
+    void deleteAll();
 }

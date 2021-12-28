@@ -54,4 +54,9 @@ public class LessonHourServiceImpl implements LessonHourService {
     public List<LessonHour> findAllByTeacher(Teacher teacher) {
         return lessonHourRepository.findAllByTeacher(teacher);
     }
+
+    @Override
+    public void deleteAll() {
+        lessonHourRepository.deleteAll();
+    }
 }

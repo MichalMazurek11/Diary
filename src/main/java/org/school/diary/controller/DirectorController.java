@@ -4,10 +4,7 @@ package org.school.diary.controller;
 import org.school.diary.dto.ClassGroupDTO;
 import org.school.diary.dto.TeacherDTO;
 import org.school.diary.dto.UserDTO;
-import org.school.diary.model.Announcement;
-import org.school.diary.model.ClassGroup;
-import org.school.diary.model.Role;
-import org.school.diary.model.Subject;
+import org.school.diary.model.*;
 import org.school.diary.model.common.*;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +19,8 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
+
+import static org.school.diary.model.ClassRoomDuty.PE;
 
 @Controller
 @RequestMapping
@@ -54,6 +53,18 @@ public class DirectorController {
 
     @Autowired
     DirectorService directorService;
+
+    @Autowired
+    ClassRoomService classRoomService;
+
+    @Autowired
+    WeekdayService weekdayService;
+
+    @Autowired
+    LessonHourService lessonHourService;
+
+    @Autowired
+    LessonIntervalService lessonIntervalService;
 
 
     @GetMapping("/home/director/rejestracja_uzytkownikow")
@@ -428,5 +439,92 @@ public class DirectorController {
 //        model.addAttribute("user", userService.findUserById(director.getId()));
         return "director/settings";
     }
+
+    //plan lekcji
+
+    //GENEROWANIE PLANU LEKCJi
+    @GetMapping("/home/director/generuj_plan_lekcji")
+    public String lessonPlan(Model model) {
+
+
+        model.addAttribute("classGroup", new ClassGroup());
+        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
+        return "director/create-lessonPlan";
+    }
+
+    @PostMapping("/home/director/generuj_plan_lekcji")
+    public String createlessonPlanforClass(Model model) {
+
+        lessonHourService.deleteAll();
+        createLessonPlan();
+
+        model.addAttribute("classGroup", new ClassGroup());
+        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
+        return "director/create-lessonPlan";
+    }
+
+
+    private void createLessonPlan() {
+        final int qtyOfLessonsInTheSameTime = 6 ;
+        List<LessonHour> lessonHours = new ArrayList<>();
+        List<Subject> subjects = subjectService.listAllSubject();
+        List<ClassGroup> classGroups = classGroupService.listClassGroups();
+        List<LessonInterval> allIntervals = lessonIntervalService.findAllIntervals();
+        List<Weekday> weekdays = weekdayService.findAll();
+        List<ClassRoom> classRooms = classRoomService.getAll();
+        Random random = new Random();
+        List<ClassRoom> peClasses = new ArrayList<>();
+
+        for (int i = 0; i < weekdays.size(); i++) {
+            final Weekday weekday = weekdays.get(i);
+            for (int j = 0; j < allIntervals.size(); j++) {
+                Set<ClassRoom> classRoomsAtTheSameTime = new HashSet<>();
+                int peClassesIdx = 0;
+                for (int k = 0; k < qtyOfLessonsInTheSameTime; k++) {
+                    int idxOfClassRoom = random.nextInt(classRooms.size());
+                    ClassRoom chosenClassRoom = classRooms.get(idxOfClassRoom);
+                    if (chosenClassRoom.getClassRoomDuty() == PE){
+                        if (peClasses.size()==2){
+                            chosenClassRoom = peClasses.get(peClassesIdx++);
+                        }
+                        peClasses.add(chosenClassRoom);
+                    }
+                    if (classRoomsAtTheSameTime.contains(chosenClassRoom)){
+                        k--;
+                        continue;
+                    }
+                    classRoomsAtTheSameTime.add(chosenClassRoom);
+
+                    int factorOfBreak = random.nextInt(qtyOfLessonsInTheSameTime) + 1;
+                    if (factorOfBreak == qtyOfLessonsInTheSameTime) {
+                        continue;
+                    }
+                    Subject subject = subjects.get(random.nextInt(subjects.size() - 1));
+                    if (!subject.getName().equals("wychowanie fizyczne")&&chosenClassRoom.getClassRoomDuty() == PE){
+                        k--;
+                    }
+                    List<Teacher> teachers = subject.getTeachers();
+                    Teacher teacher = teachers.get(random.nextInt(teachers.size()));
+                    LessonInterval lessonInterval = allIntervals.get(j);
+
+                    ClassGroup classGroup = classGroups.get(random.nextInt(classGroups.size()));
+                    boolean isTeacherAndStudentsGroupAreDuplicatedForAnyLessonHour = lessonHours.stream().anyMatch(lessonHour ->
+                            lessonHour.getLessonInterval().equals(lessonInterval) && lessonHour.getWeekday().equals(weekday) &&
+                                    (lessonHour.getTeacher().equals(teacher) || lessonHour.getClassGroup().equals(classGroup))
+                    );
+                    if (isTeacherAndStudentsGroupAreDuplicatedForAnyLessonHour) {
+                        k--;
+                        continue;
+                    }
+                    lessonHours.add(new LessonHour(subject, lessonInterval, classGroup, teacher, weekdays.get(i),chosenClassRoom));
+                }
+            }
+        }
+        lessonHourService.saveLessonHours(lessonHours);
+    }
+
+
+
+
 
 }
