@@ -1,9 +1,9 @@
 package org.school.diary.controller;
 
 import org.school.diary.dto.ClassGroupDTO;
-import org.school.diary.model.Announcement;
-import org.school.diary.model.ClassGroup;
-import org.school.diary.model.NoteToJournal;
+import org.school.diary.dto.TeacherDTO;
+import org.school.diary.dto.UserDTO;
+import org.school.diary.model.*;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 import org.school.diary.service.*;
@@ -35,6 +35,9 @@ public class TeacherController {
 
     @Autowired
     NoteToJournalService noteToJournalService;
+
+    @Autowired
+    LessonHourService lessonHourService;
 
     //pierwszy krok tutaj nauczyciel wybiera klase
     @GetMapping("/home/teacher/dodaj_uwage")
@@ -110,5 +113,51 @@ public class TeacherController {
 
         return "redirect:/home/teacher/wyswietl";
     }
+
+    //USTAWIENIA
+    @GetMapping("/home/teacher/ustawienia")
+    public String getSettings(Model model) {
+
+
+        model.addAttribute("teacherDTO", new TeacherDTO());
+        return "teacher/settings";
+    }
+    //SPRAWDZIAN
+    @GetMapping("/home/teacher/sprawdzian")
+    public String getExams(Model model,Principal principal) {
+
+        Teacher teacher =teacherService.findByLogin(principal.getName());
+        System.out.println("Teacher: "+ teacher);
+
+        List<LessonHour> lessonHourList = lessonHourService.findAllByTeacher(teacher);
+
+        System.out.println("Lekcje: "+ lessonHourList );
+
+        model.addAttribute("lessonHourList", lessonHourService.findAllByTeacher(teacher));
+        model.addAttribute("lessonHour", new LessonHour());
+        model.addAttribute("exam", new Exam());
+        return "teacher/add-exams";
+    }
+
+    @RequestMapping( value = "/home/teacher/sprawdzian/{classGroupId}", method = RequestMethod.GET)
+    public String getExamsAndClassGroup(Model model,Principal principal,@RequestParam(value = "classGroupId",required = false)String classGroupId) {
+
+        System.out.println("klasaID: "+ classGroupId);
+
+        Teacher teacher =teacherService.findByLogin(principal.getName());
+        System.out.println("Teacher: "+ teacher);
+
+        List<LessonHour> lessonHourList = lessonHourService.findAllByTeacher(teacher);
+
+        System.out.println("Lekcje: "+ lessonHourList );
+
+        model.addAttribute("lessonHourList", lessonHourService.findAllByTeacher(teacher));
+        model.addAttribute("lessonHour", new LessonHour());
+        model.addAttribute("exam", new Exam());
+        return "teacher/add-exams";
+    }
+
+
+
 
 }

@@ -135,7 +135,7 @@ public class StudentController {
 
 
         model.addAttribute("userDTO", new UserDTO());
-        return "student/get-settings";
+        return "student/settings";
     }
     //USTAWIENIA
     @PostMapping("/home/student/ustawienia")
@@ -147,7 +147,7 @@ public class StudentController {
 
         if(bindingResult.hasErrors()){
 
-            return "student/get-settings";
+            return "student/settings";
         }else{
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
@@ -155,7 +155,7 @@ public class StudentController {
 
 
         model.addAttribute("userDTO", new UserDTO());
-        return "student/get-settings";
+        return "student/settings";
     }
 
 

@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.school.diary.dto.UserDTO;
 import org.school.diary.model.*;
-import org.school.diary.model.common.Director;
-import org.school.diary.model.common.Student;
-import org.school.diary.model.common.Teacher;
-import org.school.diary.model.common.User;
+import org.school.diary.model.common.*;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -37,19 +34,20 @@ public class DbInit implements CommandLineRunner {
     private final UserService userService;
     private final ClassRoomService classRoomService;
     private final StudentService studentService;
+    private final ParentService parentService;
 
     @Override
     public void run(String... args) throws Exception {
-        createRoles();
-        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
-        createClassRooms();
-        createTeachers();
-        createSubjects();
-        createLessonIntervals();
-        createWeekdays();
-        createLessonPlan();
-        createDirector();
-        createStudentAndTeacher();
+//        createRoles();
+//        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
+//        createClassRooms();
+//        createTeachers();
+//        createSubjects();
+//        createLessonIntervals();
+//        createWeekdays();
+//        createLessonPlan();
+//        createDirector();
+//        createStudentAndTeacherAndParent();
 
     }
 
@@ -151,7 +149,7 @@ public class DbInit implements CommandLineRunner {
 
     }
 
-    private void createStudentAndTeacher() {
+    private void createStudentAndTeacherAndParent() {
         Student student = new Student();
         student.setFirstName("Michał");
         student.setLastName("Mazurek");
@@ -171,6 +169,17 @@ public class DbInit implements CommandLineRunner {
         user3.setPersonRelatedWithSchool(student);
         userService.save(user3);
 
+        Parent parent = new Parent();
+        parent.setLogin(student.getPesel()+"r");
+        parentService.saveParent(parent);
+
+        User user4 = new User();
+        Role role = roleService.findRoleByName("PARENT");
+        user4.setRoles(Collections.singleton(role));
+        user4.setPassword("123");
+        user4.setPersonRelatedWithSchool(parent);
+        userService.save(user4);
+
 
         Teacher teacher = new Teacher();
         teacher.setDateBirth(LocalDate.parse("1988-02-02"));
@@ -184,8 +193,8 @@ public class DbInit implements CommandLineRunner {
         User user2 = new User();
         user2.setPersonRelatedWithSchool(teacher);
         user2.setPassword("123");
-        Role role = roleService.findRoleByName("TEACHER");
-        user2.setRoles(Collections.singleton(role));
+        Role role3 = roleService.findRoleByName("TEACHER");
+        user2.setRoles(Collections.singleton(role3));
         userService.save(user2);
 
     }

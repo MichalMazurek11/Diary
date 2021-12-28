@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     Teacher findByEmail(String email);
+
+    Teacher findByLogin(String login);
 }

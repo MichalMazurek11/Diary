@@ -77,4 +77,9 @@ public class TeacherServiceImpl implements TeacherService{
         teacherRepository.deleteById(teacherId);
     }
 
+    @Override
+    public Teacher findByLogin(String login) {
+        return teacherRepository.findByLogin(login);
+    }
+
 }

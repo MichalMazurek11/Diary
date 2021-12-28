@@ -31,6 +31,9 @@
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/dodaj_ogloszenie}">Ogłoszenia</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/generuj_plan_lekcji}">Plan lekcji</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/ustawienia}">Ustawienia</a>
+			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/ustawienia}">Ustawienia</a>
+			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/sprawdzian}">Sprawdzian</a>
+			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/parent/ustawienia}">Ustawienia</a>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/konta}">Konta</a></li>
 			<li sec:authorize="hasAnyRole('ROLE_STUDENT','ROLE_TEACHER','ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/ogloszenia}">Ogłoszenia</a></li>
 
@@ -107,7 +110,7 @@
 			</h4>
 		</div>
 
-			<h6 sec:authorize="hasAnyRole('ROLE_TEACHER')"></h6>
+<!--			<h6 sec:authorize="hasAnyRole('ROLE_TEACHER')"></h6>-->
 			<form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">
 			<button sec:authorize="isAuthenticated()" class="btn btn-danger" type="submit">Wyloguj</button>
 			<button sec:authorize="isAnonymous()" th:href="@{~/login}" class="btn btn-primary" type="submit">Zaloguj</button>

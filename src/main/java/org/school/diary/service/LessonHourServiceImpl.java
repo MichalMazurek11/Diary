@@ -6,6 +6,7 @@ import org.school.diary.model.ClassGroup;
 import org.school.diary.model.LessonHour;
 import org.school.diary.model.LessonInterval;
 import org.school.diary.model.Weekday;
+import org.school.diary.model.common.Teacher;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -47,5 +48,10 @@ public class LessonHourServiceImpl implements LessonHourService {
     @Override
     public List<LessonHour> findLessonHourByClassGroupAndWeekday(ClassGroup classGroup, Weekday weekday) {
         return lessonHourRepository.findLessonHourByClassGroupAndWeekday(classGroup,weekday);
+    }
+
+    @Override
+    public List<LessonHour> findAllByTeacher(Teacher teacher) {
+        return lessonHourRepository.findAllByTeacher(teacher);
     }
 }
