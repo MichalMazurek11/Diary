@@ -8,6 +8,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
+@Setter
 @Entity
 public class LessonHour {
 

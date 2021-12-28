@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Getter
 @Setter
@@ -17,8 +18,6 @@ public class Weekday {
     private long id;
 
     private String dayName;
-
-
 
 
 }
