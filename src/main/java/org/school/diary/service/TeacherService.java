@@ -12,7 +12,8 @@ import java.util.Set;
 
 public interface TeacherService {
 
-    void saveTeacher(Teacher teacher);
+
+    void saveTeacher(LocalDate birthDate, TeacherDTO teacherDTO, Set<Subject> subjectSet);
 
     List<Teacher> listTeachers();
 
@@ -27,7 +28,5 @@ public interface TeacherService {
     void deleteTeacher(long teacherId);
 
     Teacher findByLogin(String login);
-
-    void saveTeacher(LocalDate birthDate, TeacherDTO teacherDTO, Set<Subject> subjectSet);
 }
 

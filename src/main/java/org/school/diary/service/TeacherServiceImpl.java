@@ -49,11 +49,6 @@ public class TeacherServiceImpl implements TeacherService{
 
 
     @Override
-    public void saveTeacher(Teacher teacher) {
-
-    }
-
-    @Override
     public List<Teacher> listTeachers() {
         return teacherRepository.findAll();
     }
@@ -100,6 +95,7 @@ public class TeacherServiceImpl implements TeacherService{
         teacher.setLastName(teacherDTO.getLastName());
         teacher.setDateBirth(birthDate);
         teacher.setPesel(teacherDTO.getPesel());
+        teacher.setSubjects(subjectSet);
         teacherRepository.save(teacher);
 
         Set<Subject> foundedSubjects = subjectService.listAllSubject().stream().filter(subjectSet::contains).collect(Collectors.toSet());
