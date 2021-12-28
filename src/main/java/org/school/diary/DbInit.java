@@ -38,16 +38,16 @@ public class DbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        createRoles();
-//        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
-//        createClassRooms();
-//        createTeachers();
-//        createSubjects();
-//        createLessonIntervals();
-//        createWeekdays();
-//        createLessonPlan();
-//        createDirector();
-//        createStudentAndTeacherAndParent();
+        createRoles();
+        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
+        createClassRooms();
+        createTeachers();
+        createSubjects();
+        createLessonIntervals();
+        createWeekdays();
+        createLessonPlan();
+        createDirector();
+        createStudentAndTeacherAndParent();
 
     }
 

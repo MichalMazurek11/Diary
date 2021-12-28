@@ -1,5 +1,6 @@
 package org.school.diary.service;
 
+import org.school.diary.dto.TeacherDTO;
 import org.school.diary.model.Subject;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
@@ -11,13 +12,9 @@ import java.util.Set;
 
 public interface TeacherService {
 
+    void saveTeacher(Teacher teacher);
 
-//    public void saveTeacher(Teacher teacher, LocalDate localDate, Set<Subject> subjectSet);
-
-    public void saveTeacher(Teacher teacher);
-//    public void addTeacher(Teacher teacher);
-
-    public List<Teacher> listTeachers();
+    List<Teacher> listTeachers();
 
     void save(PersonRelatedWithSchool Teacher);
 
@@ -27,8 +24,10 @@ public interface TeacherService {
 
     Teacher findByEmail(String email);
 
-    public void deleteTeacher(long teacherId);
+    void deleteTeacher(long teacherId);
 
     Teacher findByLogin(String login);
+
+    void saveTeacher(LocalDate birthDate, TeacherDTO teacherDTO, Set<Subject> subjectSet);
 }
 

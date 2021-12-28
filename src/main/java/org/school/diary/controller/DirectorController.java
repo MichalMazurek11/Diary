@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.school.diary.model.ClassRoomDuty.PE;
 
@@ -90,8 +91,8 @@ public class DirectorController {
     @PostMapping("/home/director/dodaj_nauczyciela")
     public String addTeachers(@Valid @ModelAttribute TeacherDTO teacherDTO,BindingResult bindingResult, @RequestParam(value = "subjects",required = false) Set<Subject> subjectSet,@RequestParam  Map<String, String> requestParam, Model model) {
 
-        String dateString = requestParam.get("dateBirth2");
 
+        LocalDate birthDate = LocalDate.parse(requestParam.get("dateBirth2"));
         if(bindingResult.hasErrors()){
             model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
 //            model.addAttribute("message", "Pole nie może być puste");
@@ -99,30 +100,7 @@ public class DirectorController {
             return "director/add-teacher";
         }
         subjectSet.forEach(topic -> System.out.println("Przedmiot: "+topic.getName()));
-
-
-        LocalDate localDate = LocalDate.parse(dateString);
-        teacherDTO.setLogin(teacherDTO.getPesel());
-        teacherDTO.setDateBirth(localDate);
-
-        Teacher teacher = new Teacher();
-
-        teacher.setLogin(teacherDTO.getPesel());
-        teacher.setEmail(teacherDTO.getEmail());
-        teacher.setFirstName(teacherDTO.getFirstName());
-        teacher.setLastName(teacherDTO.getLastName());
-        teacher.setDateBirth(localDate);
-        teacher.setPesel(teacherDTO.getPesel());
-      //  teacher.setSubjects();
-        teacherService.saveTeacher(teacher);
-
-        User user = new User();
-        Role role1 = roleService.findRoleByName("TEACHER");
-        user.setRoles(Collections.singleton(role1));
-        user.setPassword(teacherDTO.getPassword());
-        user.setPersonRelatedWithSchool(teacher);
-        userService.save(user);
-
+        teacherService.saveTeacher(birthDate,teacherDTO, subjectSet);
 
         model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
         model.addAttribute("teacherDTO", new TeacherDTO());
