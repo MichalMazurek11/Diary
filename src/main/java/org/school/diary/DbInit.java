@@ -291,7 +291,7 @@ public class DbInit implements CommandLineRunner {
         userService.save(userOla);
 
         Parent parentOla = new Parent();
-        parentOla.setLogin(adam.getPesel()+"r");
+        parentOla.setLogin(ola.getPesel()+"r");
         parentService.save(parentOla);
 
         User userParentOla = new User();
@@ -325,7 +325,7 @@ public class DbInit implements CommandLineRunner {
         userService.save(userKrzysztof);
 
         Parent parentKrzysztof = new Parent();
-        parentKrzysztof.setLogin(adam.getPesel()+"r");
+        parentKrzysztof.setLogin(krzysztof.getPesel()+"r");
         parentService.save(parentKrzysztof);
 
         User userParentKrzysztof = new User();
@@ -359,7 +359,7 @@ public class DbInit implements CommandLineRunner {
         userService.save(userMikołaj);
 
         Parent parentMikołaj = new Parent();
-        parentMikołaj.setLogin(adam.getPesel()+"r");
+        parentMikołaj.setLogin(mikołaj.getPesel()+"r");
         parentService.save(parentMikołaj);
 
         User userParentMikołaj = new User();
@@ -393,7 +393,7 @@ public class DbInit implements CommandLineRunner {
         userService.save(userAda);
 
         Parent parentAda = new Parent();
-        parentAda.setLogin(adam.getPesel()+"r");
+        parentAda.setLogin(ada.getPesel()+"r");
         parentService.save(parentAda);
 
         User userParentAda = new User();
@@ -428,7 +428,7 @@ public class DbInit implements CommandLineRunner {
         userService.save(userKacper);
 
         Parent parentKacper = new Parent();
-        parentKacper.setLogin(adam.getPesel()+"r");
+        parentKacper.setLogin(kacper.getPesel()+"r");
         parentService.save(parentKacper);
 
         User userParentKacper = new User();
