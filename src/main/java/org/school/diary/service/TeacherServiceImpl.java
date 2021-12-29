@@ -1,6 +1,8 @@
 package org.school.diary.service;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.TypeMismatchException;
+import org.school.diary.config.UserPrincipal;
 import org.school.diary.dao.SubjectRepository;
 import org.school.diary.dao.TeacherRepository;
 import org.school.diary.dao.UserRepository;
@@ -11,6 +13,8 @@ import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Teacher;
 import org.school.diary.model.common.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,11 +31,9 @@ public class TeacherServiceImpl implements TeacherService{
 
 
     private final TeacherRepository teacherRepository;
-
+    private final PasswordEncoder passwordEncoder;
     private final  SubjectService subjectService;
-
     private final RoleService roleService;
-
     private final UserRepository userRepository;
 
 //    @Override
@@ -84,6 +86,15 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
+    public Teacher findTeacher() {
+        PersonRelatedWithSchool probablyTeacher = ((UserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getPersonRelatedWithSchool();
+        if (probablyTeacher instanceof Teacher){
+            return (Teacher) probablyTeacher;
+        }
+        throw new TypeMismatchException("Zalogowana osoba nie jest nauczycielem");
+    }
+
+    @Override
     public void saveTeacher(LocalDate birthDate, TeacherDTO teacherDTO, Set<Subject> subjectSet) {
         teacherDTO.setLogin(teacherDTO.getPesel());
         teacherDTO.setDateBirth(birthDate);
@@ -98,13 +109,13 @@ public class TeacherServiceImpl implements TeacherService{
         teacher.setSubjects(subjectSet);
         teacherRepository.save(teacher);
 
-        Set<Subject> foundedSubjects = subjectService.listAllSubject().stream().filter(subjectSet::contains).collect(Collectors.toSet());
+        Set<Subject> foundedSubjects = subjectService.listAllSubject().stream().filter(o -> subjectSet.stream().anyMatch(subject -> subject.getName().equals(o.getName()))).collect(Collectors.toSet());
         foundedSubjects.forEach(subject -> subject.getTeachers().add(teacher));
-
+        subjectService.saveSubjects(foundedSubjects);
         User user = new User();
         Role role1 = roleService.findRoleByName("TEACHER");
         user.setRoles(Collections.singleton(role1));
-        user.setPassword(teacherDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(teacherDTO.getPassword()));
         user.setPersonRelatedWithSchool(teacher);
         userRepository.save(user);
     }

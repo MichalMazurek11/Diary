@@ -1,7 +1,9 @@
 package org.school.diary.service;
 
+import lombok.AllArgsConstructor;
 import org.school.diary.dao.StudentRepository;
 import org.school.diary.model.ClassGroup;
+import org.school.diary.model.LessonHour;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.User;
@@ -9,14 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    @Autowired
-    StudentRepository studentRepository;
 
+    private final StudentRepository studentRepository;
+    private final LessonHourService lessonHourService;
 
     @Override
     public void save(PersonRelatedWithSchool student) {
@@ -31,6 +36,12 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> findByStudentsClassGroup(ClassGroup classGroup) {
         return studentRepository.findByStudentsClassGroup(classGroup);
+    }
+
+    @Override
+    public Set<Student> generateListOfStudentsBasedOnLesson(Integer lessonId) {
+        LessonHour lessonHour = lessonHourService.getLessonHourById(lessonId);
+        return lessonHour.getClassGroup().getStudents();
     }
 
     @Override

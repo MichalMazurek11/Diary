@@ -2,7 +2,6 @@ package org.school.diary.controller;
 
 import org.school.diary.dto.ClassGroupDTO;
 import org.school.diary.dto.TeacherDTO;
-import org.school.diary.dto.UserDTO;
 import org.school.diary.model.*;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
@@ -12,13 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.*;
 
 @Controller
+@RequestMapping("/home/teacher/")
 public class TeacherController {
 
     @Autowired
@@ -40,7 +39,7 @@ public class TeacherController {
     LessonHourService lessonHourService;
 
     //pierwszy krok tutaj nauczyciel wybiera klase
-    @GetMapping("/home/teacher/dodaj_uwage")
+    @GetMapping("dodaj_uwage")
     public String getNoteToJournalStudent(Model model) {
 
 
@@ -50,7 +49,7 @@ public class TeacherController {
         return "teacher/add-noteToJournal";
     }
     // drugi krok w ktorym nauczyciel po wybraniu klasy, wybiera ucznia, uwage/pochwale i dodaje tresc do niej
-    @RequestMapping( value = "/home/teacher/dodaj_uwage/classGroup/{id}", method = RequestMethod.GET)
+    @RequestMapping( value = "dodaj_uwage/classGroup/{id}", method = RequestMethod.GET)
     public String getNoteToJournalStudent2(@Valid ClassGroupDTO classGroupDTO, BindingResult bindingResult,@RequestParam(value = "id",required = false)String id, Model model) {
         System.out.println("ClassGroupID: "+ id);
         List<String> typeNoteToJournal = new ArrayList<>();
@@ -74,7 +73,7 @@ public class TeacherController {
     }
 
     //KIEDY CHCE DODAC UWAGE/POCHWALE DO BAZY DANYCH POSTMAPPING
-    @PostMapping( value = "/home/teacher/dodaj_uwage/classGroup")
+    @PostMapping( value = "dodaj_uwage/classGroup")
     public String getNoteToJournalStudent2(@RequestParam Map<String, String> requestParams, NoteToJournal noteToJournal, Model model,Principal principal) {
 
         Teacher teacher = teacherService.findByEmail(principal.getName());
@@ -92,7 +91,7 @@ public class TeacherController {
         model.addAttribute("noteToJournal", new NoteToJournal());
             return "/home/home_page";
         }
-    @GetMapping("/home/teacher/wyswietl")
+    @GetMapping("wyswietl")
     public String getAll(Model model, Principal principal) {
 
 
@@ -105,7 +104,7 @@ public class TeacherController {
 
 
 
-    @GetMapping("home/teacher/wyswietl/usun/{id}")
+    @GetMapping("wyswietl/usun/{id}")
     public String deleteNoteToJournal(@PathVariable("id")String id) {
 
 
@@ -115,15 +114,24 @@ public class TeacherController {
     }
 
     //USTAWIENIA
-    @GetMapping("/home/teacher/ustawienia")
+    @GetMapping("ustawienia")
     public String getSettings(Model model) {
 
 
         model.addAttribute("teacherDTO", new TeacherDTO());
         return "teacher/settings";
     }
+
+    @GetMapping("plan_lekcji")
+    public String getSchedule(Model model) {
+
+        model.addAttribute("teacherLessons", lessonHourService.getLessonPlanForTeacher());
+
+        return "teacher/teacher_schedule";
+    }
+
     //SPRAWDZIAN
-    @GetMapping("/home/teacher/sprawdzian")
+    @GetMapping("sprawdzian")
     public String getExams(Model model,Principal principal) {
 
         Teacher teacher =teacherService.findByLogin(principal.getName());
@@ -138,8 +146,14 @@ public class TeacherController {
         model.addAttribute("exam", new Exam());
         return "teacher/add-exams";
     }
+    @GetMapping("presence/{id}")
+    public String getPresenceOnLesson(Model model,@PathVariable Integer id) {
+        Set<Student> students = studentService.generateListOfStudentsBasedOnLesson(id);
+        model.addAttribute("exam", new Exam());
+        return "teacher/add-exams";
+    }
 
-    @RequestMapping( value = "/home/teacher/sprawdzian/{classGroupId}", method = RequestMethod.GET)
+    @RequestMapping( value = "sprawdzian/{classGroupId}", method = RequestMethod.GET)
     public String getExamsAndClassGroup(Model model,Principal principal,@RequestParam(value = "classGroupId",required = false)String classGroupId) {
 
         System.out.println("klasaID: "+ classGroupId);

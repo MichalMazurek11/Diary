@@ -2,6 +2,7 @@ package org.school.diary;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
+import org.school.diary.dto.TeacherDTO;
 import org.school.diary.dto.UserDTO;
 import org.school.diary.model.*;
 import org.school.diary.model.common.*;
@@ -43,11 +44,11 @@ public class DbInit implements CommandLineRunner {
         createClassRooms();
         createTeachers();
         createSubjects();
+        createStudentAndTeacherAndParent();
         createLessonIntervals();
         createWeekdays();
         createLessonPlan();
         createDirector();
-        createStudentAndTeacherAndParent();
 
     }
 
@@ -150,6 +151,8 @@ public class DbInit implements CommandLineRunner {
     }
 
     private void createStudentAndTeacherAndParent() {
+
+
         Student student = new Student();
         student.setFirstName("Michał");
         student.setLastName("Mazurek");
@@ -181,21 +184,15 @@ public class DbInit implements CommandLineRunner {
         userService.save(user4);
 
 
-        Teacher teacher = new Teacher();
-        teacher.setDateBirth(LocalDate.parse("1988-02-02"));
-        teacher.setFirstName("Maciej");
-        teacher.setLastName("Stańczak");
-        teacher.setEmail("1234@o2.pl");
-        teacher.setPesel("1234");
-        teacher.setLogin("1234");
-        teacherService.save(teacher);
-
-        User user2 = new User();
-        user2.setPersonRelatedWithSchool(teacher);
-        user2.setPassword("123");
-        Role role3 = roleService.findRoleByName("TEACHER");
-        user2.setRoles(Collections.singleton(role3));
-        userService.save(user2);
+        Set<Subject> subjects = subjectService.listAllSubject().stream().limit(1).collect(Collectors.toSet());
+        TeacherDTO teacherDTO = TeacherDTO.builder()
+                .firstName("Maciej")
+                .lastName("Stańczak")
+                .email("1234@o2.pl")
+                .pesel("1234")
+                .password("123")
+                .login("1234").build();
+        teacherService.saveTeacher(LocalDate.parse("1988-02-02"),teacherDTO,subjects);
 
     }
 

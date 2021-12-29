@@ -13,11 +13,14 @@ public interface LessonHourService {
 
     void saveLessonHours(List<LessonHour> lessonHours);
 
-    Map<LessonInterval, List<LessonHour>> findAllByClassGroup(ClassGroup classGroup); ;
+    Map<LessonInterval, List<LessonHour>> getLessonPlanForStudents(ClassGroup classGroup);
+    Map<LessonInterval, List<LessonHour>> getLessonPlanForTeacher();
 
     List<LessonHour> findLessonHourByClassGroupAndWeekday(ClassGroup classGroup, Weekday weekday);
 
     List<LessonHour> findAllByTeacher(Teacher teacher);
 
     void deleteAll();
+
+    LessonHour getLessonHourById(Integer lessonId);
 }

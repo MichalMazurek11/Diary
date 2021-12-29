@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface LessonHourRepository extends JpaRepository<LessonHour, Long> {
+public interface LessonHourRepository extends JpaRepository<LessonHour, Integer> {
 
     List<LessonHour> findAllByClassGroup(ClassGroup classGroup);
     List<LessonHour> findLessonHourByClassGroupAndWeekday(ClassGroup classGroup, Weekday weekday);

@@ -31,9 +31,11 @@ public class UserPrincipal implements UserDetails {
     @Override
     public String getUsername() {
         return user.getPersonRelatedWithSchool().getLogin();
-
     }
 
+    public User getUser() {
+        return user;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

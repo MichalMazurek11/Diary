@@ -7,6 +7,7 @@ import org.school.diary.model.common.User;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface StudentService {
@@ -15,13 +16,10 @@ public interface StudentService {
 
     Student findByUser(User user);
 
-//    Student findStudentById(UUID uuid);
-
     public List<Student> listStudents();
 
     Student findByEmail(String email);
 
-//    Student findOneByUuid(UUID studentUuid);
 
     Student findById(long id);
 
@@ -30,4 +28,6 @@ public interface StudentService {
     List<Student> findStudentsByStudentsClassGroup(ClassGroup classGroup);
 
     List<Student> findByStudentsClassGroup(ClassGroup classGroup);
+
+    Set<Student> generateListOfStudentsBasedOnLesson(Integer lessonId);
 }

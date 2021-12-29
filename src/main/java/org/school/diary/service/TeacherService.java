@@ -28,5 +28,7 @@ public interface TeacherService {
     void deleteTeacher(long teacherId);
 
     Teacher findByLogin(String login);
+
+    Teacher findTeacher();
 }
 
