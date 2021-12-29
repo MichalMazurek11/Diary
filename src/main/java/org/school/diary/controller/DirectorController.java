@@ -394,6 +394,10 @@ public class DirectorController {
         model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
         return "director/edit-account";
     }
+
+
+
+
     @PostMapping("/home/director/konto/{id}")
     public String AccountChanges(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
 
@@ -402,6 +406,28 @@ public class DirectorController {
       //  userService.saveNewUser(user);
         model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
       return "redirect:/home/director/konta";
+
+    }
+    //konto Haslo
+    @GetMapping("/home/director/konto/haslo/{id}")
+    public String AccountPasswordChangesView(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
+
+        System.out.println("User haslo: "+ user.getPassword());
+        //    System.out.println("USER: "+ user.getPassword().hashCode());
+        //    System.out.println("USER: "+ user.getRoles().stream().iterator());
+        model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
+        return "director/edit-account-password";
+    }
+
+    @PostMapping("/home/director/konto/haslo/{id}")
+    public String AccountPasswordChanges(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
+
+        System.out.println("User: "+ user.getPassword());
+//        user.setPassword("1234");
+//        userService.save(user);
+        //  userService.saveNewUser(user);
+        model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
+        return "redirect:/home/director/konta";
 
     }
 
