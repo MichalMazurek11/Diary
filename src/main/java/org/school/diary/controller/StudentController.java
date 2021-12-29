@@ -75,20 +75,21 @@ public class StudentController {
 
     //WYSWIETLENIE PANELU OCEN STUDENTA
     @GetMapping("/home/student/plan_lekcji")
-    public String getSchedule(Model model) {
+    public String getSchedule(Model model, Principal principal) {
 
-        ClassGroup classGroup = classGroupService.findById(1);
+        Student student = studentService.findByLogin(principal.getName());
+        ClassGroup classGroup = classGroupService.findById(student.getStudentsClassGroup().getId());
 
 
-        Weekday wtorek = new Weekday();
-        wtorek = weekdayService.findWeekdayByDayName("wtorek");
-
-        Weekday PIĄTEK = new Weekday();
-        PIĄTEK = weekdayService.findWeekdayByDayName("PIĄTEK");
+//        Weekday wtorek = new Weekday();
+//        wtorek = weekdayService.findWeekdayByDayName("wtorek");
+//
+//        Weekday PIĄTEK = new Weekday();
+//        PIĄTEK = weekdayService.findWeekdayByDayName("PIĄTEK");
 
         model.addAttribute("lessonGroupMap", lessonHourService.getLessonPlanForStudents(classGroup));
-        model.addAttribute("lessonGroupListWTO", lessonHourService.findLessonHourByClassGroupAndWeekday(classGroup, wtorek));
-        model.addAttribute("lessonGroupListPIA", lessonHourService.findLessonHourByClassGroupAndWeekday(classGroup, PIĄTEK));
+//        model.addAttribute("lessonGroupListWTO", lessonHourService.findLessonHourByClassGroupAndWeekday(classGroup, wtorek));
+//        model.addAttribute("lessonGroupListPIA", lessonHourService.findLessonHourByClassGroupAndWeekday(classGroup, PIĄTEK));
 
 
         return "student/student_schedule";

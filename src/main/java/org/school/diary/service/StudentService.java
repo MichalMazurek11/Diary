@@ -30,4 +30,6 @@ public interface StudentService {
     List<Student> findByStudentsClassGroup(ClassGroup classGroup);
 
     Set<Student> generateListOfStudentsBasedOnLesson(Integer lessonId);
+
+    Student findByLogin(String login);
 }

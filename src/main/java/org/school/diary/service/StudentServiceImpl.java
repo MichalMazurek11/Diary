@@ -45,6 +45,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student findByLogin(String login) {
+        return studentRepository.findByLogin(login);
+    }
+
+    @Override
     public void saveStudent(Student student) {
         studentRepository.save(student);
     }

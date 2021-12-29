@@ -1,6 +1,7 @@
 package org.school.diary.service;
 
 import org.school.diary.dto.UserDTO;
+import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 import org.school.diary.model.common.User;
 
@@ -16,5 +17,6 @@ public interface UserService {
     void saveNewUser(UserDTO userDTO);
 
     User findUserById(long id);
+
 
 }

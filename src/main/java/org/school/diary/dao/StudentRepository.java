@@ -28,4 +28,6 @@ public interface StudentRepository extends JpaRepository<Student,UUID> {
 //    Student findStudentById(UUID uuid);
 
     Student findByEmail(String email);
+
+    Student findByLogin(String login);
 }
