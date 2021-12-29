@@ -39,16 +39,18 @@ public class DbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        createRoles();
-        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
-        createClassRooms();
-        createTeachers();
-        createSubjects();
-        createStudentAndTeacherAndParent();
-        createLessonIntervals();
-        createWeekdays();
-        createLessonPlan();
-        createDirector();
+//        createRoles();
+//        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
+//        createClassRooms();
+//        createTeachers();
+//        createSubjects();
+//        createStudentAndTeacherAndParent();
+//        createLessonIntervals();
+//        createWeekdays();
+//        createLessonPlan();
+//        createDirector();
+//        students();
+
 
     }
 
@@ -183,8 +185,11 @@ public class DbInit implements CommandLineRunner {
         user4.setPersonRelatedWithSchool(parent);
         userService.save(user4);
 
+        student.setParent(parent);
+        studentService.saveStudent(student);
 
-        Set<Subject> subjects = subjectService.listAllSubject().stream().limit(1).collect(Collectors.toSet());
+
+        Set<Subject> subjects = subjectService.listAllSubject().stream().limit(2).collect(Collectors.toSet());
         TeacherDTO teacherDTO = TeacherDTO.builder()
                 .firstName("Maciej")
                 .lastName("Stańczak")
@@ -195,6 +200,254 @@ public class DbInit implements CommandLineRunner {
         teacherService.saveTeacher(LocalDate.parse("1988-02-02"),teacherDTO,subjects);
 
     }
+
+    private void students() {
+        //student1
+        Student weronika = new Student();
+        weronika.setFirstName("Weronika");
+        weronika.setLastName("Witucka");
+        weronika.setEmail("weronika@o2.pl");
+        weronika.setPesel("92011091621");
+        weronika.setLogin("92011091621");
+        weronika.setDateBirth(LocalDate.parse("1998-05-05"));
+
+        ClassGroup classGroup1 = classGroupService.findById(1L);
+        weronika.setStudentsClassGroup(classGroup1);
+        studentService.saveStudent(weronika);
+
+        User userWeronika = new User();
+        Role role1 = roleService.findRoleByName("STUDENT");
+        userWeronika.setRoles(Collections.singleton(role1));
+        userWeronika.setPassword("123");
+        userWeronika.setPersonRelatedWithSchool(weronika);
+        userService.save(userWeronika);
+
+        Parent parentWeronika = new Parent();
+        parentWeronika.setLogin(weronika.getPesel()+"r");
+        parentService.save(parentWeronika);
+
+        User userParentWeronika = new User();
+        Role role2 = roleService.findRoleByName("PARENT");
+        userParentWeronika.setRoles(Collections.singleton(role2));
+        userParentWeronika.setPassword("123");
+        userParentWeronika.setPersonRelatedWithSchool(parentWeronika);
+        userService.save(userParentWeronika);
+
+        weronika.setParent(parentWeronika);
+        studentService.saveStudent(weronika);
+
+        //student2
+        Student adam = new Student();
+        adam.setFirstName("Adam");
+        adam.setLastName("Krawczyk");
+        adam.setEmail("Adam@o2.pl");
+        adam.setPesel("93101397276");
+        adam.setLogin("93101397276");
+        adam.setDateBirth(LocalDate.parse("1998-07-05"));
+
+        ClassGroup classGroup2 = classGroupService.findById(2L);
+        adam.setStudentsClassGroup(classGroup2);
+        studentService.saveStudent(adam);
+
+        User userAdam = new User();
+        Role role3 = roleService.findRoleByName("STUDENT");
+        userAdam.setRoles(Collections.singleton(role3));
+        userAdam.setPassword("123");
+        userAdam.setPersonRelatedWithSchool(adam);
+        userService.save(userAdam);
+
+        Parent parentAdam = new Parent();
+        parentAdam.setLogin(adam.getPesel()+"r");
+        parentService.save(parentAdam);
+
+        User userParentAdam = new User();
+        Role role4 = roleService.findRoleByName("PARENT");
+        userParentAdam.setRoles(Collections.singleton(role4));
+        userParentAdam.setPassword("123");
+        userParentAdam.setPersonRelatedWithSchool(parentAdam);
+        userService.save(userParentAdam);
+
+        adam.setParent(parentAdam);
+        studentService.saveStudent(adam);
+
+        //student3
+        Student ola = new Student();
+        ola.setFirstName("Ola");
+        ola.setLastName("Kucharska");
+        ola.setEmail("Ola@o2.pl");
+        ola.setPesel("98032241944");
+        ola.setLogin("98032241944");
+        ola.setDateBirth(LocalDate.parse("1998-05-06"));
+
+        ClassGroup classGroup3 = classGroupService.findById(3L);
+        ola.setStudentsClassGroup(classGroup3);
+        studentService.saveStudent(ola);
+
+        User userOla = new User();
+        Role role5 = roleService.findRoleByName("STUDENT");
+        userOla.setRoles(Collections.singleton(role5));
+        userOla.setPassword("123");
+        userOla.setPersonRelatedWithSchool(ola);
+        userService.save(userOla);
+
+        Parent parentOla = new Parent();
+        parentOla.setLogin(adam.getPesel()+"r");
+        parentService.save(parentOla);
+
+        User userParentOla = new User();
+        Role role6 = roleService.findRoleByName("PARENT");
+        userParentOla.setRoles(Collections.singleton(role6));
+        userParentOla.setPassword("123");
+        userParentOla.setPersonRelatedWithSchool(parentOla);
+        userService.save(userParentOla);
+
+        ola.setParent(parentOla);
+        studentService.saveStudent(ola);
+
+        //student4
+        Student krzysztof = new Student();
+        krzysztof.setFirstName("Krzysztof");
+        krzysztof.setLastName("Wiśniewski");
+        krzysztof.setEmail("Krzysztof@o2.pl");
+        krzysztof.setPesel("04280198554");
+        krzysztof.setLogin("04280198554");
+        krzysztof.setDateBirth(LocalDate.parse("1998-01-06"));
+
+        ClassGroup classGroup4 = classGroupService.findById(4L);
+        krzysztof.setStudentsClassGroup(classGroup4);
+        studentService.saveStudent(krzysztof);
+
+        User userKrzysztof = new User();
+        Role role7 = roleService.findRoleByName("STUDENT");
+        userKrzysztof.setRoles(Collections.singleton(role7));
+        userKrzysztof.setPassword("123");
+        userKrzysztof.setPersonRelatedWithSchool(krzysztof);
+        userService.save(userKrzysztof);
+
+        Parent parentKrzysztof = new Parent();
+        parentKrzysztof.setLogin(adam.getPesel()+"r");
+        parentService.save(parentKrzysztof);
+
+        User userParentKrzysztof = new User();
+        Role role8 = roleService.findRoleByName("PARENT");
+        userParentKrzysztof.setRoles(Collections.singleton(role8));
+        userParentKrzysztof.setPassword("123");
+        userParentKrzysztof.setPersonRelatedWithSchool(parentKrzysztof);
+        userService.save(userParentKrzysztof);
+
+        krzysztof.setParent(parentKrzysztof);
+        studentService.saveStudent(krzysztof);
+
+        //student5
+        Student mikołaj = new Student();
+        mikołaj.setFirstName("Mikołaj");
+        mikołaj.setLastName("Lysek");
+        mikołaj.setEmail("Mikołaj@o2.pl");
+        mikołaj.setPesel("90080263424");
+        mikołaj.setLogin("90080263424");
+        mikołaj.setDateBirth(LocalDate.parse("1998-01-02"));
+
+        ClassGroup classGroup5 = classGroupService.findById(5L);
+        mikołaj.setStudentsClassGroup(classGroup5);
+        studentService.saveStudent(mikołaj);
+
+        User userMikołaj = new User();
+        Role role9 = roleService.findRoleByName("STUDENT");
+        userMikołaj.setRoles(Collections.singleton(role9));
+        userMikołaj.setPassword("123");
+        userMikołaj.setPersonRelatedWithSchool(mikołaj);
+        userService.save(userMikołaj);
+
+        Parent parentMikołaj = new Parent();
+        parentMikołaj.setLogin(adam.getPesel()+"r");
+        parentService.save(parentMikołaj);
+
+        User userParentMikołaj = new User();
+        Role role10 = roleService.findRoleByName("PARENT");
+        userParentMikołaj.setRoles(Collections.singleton(role10));
+        userParentMikołaj.setPassword("123");
+        userParentMikołaj.setPersonRelatedWithSchool(parentMikołaj);
+        userService.save(userParentMikołaj);
+
+        mikołaj.setParent(parentMikołaj);
+        studentService.saveStudent(mikołaj);
+
+        //student6
+        Student ada = new Student();
+        ada.setFirstName("Ada");
+        ada.setLastName("Kucharczyk");
+        ada.setEmail("Ada@o2.pl");
+        ada.setPesel("99081436516");
+        ada.setLogin("99081436516");
+        ada.setDateBirth(LocalDate.parse("1998-01-02"));
+
+        ClassGroup classGroup6 = classGroupService.findById(6L);
+        ada.setStudentsClassGroup(classGroup6);
+        studentService.saveStudent(ada);
+
+        User userAda = new User();
+        Role role11 = roleService.findRoleByName("STUDENT");
+        userAda.setRoles(Collections.singleton(role11));
+        userAda.setPassword("123");
+        userAda.setPersonRelatedWithSchool(ada);
+        userService.save(userAda);
+
+        Parent parentAda = new Parent();
+        parentAda.setLogin(adam.getPesel()+"r");
+        parentService.save(parentAda);
+
+        User userParentAda = new User();
+        Role role12 = roleService.findRoleByName("PARENT");
+        userParentAda.setRoles(Collections.singleton(role12));
+        userParentAda.setPassword("123");
+        userParentAda.setPersonRelatedWithSchool(parentAda);
+        userService.save(userParentAda);
+
+        ada.setParent(parentAda);
+        studentService.saveStudent(ada);
+
+
+        //student7
+        Student kacper = new Student();
+        kacper.setFirstName("Kacper");
+        kacper.setLastName("Skalski");
+        kacper.setEmail("Kacper@o2.pl");
+        kacper.setPesel("91081326527");
+        kacper.setLogin("91081326527");
+        kacper.setDateBirth(LocalDate.parse("1998-01-12"));
+
+        ClassGroup classGroup7 = classGroupService.findById(7L);
+        kacper.setStudentsClassGroup(classGroup7);
+        studentService.saveStudent(kacper);
+
+        User userKacper = new User();
+        Role role13 = roleService.findRoleByName("STUDENT");
+        userKacper.setRoles(Collections.singleton(role13));
+        userKacper.setPassword("123");
+        userKacper.setPersonRelatedWithSchool(kacper);
+        userService.save(userKacper);
+
+        Parent parentKacper = new Parent();
+        parentKacper.setLogin(adam.getPesel()+"r");
+        parentService.save(parentKacper);
+
+        User userParentKacper = new User();
+        Role role14 = roleService.findRoleByName("PARENT");
+        userParentKacper.setRoles(Collections.singleton(role14));
+        userParentKacper.setPassword("123");
+        userParentKacper.setPersonRelatedWithSchool(parentKacper);
+        userService.save(userParentKacper);
+
+
+        kacper.setParent(parentKacper);
+        studentService.saveStudent(kacper);
+    }
+
+
+
+
+
+
 
     private void createClassGroups(List<String> classNames) {
         Set<ClassGroup> classGroups = classNames.stream()
