@@ -45,4 +45,13 @@ public class Teacher extends PersonRelatedWithSchool{
     }
 
 
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "marksTeacher=" + marksTeacher +
+                ", subjects=" + subjects +
+                ", examsTeacher=" + examsTeacher +
+                ", noteToJournalsTeacher=" + noteToJournalsTeacher +
+                '}';
+    }
 }

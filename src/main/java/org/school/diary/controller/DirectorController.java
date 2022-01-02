@@ -1,6 +1,7 @@
 package org.school.diary.controller;
 
 
+import org.school.diary.config.UserPrincipal;
 import org.school.diary.dto.ClassGroupDTO;
 import org.school.diary.dto.TeacherDTO;
 import org.school.diary.dto.UserDTO;
@@ -8,11 +9,14 @@ import org.school.diary.model.*;
 import org.school.diary.model.common.*;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Path;
 import javax.validation.Valid;
@@ -27,6 +31,9 @@ import static org.school.diary.model.ClassRoomDuty.PE;
 @RequestMapping
 public class DirectorController {
 
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     ClassGroupService classGroupService;
@@ -378,81 +385,110 @@ public class DirectorController {
 
 
 
-    //KONTO KONTA
+    //LISTA WSZYSTKICH KONT
     @GetMapping("/home/director/konta")
     public String Account(Model model) {
 
         model.addAttribute("userList", userService.listUsers());
         return "director/edit-user-accounts";
     }
+
+    //KONTO ID
     @GetMapping("/home/director/konto/{id}")
     public String AccountChangesView(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
 
-        System.out.println("USER: "+ user);
-    //    System.out.println("USER: "+ user.getPassword().hashCode());
-    //    System.out.println("USER: "+ user.getRoles().stream().iterator());
-        model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
+
+        model.addAttribute("user", userService.findById(Long.parseLong(id)));
         return "director/edit-account";
     }
 
-
-
-
+    //KONTO ZMIANA DANYCH
     @PostMapping("/home/director/konto/{id}")
     public String AccountChanges(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
 
-        System.out.println("test123"+ user.getPersonRelatedWithSchool().getFirstName());
-        user.getPersonRelatedWithSchool().setFirstName(user.getPersonRelatedWithSchool().getFirstName());
-      //  userService.saveNewUser(user);
-        model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
+        User userToUpdate = userService.findById(Long.parseLong(id));
+
+        PersonRelatedWithSchool personRelatedWithSchool = new PersonRelatedWithSchool();
+        personRelatedWithSchool.setPesel(user.getPersonRelatedWithSchool().getPesel());
+        personRelatedWithSchool.setFirstName(user.getPersonRelatedWithSchool().getFirstName());
+        personRelatedWithSchool.setLastName(user.getPersonRelatedWithSchool().getLastName());
+        personRelatedWithSchool.setDateBirth(user.getPersonRelatedWithSchool().getDateBirth());
+        personRelatedWithSchool.setEmail(user.getPersonRelatedWithSchool().getEmail());
+        personRelatedWithSchool.setLogin(user.getPersonRelatedWithSchool().getLogin());
+        userToUpdate.setPersonRelatedWithSchool(personRelatedWithSchool);
+
+        userService.updateAccount(userToUpdate);
+
+        model.addAttribute("user", userService.findById(Long.parseLong(id)));
       return "redirect:/home/director/konta";
 
     }
-    //konto Haslo
-    @GetMapping("/home/director/konto/haslo/{id}")
-    public String AccountPasswordChangesView(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
+    //LISTA KONT - ZMIANA HASLA
+    @GetMapping("/home/director/konto/edytuj_haslo/{id}")
+    public String AccountPasswordChangesView(@PathVariable(value = "id") String id,@ModelAttribute User user,  Model model) {
 
-        System.out.println("User haslo: "+ user.getPassword());
-        //    System.out.println("USER: "+ user.getPassword().hashCode());
-        //    System.out.println("USER: "+ user.getRoles().stream().iterator());
-        model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
+
+        model.addAttribute("user", userService.findById(Long.parseLong(id)));
         return "director/edit-account-password";
     }
 
-    @PostMapping("/home/director/konto/haslo/{id}")
-    public String AccountPasswordChanges(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
+    @PostMapping("/home/director/konto/edytuj_haslo/{id}")
+    public String AccountPasswordChanges( @PathVariable(value = "id") String id,@ModelAttribute User user, @RequestParam  Map<String, String> requestParam, Model model) {
 
-        System.out.println("User: "+ user.getPassword());
-//        user.setPassword("1234");
-//        userService.save(user);
-        //  userService.saveNewUser(user);
-        model.addAttribute("user", userService.findUserById(Long.parseLong(id)));
-        return "redirect:/home/director/konta";
+        User user2 = userService.findById(Long.parseLong(id));
+        String password2 = requestParam.get("password2");
 
+        if(password2.equals("")){
+
+            model.addAttribute("password2", "Nowe hasło nie może być puste");
+        }else {
+            user2.setPassword(password2);
+            userService.updatePassword(user2);
+            model.addAttribute("message", "Hasło zostało zmienione");
+        }
+
+        return "director/edit-account-password";
     }
 
-    //USTAWIENIA
+    //USTAWIENIA KONTA - ZMIANA HASLA
     @GetMapping("/home/director/ustawienia")
-    public String SettingDirector(Model model, Principal principal) {
+    public String SettingDirector() {
 
-        Director director = directorService.findByLogin(principal.getName());
-        User user = userService.findUserById(director.getId());
-
-           //       String tmp = user.getPassword();
-      // System.out.println("Haslo: "+ user);
-//        model.addAttribute("user", userService.findUserById(director.getId()));
         return "director/settings";
     }
 
-    //plan lekcji
+    @PostMapping("/home/director/ustawienia/edytuj_haslo")
+    public String SettingDirectorChangePassword(Model model,@AuthenticationPrincipal UserPrincipal userPrincipal,@RequestParam Map<String, String> requestParam) {
+
+        User user = userPrincipal.getUser();
+        String password2 = requestParam.get("password2");
+
+            if(password2.equals("")){
+
+                model.addAttribute("newPassword", "Nowe hasło nie może być puste");
+            }else {
+                user.setPassword(password2);
+                userService.updatePassword(user);
+                model.addAttribute("message", "Hasło zostało zmienione");
+            }
+
+
+        return "director/settings";
+    }
 
     //GENEROWANIE PLANU LEKCJi
     @GetMapping("/home/director/generuj_plan_lekcji")
-    public String lessonPlan(Model model) {
+    public String lessonPlan(@ModelAttribute ClassGroup classGroup, Model model,@RequestParam Map<String, String> requestParam) {
 
-
-        model.addAttribute("classGroup", new ClassGroup());
         model.addAttribute("listClassGroups",classGroupService.listClassGroups());
+//        Student student = studentService.findByLogin(principal.getName());
+//        ClassGroup classGroup = classGroupService.findById(student.getStudentsClassGroup().getId());
+        String name = requestParam.get("classGroup");
+
+        System.out.println("klasa wybrana: " + name);
+//        model.addAttribute("lessonGroupMap", lessonHourService.getLessonPlanForStudents(classGroup));
+
+
         return "director/create-lessonPlan";
     }
 
@@ -462,6 +498,7 @@ public class DirectorController {
         lessonHourService.deleteAll();
         createLessonPlan();
 
+        System.out.println("asa");
         model.addAttribute("classGroup", new ClassGroup());
         model.addAttribute("listClassGroups",classGroupService.listClassGroups());
         return "director/create-lessonPlan";

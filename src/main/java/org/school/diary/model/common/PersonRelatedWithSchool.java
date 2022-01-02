@@ -49,7 +49,18 @@ public class PersonRelatedWithSchool {
         return Objects.equals(id, that.id) && Objects.equals(firstName, that.firstName) && Objects.equals(login, that.login) && Objects.equals(email, that.email) && Objects.equals(lastName, that.lastName) && Objects.equals(dateBirth, that.dateBirth) && Objects.equals(pesel, that.pesel);
     }
 
-
+    @Override
+    public String toString() {
+        return "PersonRelatedWithSchool{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateBirth=" + dateBirth +
+                ", pesel='" + pesel + '\'' +
+                '}';
+    }
 }
 
 

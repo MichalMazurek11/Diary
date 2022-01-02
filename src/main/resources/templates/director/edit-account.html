@@ -37,10 +37,12 @@
                             <!--                            <span  align="center" th:if="${message}">	<div class="alert alert-danger" role="alert">-->
                             <!--                             <span th:text="${message}">  </span></div>-->
                         </div>
+
                         <div class="form-group col-md-6">
-                            <label for="password">Haslo</label>
-                            <i class="fa fa-lock"  aria-hidden="true"></i><input id="password" class="form-control" type="password" th:field="*{password}" th:value="*{password}" />
+                            <label for="dateBirth">Data urodzin</label><input id="dateBirth" class="form-control" type="text" th:field="*{personRelatedWithSchool.dateBirth}" th:value="*{personRelatedWithSchool.dateBirth}"/>
                         </div>
+
+
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -55,15 +57,9 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="dateBirth">Data urodzin</label><input id="dateBirth" class="form-control" type="text" th:field="*{personRelatedWithSchool.dateBirth}" th:value="*{personRelatedWithSchool.dateBirth}"/>
-                        </div>
-                        <!--                        <div class="form-group col-md-6">-->
-                        <!--                            <label for="pesel">PESEL</label>-->
-                        <!--                            <input type="text" class="form-control" id="pesel" name="pesel" placeholder="" th:field="*{pesel}">-->
-                        <!--                            <p th:if="${#fields.hasErrors('pesel')}" th:errors="*{pesel}" class="alert alert-danger" role="alert">Name Error</p>-->
-                        <!--                        </div>-->
+                        <input id="login" type="hidden"  name="login" class="form-control"  th:field="*{personRelatedWithSchool.login}" th:value="*{personRelatedWithSchool.login}"/>
                     </div>
+                    <input id="email" type="hidden" class="form-control"  th:field="*{personRelatedWithSchool.email}" th:value="*{personRelatedWithSchool.email}"/>
                     <div>
                         <button type="submit"  class="btn btn-primary" style="float: right;">Edytuj</button>
                 </form>

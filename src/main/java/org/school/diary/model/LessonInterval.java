@@ -27,4 +27,14 @@ public class LessonInterval implements Comparable<LessonInterval>{
     public int compareTo(LessonInterval lessonInterval) {
         return Long.compare(id,lessonInterval.getId());
     }
+
+
+    @Override
+    public String toString() {
+        return "LessonInterval{" +
+                "id=" + id +
+                ", beginLesson=" + beginLesson +
+                ", endLesson=" + endLesson +
+                '}';
+    }
 }

@@ -6,9 +6,11 @@ import org.school.diary.dto.TeacherDTO;
 import org.school.diary.model.*;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
+import org.school.diary.model.wrappers.PresenceWrapperTest;
 import org.school.diary.model.wrappers.PresencesWrapper;
 import org.school.diary.service.*;
 import org.school.diary.utils.Index;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -143,17 +146,42 @@ public class TeacherController {
     }
     @GetMapping("presence/{id}")
     public String getPresenceOnLesson(Model model,@PathVariable Integer id) {
-        List<Presence> presences = presenceService.generateEmptyPresencesForStudentsGroup(id);
+
+        List<Presence> presences = new ArrayList<>();
+        presences = presenceService.generateEmptyPresencesForStudentsGroup(id);
+
+        //test
+        PresenceWrapperTest wrapper = new PresenceWrapperTest();
+        wrapper.setPresenceList((ArrayList<Presence>) presences);
+
+        System.out.println("Get wrapper : " + wrapper);
+
+
+        model.addAttribute("wrapper", wrapper);
         model.addAttribute("counter",new Index(1));
         model.addAttribute("presences", presences);
+        model.addAttribute("presence", new Presence());
         return "teacher/check_presences";
     }
 
     @RequestMapping(value = "presences", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String savePresences(Model model, ArrayList<Presence> presences) {
+    public String savePresences(@ModelAttribute PresenceWrapperTest wrapper, Model model, ArrayList<Presence> presences, @RequestParam  Map<String, String> requestParams) {
+
+
+        System.out.println("Test wrapp: " +wrapper.getPresenceList());
+        System.out.println("Test wrapp: " +wrapper);
+        System.out.println("presences : " +presences);
         presenceService.saveAll(presences);
+
+        System.out.println(wrapper.getPresenceList() != null ? wrapper.getPresenceList().size() : "null list");
+        System.out.println("Wrapper: " + requestParams.get("wrapper"));
+
+
+        model.addAttribute("wrapper", wrapper);
         model.addAttribute("counter",new Index(1));
         model.addAttribute("presences", presences);
+        model.addAttribute("presence", new Presence());
+//        return "redirect:/home/teacher/plan_lekcji";
         return "teacher/check_presences";
     }
 

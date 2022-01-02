@@ -13,6 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class Presence {
 
@@ -43,5 +44,17 @@ public class Presence {
         if (o == null || getClass() != o.getClass()) return false;
         Presence presence = (Presence) o;
         return student.getPesel().equals(presence.student.getPesel()) && lessonHour.equals(presence.lessonHour);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Presence{" +
+                "id=" + id +
+                ", state=" + state +
+                ", dateOfPresence=" + dateOfPresence +
+                ", student=" + student +
+                ", lessonHour=" + lessonHour +
+                '}';
     }
 }

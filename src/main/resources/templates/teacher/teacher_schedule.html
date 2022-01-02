@@ -54,7 +54,7 @@
                              class="font-size13 text-light-gray"
                              th:text="${''}"></div>
                         <div th:case="false"
-                             class="font-size13 text-light-gray"
+                             class="font-size14 text-primary"
                              th:text="${lessons.getTeacher().getFirstName()}+ ' ' + ' ' +${lessons.getTeacher().getLastName()}"></div>
                     </div>
                     <div th:switch="${lessons.getClassRoom() == null}">
@@ -62,10 +62,11 @@
                              class="font-size13 text-light-gray"
                              th:text="''"></div>
                         <div th:case="false"
-                             class="font-size13 text-light-gray"
+                             class="font-size15 text-info"
                              th:text="'SALA: ' +  ${lessons.getClassRoom().className}"></div>
                     </div>
-                    <a th:if="${lessons.getSubject()!=null}" th:href="@{'/home/teacher/presence/' + ${lessons.getId()}}" th:text="${'sprawdź obecność'}" class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size10 xs-font-size10">
+
+                    <a  th:if="${lessons.getSubject()!=null}" th:href="@{'/home/teacher/presence/' + ${lessons.getId()}}" th:text="${'sprawdź obecność'}" class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size10 xs-font-size10">
                     </a>
                 </td>
             </tr>

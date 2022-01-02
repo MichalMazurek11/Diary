@@ -16,7 +16,13 @@ public interface UserService {
 
     void saveNewUser(UserDTO userDTO);
 
-    User findUserById(long id);
+//    User findUserById(long id);
 
+    public void updatePassword(User user);
 
+    public void updateAccount(User user);
+
+    User findById(long id);
+
+    User test(long id);
 }

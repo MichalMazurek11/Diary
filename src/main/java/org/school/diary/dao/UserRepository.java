@@ -22,7 +22,15 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "where prws.login=:login")
     User findByLogin(String login);
 
+    @Query("from User u where u.id=:id")
+    User findById(long id);
 
     User findUserById(long id);
+
+    @Query("from User u " +
+            "join PersonRelatedWithSchool prws on u.personRelatedWithSchool.id=prws.id " +
+            "where prws.id=:id")
+    User test(long id);
+
 
 }
