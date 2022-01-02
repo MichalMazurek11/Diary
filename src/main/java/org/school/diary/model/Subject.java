@@ -37,10 +37,6 @@ public class Subject {
     @OneToMany(mappedBy = "subject")
     private Set<Exam> examsSubject = new HashSet<>();
 
-
-    @OneToMany(mappedBy = "subject")
-    private Set<Presence> presencesSubject = new HashSet<>();
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

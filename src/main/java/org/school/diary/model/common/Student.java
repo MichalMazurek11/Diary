@@ -8,6 +8,7 @@ import org.school.diary.model.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -33,5 +34,6 @@ public class Student extends PersonRelatedWithSchool{
 
     @OneToMany(mappedBy = "student")
     private Set<Presence> presencesStudent = new HashSet<>();
+
 
 }

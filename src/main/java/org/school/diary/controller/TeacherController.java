@@ -1,12 +1,15 @@
 package org.school.diary.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.school.diary.dto.ClassGroupDTO;
 import org.school.diary.dto.TeacherDTO;
 import org.school.diary.model.*;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
+import org.school.diary.model.wrappers.PresencesWrapper;
 import org.school.diary.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.school.diary.utils.Index;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,27 +19,19 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.*;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/home/teacher/")
 public class TeacherController {
 
-    @Autowired
-    ClassGroupService classGroupService;
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    TeacherService teacherService;
-
-    @Autowired
-    StudentService studentService;
-
-    @Autowired
-    NoteToJournalService noteToJournalService;
-
-    @Autowired
-    LessonHourService lessonHourService;
+    private final ClassGroupService classGroupService;
+    private final UserService userService;
+    private final TeacherService teacherService;
+    private final StudentService studentService;
+    private final NoteToJournalService noteToJournalService;
+    private final LessonHourService lessonHourService;
+    private final PresenceService presenceService;
 
     //pierwszy krok tutaj nauczyciel wybiera klase
     @GetMapping("dodaj_uwage")
@@ -148,9 +143,18 @@ public class TeacherController {
     }
     @GetMapping("presence/{id}")
     public String getPresenceOnLesson(Model model,@PathVariable Integer id) {
-        Set<Student> students = studentService.generateListOfStudentsBasedOnLesson(id);
-        model.addAttribute("exam", new Exam());
-        return "teacher/add-exams";
+        List<Presence> presences = presenceService.generateEmptyPresencesForStudentsGroup(id);
+        model.addAttribute("counter",new Index(1));
+        model.addAttribute("presences", presences);
+        return "teacher/check_presences";
+    }
+
+    @RequestMapping(value = "presences", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String savePresences(Model model, ArrayList<Presence> presences) {
+        presenceService.saveAll(presences);
+        model.addAttribute("counter",new Index(1));
+        model.addAttribute("presences", presences);
+        return "teacher/check_presences";
     }
 
     @RequestMapping( value = "sprawdzian/{classGroupId}", method = RequestMethod.GET)

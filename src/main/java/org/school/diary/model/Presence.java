@@ -5,29 +5,43 @@ import lombok.*;
 import org.school.diary.model.common.Student;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Presence {
 
     @Id
     @GeneratedValue
     private long id;
 
+    @NonNull
     @Enumerated(EnumType.STRING)
-    private StatePresence statePresence;
+    private StatePresence state;
 
-    private Date dateOfPresence;
+    @NonNull
+    private LocalDateTime dateOfPresence;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private Student student;
 
+    @NonNull
     @ManyToOne
-    @JoinColumn(name = "subject_id", referencedColumnName = "id")
-    private Subject subject;
+    @JoinColumn(name = "lesson_hour_id", referencedColumnName = "id")
+    private LessonHour lessonHour;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Presence presence = (Presence) o;
+        return student.getPesel().equals(presence.student.getPesel()) && lessonHour.equals(presence.lessonHour);
+    }
 }

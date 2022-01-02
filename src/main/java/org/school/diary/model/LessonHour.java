@@ -4,6 +4,7 @@ import lombok.*;
 import org.school.diary.model.common.Teacher;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -46,6 +47,8 @@ public class LessonHour {
     @JoinColumn(name = "class_room_id", referencedColumnName = "id")
     private ClassRoom classRoom;
 
+    @OneToMany(mappedBy = "lessonHour")
+    private List<Presence> presences;
 
     @Override
     public String toString() {
