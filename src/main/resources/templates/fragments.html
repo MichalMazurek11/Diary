@@ -12,9 +12,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<nav class="navbar navbar-expand-xl bg-dark navbar-dark">
 		<!-- Brand -->
-		<a class="navbar-brand" href="/home" style="margin-left: 20%;">E-dzienniczek</a>
+		<a class="navbar-brand" href="/home" style="margin-left: 20%;">E-dziennik</a>
 
 		<!-- Links -->
 		<ul class="navbar-nav mr-auto" >
@@ -22,7 +22,11 @@
 
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/plan_lekcji}">Plan lekcji</a></li>
 			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/teacher/plan_lekcji}">Plan lekcji</a></li>
-			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a  class="nav-link" href="#" th:href="@{/home/student/oceny}">Oceny</a></li>
+			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/parent/plan_lekcji}">Plan lekcji</a></li>
+			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/parent/oceny}">Oceny</a></li>
+			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/parent/praca_domowa}">Praca domowa</a></li>
+			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/parent/uwagi}">Uwagi</a></li>
+			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a  class="nav-link" href="#" th:href="@{/home/student/oceny/semestr_I}">Oceny</a></li>
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/nieobecnosci}">Frekwencja</a></li>
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/prace_domowe}">Prace domowe</a></li>
 			<li sec:authorize="hasRole('ROLE_STUDENT')" class="nav-link"><a class="nav-link" href="#" th:href="@{/home/student/ustawienia}">Ustawienia</a></li>
@@ -30,9 +34,9 @@
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/rejestracja_ucznia_i_rodzica}">Rejestracja</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/dodaj_ogloszenie}">Ogłoszenia</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/generuj_plan_lekcji}">Plan lekcji</a></li>
-			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/ustawienia}">Ustawienia</a>
-			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/ustawienia}">Ustawienia</a>
-			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/sprawdzian}">Sprawdzian</a>
+			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/ustawienia}">Ustawienia</a></li>
+			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/ustawienia}">Ustawienia</a></li>
+<!--			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/sprawdzian}">Sprawdzian</a>-->
 			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/parent/ustawienia}">Ustawienia</a>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/konta}">Konta</a></li>
 			<li sec:authorize="hasAnyRole('ROLE_STUDENT','ROLE_TEACHER','ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/ogloszenia}">Ogłoszenia</a></li>
@@ -61,33 +65,44 @@
 
 			<!--NAUCZYCIEL-->
 
+<!--			<li class="nav-item dropdown">-->
+<!--				<a class="nav-link dropdown-toggle" href="#" id="navbardrop3" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Frekwencja-->
+<!--				</a>-->
+
+<!--				<div class="dropdown-menu" >-->
+<!--					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_ocene}">Sprawdz obecność</a>-->
+<!--				</div>-->
+<!--			</li>-->
+
+
+<!--			<li class="nav-item dropdown">-->
+<!--				<a class="nav-link dropdown-toggle" href="#" id="navbardrop4" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Oceny-->
+<!--				</a>-->
+<!--				<div class="dropdown-menu" >-->
+<!--					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_ocene}">Dodaj ocenę</a>-->
+
+<!--				</div>-->
+<!--			</li>-->
+
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop5" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Frekwencja
-				</a>
-
-				<div class="dropdown-menu" >
-					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_ocene}">Sprawdz obecność</a>
-				</div>
-			</li>
-
-
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop3" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Oceny
-				</a>
-				<div class="dropdown-menu" >
-					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_ocene}">Dodaj ocenę</a>
-
-				</div>
-			</li>
-
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop4" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Uwaga/Pochwała
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop5" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Uwaga/Pochwała
 				</a>
 				<div class="dropdown-menu" >
 					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_uwage}">Dodaj uwage</a>
-					<a class="dropdown-item" th:href="@{/home/teacher/wyswietl}">Wyswietl</a>
+					<a class="dropdown-item" th:href="@{/home/teacher/wyswietl_uwagi}">Wyświetl</a>
 				</div>
 			</li>
+
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop6" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Praca domowa
+				</a>
+				<div class="dropdown-menu" >
+<!--					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_prace_domowa}">Dodaj prace domowa</a>-->
+					<a class="dropdown-item" th:href="@{/home/teacher/sprawdz_prace_domowa}">Sprawdz prace domowa</a>
+				</div>
+			</li>
+
+
 		</ul>
 
 		<div style="margin-right: 30px;">
@@ -110,7 +125,7 @@
 			</h4>
 		</div>
 
-<!--			<h6 sec:authorize="hasAnyRole('ROLE_TEACHER')"></h6>-->
+
 			<form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">
 			<button sec:authorize="isAuthenticated()" class="btn btn-danger" type="submit">Wyloguj</button>
 			<button sec:authorize="isAnonymous()" th:href="@{~/login}" class="btn btn-primary" type="submit">Zaloguj</button>

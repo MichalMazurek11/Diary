@@ -1,18 +1,18 @@
 package org.school.diary.service;
 
 
+import lombok.AllArgsConstructor;
 import org.school.diary.dao.AnnouncementRepository;
 import org.school.diary.model.Announcement;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class AnnouncementServiceImpl implements  AnnouncementService{
 
-    @Autowired
-    AnnouncementRepository announcementRepository;
+    private final AnnouncementRepository announcementRepository;
 
     @Override
     public void saveAnnouncement(Announcement announcement) {

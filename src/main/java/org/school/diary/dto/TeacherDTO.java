@@ -4,13 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.school.diary.model.Exam;
 import org.school.diary.model.Mark;
 import org.school.diary.model.Subject;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -29,7 +25,7 @@ public class TeacherDTO {
     @NotBlank(message = "Pole nie może byc puste")
     private String firstName;
 
-    @Size(min=1, max=20, message = "Haslo musi mieć minimum 1 znak")
+    @Size(min=6,  message = "Haslo musi mieć minimum 6 znaków")
     private String password;
 
     private String login;
@@ -51,7 +47,7 @@ public class TeacherDTO {
     private Set<Subject> subjects;
 
 
-    private Set<Exam> examsTeacher = new HashSet<>();
+
 
 
 }

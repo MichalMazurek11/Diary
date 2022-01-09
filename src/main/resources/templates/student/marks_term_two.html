@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments.html :: headerfiles">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:insert="fragments.html :: nav"></header>
+<br/>
+<br/>
+<div class="container" style="display: flex;margin-left: 5%;">
+<form th:action="@{/home/student/oceny/semestr_I}"  method="GET" >
+    <div class="d-inline  bg-primary text-white"><button  type="submit"  class="btn btn-primary">SEMESTR I</button></div>
+</form>
+    <br/>
+<form th:action="@{/home/student/oceny/semestr_II}"  method="GET" >
+    <div class="d-inline bg-primary text-white" style="margin-left: 20px;"><button  type="submit"  class="btn btn-primary">SEMESTR II</button></div>
+</form>
+</div>
+<br/>
+    <div   class="table-responsive">
+
+            <table  class="table table-bordered text-center">
+                <thead>
+                <tr class="bg-light-gray">
+                    <th class="text-uppercase">LP</th>
+                    <th class="text-uppercase">Przedmiot</th>
+                    <th class="text-uppercase">Oceny</th>
+                    <th class="text-uppercase">Oceny semestralna</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entry,iterStat : ${hashMap}" >
+                    <td th:text="${iterStat.count}"></td>
+                    <td th:text="${entry.key.getName().toUpperCase()}"></td>
+                    <td> <span th:each="mapentry : ${entry.value}"><a th:text="${mapentry.value+', '}" th:href="@{'/home/student/ocena_z_przedmiotu/'+ ${mapentry.id}}"></a></span>
+                    </td>
+                    <td>
+                        <span th:each="mapentry : ${entry.value}"><span th:if="${mapentry.proposedMark != null}" >
+                            <span th:text="${mapentry.proposedMark}"> </span>
+                        </span>
+                        </span>
+
+                    </td>
+                </tbody>
+            </table>
+            <br/>
+        </form>
+    </div>
+</div>
+</body>
+
+
+<!--<ul>-->
+<!--    <li th:each="entry: ${hashMap}">-->
+<!--        <span th:text="${entry.key.getName()}"></span> =-->
+<!--        <span th:each="mapentry : ${entry.value}"><span th:text="${mapentry.value+', '}"></span></span>-->
+<!--    </li>-->
+<!--</ul>-->
+
+
+
+<!--<div th:each="map : ${hashMap}">-->
+<!--    <div th:each="mapentry : ${map.value}">-->
+<!--        <span th:text="${mapentry.value}"></span>-->
+<!--    </div> </div>-->
+
+</html>
+<style>
+    body {
+        margin-top: 20px;
+    }
+
+    .bg-light-gray {
+        background-color: #f7f7f7;
+    }
+
+    .table-bordered thead td, .table-bordered thead th {
+        border-bottom-width: 2px;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #dee2e6;
+    }
+
+
+    .bg-sky.box-shadow {
+        box-shadow: 0px 5px 0px 0px #00a2a7
+    }
+
+    .bg-orange.box-shadow {
+        box-shadow: 0px 5px 0px 0px #af4305
+    }
+
+    .bg-green.box-shadow {
+        box-shadow: 0px 5px 0px 0px #4ca520
+    }
+
+    .bg-yellow.box-shadow {
+        box-shadow: 0px 5px 0px 0px #dcbf02
+    }
+
+    .bg-pink.box-shadow {
+        box-shadow: 0px 5px 0px 0px #e82d8b
+    }
+
+    .bg-purple.box-shadow {
+        box-shadow: 0px 5px 0px 0px #8343e8
+    }
+
+    .bg-lightred.box-shadow {
+        box-shadow: 0px 5px 0px 0px #d84213
+    }
+
+
+    .bg-sky {
+        background-color: #02c2c7
+    }
+
+    .bg-orange {
+        background-color: #e95601
+    }
+
+    .bg-green {
+        background-color: #5bbd2a
+    }
+
+    .bg-yellow {
+        background-color: #f0d001
+    }
+
+    .bg-pink {
+        background-color: #ff48a4
+    }
+
+    .bg-purple {
+        background-color: #9d60ff
+    }
+
+    .bg-lightred {
+        background-color: #ff5722
+    }
+
+    .padding-15px-lr {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .padding-5px-tb {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .margin-10px-bottom {
+        margin-bottom: 10px;
+    }
+
+    .border-radius-5 {
+        border-radius: 5px;
+    }
+
+    .margin-10px-top {
+        margin-top: 10px;
+    }
+
+    .font-size14 {
+        font-size: 14px;
+    }
+
+    .text-light-gray {
+        color: #d6d5d5;
+    }
+
+    .font-size13 {
+        font-size: 13px;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #dee2e6;
+    }
+
+    .table td, .table th {
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+</style>

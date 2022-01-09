@@ -1,9 +1,9 @@
 package org.school.diary.model;
 
 import lombok.*;
+import org.school.diary.model.enums.ClassRoomDuty;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Getter

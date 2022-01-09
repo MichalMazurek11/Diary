@@ -1,15 +1,12 @@
 package org.school.diary;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.school.diary.dto.TeacherDTO;
-import org.school.diary.dto.UserDTO;
 import org.school.diary.model.*;
 import org.school.diary.model.common.*;
+import org.school.diary.model.enums.ClassRoomDuty;
 import org.school.diary.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -18,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.school.diary.model.ClassRoomDuty.PE;
+import static org.school.diary.model.enums.ClassRoomDuty.PE;
 
 @Component
 @RequiredArgsConstructor
@@ -520,7 +517,7 @@ public class DbInit implements CommandLineRunner {
         Director director2 = new Director();
         director2.setFirstName("Katarzyna");
         director2.setLastName("Laksander");
-        director2.setPesel("98609736754");
+        director2.setPesel("93604726754");
         director2.setDateBirth(LocalDate.parse("1980-01-01"));
         director2.setEmail("12345@o2.pl");
         director2.setLogin("12345");

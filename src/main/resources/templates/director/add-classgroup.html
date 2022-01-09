@@ -15,8 +15,8 @@
 							<br>
 							<div class="form-group">
 								<label for="name">Podaj nazwe klasy: </label>
-								<input type="text" class="form-control" id="name" name="name" th:field="*{name}" placeholder="">
-								<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger" role="alert">Name Error</p>
+								<input type="text" class="form-control" id="name" name="name"  placeholder="">
+								<span  align="center" th:if="${messageError}">	<div class="alert alert-danger" role="alert"><span th:text="${messageError}"></span></div></span>
 							</div>
 							<div class="form-actions" ><button  type="submit"  style="float: right;" class="btn btn-primary">Dodaj</button></div>
 						</fieldset>

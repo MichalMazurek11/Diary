@@ -6,8 +6,6 @@ import org.school.diary.model.common.Student;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -18,12 +16,12 @@ import java.util.Objects;
 public class Presence {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NonNull
     @Enumerated(EnumType.STRING)
-    private StatePresence state;
+    private Announcement.StatePresence state;
 
     @NonNull
     private LocalDateTime dateOfPresence;

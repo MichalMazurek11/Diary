@@ -11,14 +11,13 @@
 			<div class="card">
 				<div class="card-block" style="padding: 24px;">
 					<div>
-					<form th:action="@{'/home/director/dodaj_ucznia/'+${student.id}+'/do_klasy/'+${classGroup.id}}" method="post" >
+					<form th:action="@{'/home/director/dodaj_ucznia/do_klasy/'}" method="post" >
 						<fieldset>
 							<center><h6>Dodaj ucznia do klasy</h6></center>
 							<br>
 							<div class="form-group">
 								<label for="classGroupId">Klasa: </label>
 								<select class="custom-select" name="classGroupId" id="classGroupId">
-									<option selected>Wybierz Klase: </option>
 									<option th:each="classGroup : ${listClassGroups}" th:value="${classGroup.id}" th:text="${classGroup.name}" ></option>
 								</select>
 							</div>
@@ -26,7 +25,6 @@
 							<div class="form-group">
 								<label for="studentId">Uczeń: </label>
 								<select class="custom-select" name="studentId" id="studentId" >
-									<option selected>Wybierz ucznia: </option>
 									<option name="lastName"  th:each="student : ${liststudents}" th:value="${student.id}" th:text="${student.firstName + ' ' + student.lastName + ' ' + student.pesel}" ></option>
 								</select>
 							</div>

@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,9 +19,12 @@ public class PersonRelatedWithSchool {
     private Long id;
     private String firstName;
     private String login;
+
+    @Column(unique=true)
     private String email;
     private String lastName;
     private LocalDate dateBirth;
+    @Column(unique=true)
     private String pesel;
 
     public PersonRelatedWithSchool(String firstName, String lastName) {

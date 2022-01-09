@@ -35,5 +35,8 @@ public class Student extends PersonRelatedWithSchool{
     @OneToMany(mappedBy = "student")
     private Set<Presence> presencesStudent = new HashSet<>();
 
+    @OneToMany(mappedBy = "student")
+    private Set<AnswearToHomework> answearToHomeworkSet = new HashSet<>();
+
 
 }

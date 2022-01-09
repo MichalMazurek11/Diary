@@ -8,7 +8,8 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th  scope="col"> Imie:  </th>
+        <th  scope="col">Lp.</th>
+        <th  scope="col">Imie:  </th>
         <th  scope="col">Nazwisko:  </th>
         <th scope="col">Rola:  </th>
         <th scope="col">PESEL:  </th>
@@ -24,7 +25,8 @@
         th:text="${authority.getAuthority().replaceFirst('ROLE_TEACHER', 'Nauczyciel')}">
     </h4>
 
-    <tr th:each="user : ${userList}">
+    <tr th:each="user,iterStat : ${userList}">
+        <td th:text="${iterStat.count}"></td>
         <td th:text="${user.getPersonRelatedWithSchool().firstName}"></td>
         <td th:text="${user.getPersonRelatedWithSchool().lastName}"></td>
 <!--        <td th:text="${user.roles.iterator().next().name}">[roles]</td>-->

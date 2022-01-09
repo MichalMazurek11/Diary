@@ -10,13 +10,12 @@ import org.school.diary.mappers.SignedUserMapper;
 import org.school.diary.model.common.Parent;
 import org.school.diary.model.Role;
 import org.school.diary.model.common.*;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -104,6 +103,13 @@ public class UserServiceImpl implements UserService{
     public User test(long id) {
         return userRepository.test(id);
     }
+
+
+
+//    @Override
+//    public Boolean existContractForPerson(String personId) {
+//        return userRepository.existContractForPerson(personId);
+//    }
 
 
 }

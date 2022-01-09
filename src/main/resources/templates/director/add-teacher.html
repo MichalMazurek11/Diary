@@ -41,9 +41,9 @@
 
 							<div class="form-row">
 								<div class="form-group col-md-6">
-									<label for="dateBirth2">Data urodzin:</label> <input type="date" class="form-control" id="dateBirth2" name="dateBirth2"
-																					   placeholder="Data urodzin" >
+									<label for="dateBirth2">Data urodzin:</label> <input type="date" class="form-control" id="dateBirth2" name="dateBirth2" >
 <!--									<p th:if="${message}" class="alert alert-danger" role="alert" th:text="${message}" ></p>-->
+									<span  align="center" th:if="${messageError}">	<div class="alert alert-danger" role="alert"><span th:text="${messageError}"></span></div></span>
 								</div>
 								<div class="form-group col-md-6">
 									<label for="pesel">PESEL:</label>
@@ -61,8 +61,8 @@
 											th:value="${subject.id}"
 											th:text="${subject.name}">
 									</option>
-<!--									<p th:if="${message2}" class="alert alert-danger" role="alert" th:text="${message2}" ></p>-->
 								</select>
+								<span  align="center" th:if="${messageError2}">	<div class="alert alert-danger" role="alert"><span th:text="${messageError2}"></span></div></span>
 							</div>
 							<div class="form-actions" style="margin-top: 12px;"><button  type="submit" style="float: right;" class="btn btn-primary">Dodaj</button></div>
 						</fieldset>

@@ -21,26 +21,19 @@
 			<div class="card">
 				<div class="card-block" style="padding: 24px;">
 
-					<form  th:action="@{'/home/teacher/dodaj_uwage/classGroup/'+ ${classGroupDTO.id}}" th:object="${classGroupDTO}"  method="GET" >
+					<form  th:action="@{'/home/teacher/dodaj_uwage/klasa/'+ ${classGroup.id}}" th:object="${classGroup}"  method="GET" >
 						<fieldset  >
 							<div class="form-group">
 								<label for="id">Klasa: </label>
-								<select  class="custom-select" name="id" id="id">
-									<option selected></option>
-									<option   th:each="list : ${listClassGroups}" th:value="${list.id}" th:text="${list.name}" th:field="*{id}"  ></option>
-
+								<select  class="form-control" name="id" id="id">
+									<option  th:each="list : ${listClassGroups}" th:value="${list.id}" th:text="${list.name}" th:field="*{id}"  ></option>
 								</select>
 								<div>
-								<span  align="center" th:if="${message}">	<div class="alert alert-danger" role="alert">
-                				<span th:text="${message}">  </span>
-            					</div></span>
+
 								</div>
 							</div >
-
-<!--							<a th:href="@{/home/teacher/dodaj_uwage/classGroup/{id}(id = ${list.id})}">view</a>-->
-<!--								<a class="btn btn-info" th:object="${classGroup}" th:href="@{/home/teacher/dodaj_uwage/classGroup/{id}(id = ${classGroup.id})}" style="float: right;">View Post</a>-->
 							<br />
-									<div class="form-actions" style="margin-top: 12px;"><button  type="submit" style="float: right;" class="btn btn-primary">Dalej</button></div>
+							<div class="form-actions" style="margin-top: 12px;"><button  type="submit" style="float: right;" class="btn btn-primary">Dalej</button></div>
 						</fieldset>
 					</form>
 				</div>

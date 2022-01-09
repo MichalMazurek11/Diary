@@ -14,6 +14,7 @@ public interface LessonHourService {
     void saveLessonHours(List<LessonHour> lessonHours);
 
     Map<LessonInterval, List<LessonHour>> getLessonPlanForStudents(ClassGroup classGroup);
+
     Map<LessonInterval, List<LessonHour>> getLessonPlanForTeacher();
 
     List<LessonHour> findLessonHourByClassGroupAndWeekday(ClassGroup classGroup, Weekday weekday);
@@ -23,4 +24,9 @@ public interface LessonHourService {
     void deleteAll();
 
     LessonHour getLessonHourById(Integer lessonId);
+
+    LessonHour findAllByid(int id);
+
+
+    void createLessonPlan();
 }

@@ -19,7 +19,6 @@
 							<div class="form-group">
 								<label for="classGroup">Klasa: </label>
 								<select class="custom-select" name="classGroup" id="classGroup">
-									<option selected>Wybierz Klase: </option>
 									<option th:each="classGroup : ${listClassGroup}" th:value="${classGroup.id}" th:text="${classGroup.name}" ></option>
 								</select>
 							</div>
@@ -27,7 +26,6 @@
 							<div class="form-group">
 								<label for="supervisor">Nauczyciel: </label>
 								<select class="custom-select" name="supervisor" id="supervisor">
-									<option selected>Wybierz nauczyciela: </option>
 									<option  th:each="supervisor : ${listTeachers}" th:value="${supervisor.id}" th:text="${supervisor.firstName +' '+ supervisor.lastName}" ></option>
 								</select>
 							</div>

@@ -1,12 +1,14 @@
 package org.school.diary.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.school.diary.config.UserPrincipal;
 import org.school.diary.dto.ClassGroupDTO;
 import org.school.diary.dto.TeacherDTO;
 import org.school.diary.dto.UserDTO;
 import org.school.diary.model.*;
 import org.school.diary.model.common.*;
+import org.school.diary.model.enums.StatusTeacher;
 import org.school.diary.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,99 +17,64 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Path;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static org.school.diary.model.ClassRoomDuty.PE;
-
+@RequiredArgsConstructor
 @Controller
 @RequestMapping
 public class DirectorController {
 
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    ClassGroupService classGroupService;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    RoleService roleService;
-
-    @Autowired
-    TeacherService teacherService;
-
-    @Autowired
-    StudentService studentService;
-
-    @Autowired
-    SubjectService subjectService;
-
-    @Autowired
-    AnnouncementService announcementService;
-
-    @Autowired
-    ParentService parentService;
-
-    @Autowired
-    DirectorService directorService;
-
-    @Autowired
-    ClassRoomService classRoomService;
-
-    @Autowired
-    WeekdayService weekdayService;
-
-    @Autowired
-    LessonHourService lessonHourService;
-
-    @Autowired
-    LessonIntervalService lessonIntervalService;
-
-
-    @GetMapping("/home/director/rejestracja_uzytkownikow")
-    public String requestsRegisterUsers(Principal prin, Model model) {
-
-
-        return "/director/requestRegisterUsers";
-    }
+    private final ClassGroupService classGroupService;
+    private final UserService userService;
+    private final TeacherService teacherService;
+    private final StudentService studentService;
+    private final LessonHourService lessonHourService;
+    private final SubjectService subjectService;
+    private final AnnouncementService announcementService;
+    private final DirectorService directorService;
+    private final RoleService roleService;
+    private final ParentService parentService;
 
 
     //NAUCZYCIEL
-
     //WYSWIETLENEI PANELU DODAWANIA NAUCZYCIELA
     @GetMapping("/home/director/dodaj_nauczyciela")
     public String getTeachers(Model model) {
 
 
-        model.addAttribute("listSubjects",sortSubjectByName(subjectService.listAllSubject()));
+        model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
         model.addAttribute("teacherDTO", new TeacherDTO());
         return "director/add-teacher";
     }
+
     //Dodanie nauczyciela
     @PostMapping("/home/director/dodaj_nauczyciela")
-    public String addTeachers(@Valid @ModelAttribute TeacherDTO teacherDTO,BindingResult bindingResult, @RequestParam(value = "subjects",required = false) Set<Subject> subjectSet,@RequestParam  Map<String, String> requestParam, Model model) {
+    public String addTeachers(@Valid @ModelAttribute TeacherDTO teacherDTO, BindingResult bindingResult, @RequestParam(value = "subjects", required = false) Set<Subject> subjectSet, @RequestParam Map<String, String> requestParam, Model model) {
 
+       String dateToParse = requestParam.get("dateBirth2");
 
-        LocalDate birthDate = LocalDate.parse(requestParam.get("dateBirth2"));
-        if(bindingResult.hasErrors()){
+       boolean isSetIsNull = Objects.equals(null,subjectSet);
+
+        if (bindingResult.hasErrors() || dateToParse.isEmpty() || isSetIsNull) {
+
+            if(dateToParse.isEmpty()){
+                model.addAttribute("messageError", "Pole nie może być puste");
+            } else if (isSetIsNull) {
+                model.addAttribute("messageError2", "Pole nie może być puste");
+            }
             model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
-//            model.addAttribute("message", "Pole nie może być puste");
 
             return "director/add-teacher";
+        }else{
+            LocalDate birthDate = LocalDate.parse(dateToParse);
+//            subjectSet.forEach(topic -> System.out.println("Przedmiot: " + topic.getName()));
+            teacherService.saveTeacher(birthDate, teacherDTO, subjectSet);
+
         }
-        subjectSet.forEach(topic -> System.out.println("Przedmiot: "+topic.getName()));
-        teacherService.saveTeacher(birthDate,teacherDTO, subjectSet);
 
         model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
         model.addAttribute("teacherDTO", new TeacherDTO());
@@ -116,8 +83,7 @@ public class DirectorController {
     //USUNIECIE NAUCZYCIELA
 
     @GetMapping("/home/director/nauczyciel")
-    public String deleteTeachersView(Model model) {
-
+    public String deleteTeachersView(Model model, @ModelAttribute Teacher teacher) {
 
 
         model.addAttribute("teacherList", teacherService.listTeachers());
@@ -125,13 +91,23 @@ public class DirectorController {
     }
 
     @GetMapping("/home/director/usun_nauczyciela/{id}")
-    public String deleteTeachers(@PathVariable("id") String id, Model model) {
+    public String deleteTeachers(@PathVariable("id") String id, Model model, @ModelAttribute Teacher teacher) {
 
 
+        Teacher teacher2 = teacherService.findById(Long.parseLong(id));
 
-        teacherService.deleteTeacher(Long.parseLong(id));model.addAttribute("teacher", new Teacher());
+        if(teacher2.getStatusTeacher() == StatusTeacher.AKTYWNY){
+            teacher2.setStatusTeacher(StatusTeacher.NIEAKTYWNY);
+        }else{
+            teacher2.setStatusTeacher(StatusTeacher.AKTYWNY);
+        }
+
+        teacherService.save(teacher2);
+
+      //  teacherService.deleteTeacher(Long.parseLong(id));
+        model.addAttribute("teacher", new Teacher());
         model.addAttribute("teacherList", teacherService.listTeachers());
-        return "redirect:/director/delete-teacher";
+        return "director/delete-teacher";
     }
 
 
@@ -146,13 +122,10 @@ public class DirectorController {
 //    }
 
 
-
-
     //KLASA
     public List<Subject> sortSubjectByName(List<Subject> tmp) {
 
         Collections.sort(tmp, new Comparator<Subject>() {
-
             @Override
             public int compare(Subject a1, Subject a2) {
                 return a1.getName().compareTo(a2.getName());
@@ -161,17 +134,18 @@ public class DirectorController {
         });
         return tmp;
     }
+
     //WYSWIETLENIE PANELU DODAWANIA KLASY
     @GetMapping("/home/director/dodaj_wychowawce")
     public String getSupervisorClassgroup(Model model) {
 
         model.addAttribute("listTeachers", teacherService.listTeachers());
-        model.addAttribute("listClassGroup",sortClassGroupByName(classGroupService.listClassGroups()));
+        model.addAttribute("listClassGroup", sortClassGroupByName(classGroupService.listClassGroups()));
         return "director/add-supervisor-to-classgroup";
     }
 
     @PostMapping("/home/director/dodaj_wychowawce")
-    public String addSupervisorClassgroup(Model model,ClassGroup classGroup) {
+    public String addSupervisorClassgroup(Model model, ClassGroup classGroup) {
 
         classGroupService.addClassGroup(classGroup);
 
@@ -204,15 +178,19 @@ public class DirectorController {
 
     //DODANIE NOWEJ KLASY
     @PostMapping("/home/director/dodaj_klase")
-    public String addClassGroups(@Valid ClassGroupDTO classGroupDTO, BindingResult bindingResult,@ModelAttribute ClassGroup classGroup, Model model) {
+    public String addClassGroups(@ModelAttribute ClassGroup classGroup,@RequestParam Map<String, String> requestParam,Model model) {
 
-        if (bindingResult.hasErrors()) {
+        String nameClass = requestParam.get("name");
+
+        if ( nameClass.isEmpty()){
+
+            model.addAttribute("messageError", "Pole nie może być puste");
             return "/director/add-classgroup";
+        }else{
+
+            classGroupService.addClassGroup(classGroup);
         }
-
-        classGroupService.addClassGroup(classGroup);
         return "/director/add-classgroup";
-
     }
 
     //WYSWIETLENIE PANELU DODAWANIE UCZNIA DO KLASY
@@ -222,35 +200,33 @@ public class DirectorController {
 
         model.addAttribute("student", new Student());
         model.addAttribute("classGroup", new ClassGroup());
-        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
-        model.addAttribute("liststudents",studentService.listStudents());
+        model.addAttribute("listClassGroups", classGroupService.listClassGroups());
+        model.addAttribute("liststudents", studentService.listStudents());
         return "director/add-student-to-classgroup";
     }
 
 
-
-
-
     //WYSWIETLENIE PANELU DODAWANIE UCZNIA DO KLASY
-    @PostMapping("/home/director/dodaj_ucznia/{studentId}/do_klasy/{classGroupId}")
-    public String addUserToClassGroup(@RequestParam Map<String, String> requestParams,Model model ) {
+    @PostMapping("/home/director/dodaj_ucznia/do_klasy/")
+    public String addUserToClassGroup(@RequestParam Map<String, String> requestParams, Model model) {
 
-        String studentId = requestParams.get("studentId");
-        Student student = studentService.findById(Long.parseLong(studentId));
+        String studentId2 = requestParams.get("studentId");
+        Student student = studentService.findById(Long.parseLong(studentId2));
 
-        String classGroupId = requestParams.get("classGroupId");
-        ClassGroup classGroup = classGroupService.findById(Long.parseLong(classGroupId));
+        String classGroupId2 = requestParams.get("classGroupId");
+        ClassGroup classGroup = classGroupService.findById(Long.parseLong(classGroupId2));
 
-        System.out.println("studentId: " + studentId);
-        System.out.println("classGroupId: " + classGroupId);
+
+        System.out.println("studentId2: " + studentId2);
+        System.out.println("classGroupId2: " + classGroupId2);
 
         student.setStudentsClassGroup(classGroup);
         studentService.saveStudent(student);
 
         model.addAttribute("student", new Student());
         model.addAttribute("classGroup", new ClassGroup());
-        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
-        model.addAttribute("liststudents",studentService.listStudents());
+        model.addAttribute("listClassGroups", classGroupService.listClassGroups());
+        model.addAttribute("liststudents", studentService.listStudents());
         return "director/add-student-to-classgroup";
     }
 
@@ -259,9 +235,8 @@ public class DirectorController {
     public String deleteClassGroupView(Model model) {
 
 
-
         model.addAttribute("classGroup", new ClassGroup());
-        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
+        model.addAttribute("listClassGroups", classGroupService.listClassGroups());
         return "director/delete-classgroup";
     }
 
@@ -271,14 +246,9 @@ public class DirectorController {
 
         classGroupService.deleteClassGroup(Long.parseLong(id));
 
-        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
+        model.addAttribute("listClassGroups", classGroupService.listClassGroups());
         return "redirect:/home/director/usun_klase";
     }
-
-
-
-
-
 
 
     //WYSWIETLENIE OGLOSZEN
@@ -289,14 +259,22 @@ public class DirectorController {
         model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
         return "director/add-announcement";
     }
-    @PostMapping("/home/director/dodaj_ogloszenie")
-    public String addAnnouncement(Announcement announcement, Model model,Principal principal) {
 
-        LocalDate localDate = LocalDate.now();
-        Director director = directorService.findByLogin(principal.getName());
-        announcement.setDirectorsAnnouncement(director);
-        announcement.setDateTime(localDate);
-        announcementService.saveAnnouncement(announcement);
+    @PostMapping("/home/director/dodaj_ogloszenie")
+    public String addAnnouncement(Announcement announcement, Model model, Principal principal) {
+
+
+        if(announcement.getText().isEmpty()){
+
+            model.addAttribute("messageError", "Pole nie może być puste");
+        }else{
+            LocalDate localDate = LocalDate.now();
+            Director director = directorService.findByLogin(principal.getName());
+            announcement.setDirectorsAnnouncement(director);
+            announcement.setDateTime(localDate);
+            announcementService.saveAnnouncement(announcement);
+        }
+
 
         model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
         return "director/add-announcement";
@@ -304,9 +282,7 @@ public class DirectorController {
 
     //USUNIECIE OGLOSZENIA
     @GetMapping("home/director/usun_ogloszenie/{id}")
-    public String deleteAnnouncement(@PathVariable("id")String id, Model model) {
-        ModelAndView mv = new ModelAndView("admin/category-form");
-
+    public String deleteAnnouncement(@PathVariable("id") String id, Model model) {
         announcementService.deleteAnnouncement(Integer.parseInt(id));
 
         model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
@@ -328,7 +304,7 @@ public class DirectorController {
 
     //REJESTRACJA UCZNIA
     @GetMapping("/home/director/rejestracja_ucznia_i_rodzica")
-    public String signUp(Model model) {
+    public String signUpStudentsAndParents(Model model) {
 
         model.addAttribute("userDTO", new UserDTO());
         return "director/add-student-and-parent";
@@ -336,16 +312,27 @@ public class DirectorController {
 
     //PRZYCISK REJESTRACJI
     @PostMapping("/home/director/rejestracja_ucznia_i_rodzica")
-    public String signup(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult bindingResult,@RequestParam  Map<String, String> requestParam, Model model){
+    public String AddStudenAndParent(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult bindingResult, @RequestParam Map<String, String> requestParam, Model model) {
 
 
         String password2 = requestParam.get("password2");
 
-        if(bindingResult.hasErrors() || password2.equals("")){
-            model.addAttribute("message", "Pole nie może być puste");
+//        boolean isExists = userService.existContractForPerson(password2);
+
+//        System.out.println("isExists: "+ isExists);
+
+
+        int lenghtParentPassword = password2.length();
+
+        if (bindingResult.hasErrors() || password2.isEmpty() || lenghtParentPassword<6) {
+
+
+            if(password2.isEmpty() || lenghtParentPassword<6){
+                model.addAttribute("message", "Hasło rodzica musi mieć minimum 6 znaków");
+            }
 
             return "director/add-student-and-parent";
-        }else{
+        } else {
 
             Student student = new Student();
             student.setLogin(userDTO.getPesel());
@@ -364,7 +351,7 @@ public class DirectorController {
             userService.save(user);
 
             Parent parent = new Parent();
-            parent.setLogin(userDTO.getPesel()+"r");
+            parent.setLogin(userDTO.getPesel() + "r");
             parentService.save(parent);
 
             User user2 = new User();
@@ -384,7 +371,6 @@ public class DirectorController {
     }
 
 
-
     //LISTA WSZYSTKICH KONT
     @GetMapping("/home/director/konta")
     public String Account(Model model) {
@@ -395,7 +381,7 @@ public class DirectorController {
 
     //KONTO ID
     @GetMapping("/home/director/konto/{id}")
-    public String AccountChangesView(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
+    public String AccountChangesView(@PathVariable("id") String id, @ModelAttribute User user, Model model) {
 
 
         model.addAttribute("user", userService.findById(Long.parseLong(id)));
@@ -404,7 +390,7 @@ public class DirectorController {
 
     //KONTO ZMIANA DANYCH
     @PostMapping("/home/director/konto/{id}")
-    public String AccountChanges(@PathVariable("id") String id,@ModelAttribute User user, Model model) {
+    public String AccountChanges(@PathVariable("id") String id, @ModelAttribute User user, Model model) {
 
         User userToUpdate = userService.findById(Long.parseLong(id));
 
@@ -420,12 +406,13 @@ public class DirectorController {
         userService.updateAccount(userToUpdate);
 
         model.addAttribute("user", userService.findById(Long.parseLong(id)));
-      return "redirect:/home/director/konta";
+        return "redirect:/home/director/konta";
 
     }
+
     //LISTA KONT - ZMIANA HASLA
     @GetMapping("/home/director/konto/edytuj_haslo/{id}")
-    public String AccountPasswordChangesView(@PathVariable(value = "id") String id,@ModelAttribute User user,  Model model) {
+    public String AccountPasswordChangesView(@PathVariable(value = "id") String id, @ModelAttribute User user, Model model) {
 
 
         model.addAttribute("user", userService.findById(Long.parseLong(id)));
@@ -433,15 +420,15 @@ public class DirectorController {
     }
 
     @PostMapping("/home/director/konto/edytuj_haslo/{id}")
-    public String AccountPasswordChanges( @PathVariable(value = "id") String id,@ModelAttribute User user, @RequestParam  Map<String, String> requestParam, Model model) {
+    public String AccountPasswordChanges(@PathVariable(value = "id") String id, @ModelAttribute User user, @RequestParam Map<String, String> requestParam, Model model) {
 
         User user2 = userService.findById(Long.parseLong(id));
         String password2 = requestParam.get("password2");
 
-        if(password2.equals("")){
+        if (password2.equals("") || password2.length() < 6 ) {
 
-            model.addAttribute("password2", "Nowe hasło nie może być puste");
-        }else {
+            model.addAttribute("password2", "Nowe hasło musi mieć minimum 6 znaków");
+        } else {
             user2.setPassword(password2);
             userService.updatePassword(user2);
             model.addAttribute("message", "Hasło zostało zmienione");
@@ -458,37 +445,32 @@ public class DirectorController {
     }
 
     @PostMapping("/home/director/ustawienia/edytuj_haslo")
-    public String SettingDirectorChangePassword(Model model,@AuthenticationPrincipal UserPrincipal userPrincipal,@RequestParam Map<String, String> requestParam) {
+    public String SettingDirectorChangePassword(Model model, @AuthenticationPrincipal UserPrincipal userPrincipal, @RequestParam Map<String, String> requestParam) {
 
         User user = userPrincipal.getUser();
         String password2 = requestParam.get("password2");
+        password2 = password2.trim();
+        int passwordLenght = password2.length();
 
-            if(password2.equals("")){
 
-                model.addAttribute("newPassword", "Nowe hasło nie może być puste");
-            }else {
-                user.setPassword(password2);
-                userService.updatePassword(user);
-                model.addAttribute("message", "Hasło zostało zmienione");
-            }
+        if ( password2.isEmpty() || passwordLenght < 6) {
 
+            model.addAttribute("newPassword", "Nowe hasło musi mieć minimum 6 znaków");
+        } else {
+            user.setPassword(password2);
+            userService.updatePassword(user);
+            model.addAttribute("message", "Hasło zostało zmienione");
+        }
 
         return "director/settings";
     }
 
     //GENEROWANIE PLANU LEKCJi
     @GetMapping("/home/director/generuj_plan_lekcji")
-    public String lessonPlan(@ModelAttribute ClassGroup classGroup, Model model,@RequestParam Map<String, String> requestParam) {
-
-        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
-//        Student student = studentService.findByLogin(principal.getName());
-//        ClassGroup classGroup = classGroupService.findById(student.getStudentsClassGroup().getId());
-        String name = requestParam.get("classGroup");
-
-        System.out.println("klasa wybrana: " + name);
-//        model.addAttribute("lessonGroupMap", lessonHourService.getLessonPlanForStudents(classGroup));
+    public String lessonPlan(@ModelAttribute ClassGroup classGroup, Model model) {
 
 
+        model.addAttribute("listClassGroups", classGroupService.listClassGroups());
         return "director/create-lessonPlan";
     }
 
@@ -496,76 +478,12 @@ public class DirectorController {
     public String createlessonPlanforClass(Model model) {
 
         lessonHourService.deleteAll();
-        createLessonPlan();
+        lessonHourService.createLessonPlan();
 
-        System.out.println("asa");
         model.addAttribute("classGroup", new ClassGroup());
-        model.addAttribute("listClassGroups",classGroupService.listClassGroups());
+        model.addAttribute("listClassGroups", classGroupService.listClassGroups());
         return "director/create-lessonPlan";
     }
-
-
-    private void createLessonPlan() {
-        final int qtyOfLessonsInTheSameTime = 6 ;
-        List<LessonHour> lessonHours = new ArrayList<>();
-        List<Subject> subjects = subjectService.listAllSubject();
-        List<ClassGroup> classGroups = classGroupService.listClassGroups();
-        List<LessonInterval> allIntervals = lessonIntervalService.findAllIntervals();
-        List<Weekday> weekdays = weekdayService.findAll();
-        List<ClassRoom> classRooms = classRoomService.getAll();
-        Random random = new Random();
-        List<ClassRoom> peClasses = new ArrayList<>();
-
-        for (int i = 0; i < weekdays.size(); i++) {
-            final Weekday weekday = weekdays.get(i);
-            for (int j = 0; j < allIntervals.size(); j++) {
-                Set<ClassRoom> classRoomsAtTheSameTime = new HashSet<>();
-                int peClassesIdx = 0;
-                for (int k = 0; k < qtyOfLessonsInTheSameTime; k++) {
-                    int idxOfClassRoom = random.nextInt(classRooms.size());
-                    ClassRoom chosenClassRoom = classRooms.get(idxOfClassRoom);
-                    if (chosenClassRoom.getClassRoomDuty() == PE){
-                        if (peClasses.size()==2){
-                            chosenClassRoom = peClasses.get(peClassesIdx++);
-                        }
-                        peClasses.add(chosenClassRoom);
-                    }
-                    if (classRoomsAtTheSameTime.contains(chosenClassRoom)){
-                        k--;
-                        continue;
-                    }
-                    classRoomsAtTheSameTime.add(chosenClassRoom);
-
-                    int factorOfBreak = random.nextInt(qtyOfLessonsInTheSameTime) + 1;
-                    if (factorOfBreak == qtyOfLessonsInTheSameTime) {
-                        continue;
-                    }
-                    Subject subject = subjects.get(random.nextInt(subjects.size() - 1));
-                    if (!subject.getName().equals("wychowanie fizyczne")&&chosenClassRoom.getClassRoomDuty() == PE){
-                        k--;
-                    }
-                    List<Teacher> teachers = subject.getTeachers();
-                    Teacher teacher = teachers.get(random.nextInt(teachers.size()));
-                    LessonInterval lessonInterval = allIntervals.get(j);
-
-                    ClassGroup classGroup = classGroups.get(random.nextInt(classGroups.size()));
-                    boolean isTeacherAndStudentsGroupAreDuplicatedForAnyLessonHour = lessonHours.stream().anyMatch(lessonHour ->
-                            lessonHour.getLessonInterval().equals(lessonInterval) && lessonHour.getWeekday().equals(weekday) &&
-                                    (lessonHour.getTeacher().equals(teacher) || lessonHour.getClassGroup().equals(classGroup))
-                    );
-                    if (isTeacherAndStudentsGroupAreDuplicatedForAnyLessonHour) {
-                        k--;
-                        continue;
-                    }
-                    lessonHours.add(new LessonHour(subject, lessonInterval, classGroup, teacher, weekdays.get(i),chosenClassRoom));
-                }
-            }
-        }
-        lessonHourService.saveLessonHours(lessonHours);
-    }
-
-
-
 
 
 }

@@ -3,8 +3,6 @@ package org.school.diary.service;
 import lombok.RequiredArgsConstructor;
 import org.school.diary.dao.PresenceRepository;
 import org.school.diary.model.*;
-import org.school.diary.model.common.Student;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,8 +10,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -53,7 +49,7 @@ public class PresenceServiceImpl implements PresenceService {
 
     private List<Presence> generateEmptyPresences(LessonHour lessonHour, ClassGroup classGroup, LessonInterval currentLessonInterval) {
         List<Presence> presences = new ArrayList<>();
-        StatePresence state = StatePresence.NIEOBECNY;
+        Announcement.StatePresence state = Announcement.StatePresence.NIEOBECNY;
         LocalDateTime currentLessonDateTime = currentLessonInterval.getEndLesson().atDate(LocalDate.now());
         classGroup.getStudents().forEach(student -> presences.add(new Presence(state,currentLessonDateTime,student, lessonHour)));
         return presences;

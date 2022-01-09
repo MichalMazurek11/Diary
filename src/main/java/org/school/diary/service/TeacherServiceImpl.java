@@ -95,6 +95,11 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
+    public Teacher findById(long id) {
+        return teacherRepository.findById(id);
+    }
+
+    @Override
     public void saveTeacher(LocalDate birthDate, TeacherDTO teacherDTO, Set<Subject> subjectSet) {
         teacherDTO.setLogin(teacherDTO.getPesel());
         teacherDTO.setDateBirth(birthDate);

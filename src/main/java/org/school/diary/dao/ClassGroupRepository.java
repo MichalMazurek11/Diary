@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public interface ClassGroupRepository extends JpaRepository<ClassGroup,Long> {
@@ -14,6 +16,4 @@ public interface ClassGroupRepository extends JpaRepository<ClassGroup,Long> {
     ClassGroup findById(long id);
 
 
-//    @Query(value =  "SELECT c FROM ClassGroup c WHERE c. = ?1")
-//    ClassGroup findClassGroupBys
 }

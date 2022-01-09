@@ -20,8 +20,8 @@ import java.util.*;
 public class User {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String password;
 

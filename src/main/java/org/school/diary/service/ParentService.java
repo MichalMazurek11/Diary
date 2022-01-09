@@ -11,4 +11,6 @@ public interface ParentService {
     public void save(PersonRelatedWithSchool parent);
 
     public void deleteParent(long id);
+
+    Parent findByLogin(String login);
 }

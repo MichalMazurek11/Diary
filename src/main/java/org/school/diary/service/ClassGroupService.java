@@ -7,13 +7,13 @@ import java.util.Set;
 
 public interface ClassGroupService {
 
-    public void addClassGroup(ClassGroup classGroup);
+    void addClassGroup(ClassGroup classGroup);
 
-    public List<ClassGroup> listClassGroups();
+    List<ClassGroup> listClassGroups();
 
     ClassGroup findById(long id);
 
     void saveClassGroups(Set<ClassGroup> classGroups);
 
-    public void deleteClassGroup(long classGroup);
+    void deleteClassGroup(long classGroup);
 }

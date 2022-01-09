@@ -4,6 +4,7 @@ import org.school.diary.dto.UserDTO;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 import org.school.diary.model.common.User;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -25,4 +26,8 @@ public interface UserService {
     User findById(long id);
 
     User test(long id);
+
+
+
+//    Boolean existContractForPerson(@Param("pid") String personId);
 }

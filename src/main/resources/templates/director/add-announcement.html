@@ -18,7 +18,9 @@
                         <div class="form-group">
                             <label for="text">Treść: </label>
                             <textarea type="text" class="form-control" id="text" name="text" placeholder="Podaj treść ogłoszenia" rows="3"></textarea>
+                            <span  align="center" th:if="${messageError}">	<div class="alert alert-danger" role="alert"><span th:text="${messageError}"></span></div></span>
                         </div>
+                        <br/>
                         <div class="form-actions" style="margin-top: 12px;">
                             <button type="submit" style="float: right;" class="btn btn-primary">DODAJ</button>
                         </div>

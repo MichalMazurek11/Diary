@@ -18,8 +18,8 @@ import java.util.Set;
 public class Subject {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 
@@ -34,8 +34,9 @@ public class Subject {
     )
     private List<Teacher> teachers;
 
-    @OneToMany(mappedBy = "subject")
-    private Set<Exam> examsSubject = new HashSet<>();
+
+    @OneToMany(mappedBy = "homewroksSubject")
+    private Set<Homework> homeworks = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -44,7 +45,6 @@ public class Subject {
         Subject subject = (Subject) o;
         return id == subject.id && Objects.equals(name, subject.name);
     }
-
 
 
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.school.diary.dao.StudentRepository;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.LessonHour;
+import org.school.diary.model.common.Parent;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.User;
@@ -47,6 +48,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student findByLogin(String login) {
         return studentRepository.findByLogin(login);
+    }
+
+    @Override
+    public Student findByParent(Parent parent) {
+        return studentRepository.findByParent(parent);
     }
 
     @Override

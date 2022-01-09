@@ -21,10 +21,6 @@ public class LessonIntervalServiceImpl implements LessonIntervalService {
     public void createWeeklyPlan() {
         List<ClassGroup> classGroups = classGroupService.listClassGroups();
         List<Subject> subjects = subjectService.listAllSubject();
-
-
-        //ENUM OD GODZIN ?
-
     }
 
     @Override

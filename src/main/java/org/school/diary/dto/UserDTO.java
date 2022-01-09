@@ -22,7 +22,7 @@ public class UserDTO {
 //    @Email(message = "Musisz podac email")
     private String email;
 
-    @Size(min=1, max=20, message = "Haslo musi mieć minimum 1 znak")
+    @Size(min=6, message = "Haslo musi mieć minimum 6 znak")
     private String password;
 
     @Pattern(regexp = "^[0-9]{11}$", message = "Podaj PESEL")

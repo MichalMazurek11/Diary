@@ -3,7 +3,6 @@ package org.school.diary.service;
 import org.school.diary.dto.TeacherDTO;
 import org.school.diary.model.Subject;
 import org.school.diary.model.common.PersonRelatedWithSchool;
-import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 
 import java.time.LocalDate;
@@ -30,5 +29,7 @@ public interface TeacherService {
     Teacher findByLogin(String login);
 
     Teacher findTeacher();
+
+    Teacher findById(long id );
 }
 

@@ -1,9 +1,9 @@
 package org.school.diary.service;
 
+import lombok.AllArgsConstructor;
 import org.school.diary.dao.ClassGroupRepository;
 import org.school.diary.dao.StudentRepository;
 import org.school.diary.model.ClassGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,13 +11,11 @@ import java.util.Set;
 
 
 @Service
+@AllArgsConstructor
 public class ClassGroupServiceImpl implements ClassGroupService {
 
-    @Autowired
-    private ClassGroupRepository classGroupRepository;
-
-    @Autowired
-    StudentRepository studentRepository;
+    private final ClassGroupRepository classGroupRepository;
+//    private final StudentRepository studentRepository;
 
 
     @Override

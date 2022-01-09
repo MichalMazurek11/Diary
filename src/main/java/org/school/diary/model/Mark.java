@@ -1,14 +1,14 @@
 package org.school.diary.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
+import org.school.diary.model.enums.Term;
+import org.school.diary.model.enums.TypeMark;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,19 +19,27 @@ public class Mark {
 
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     // 3+, 4- itp
     private String value;
 
-    //oceny pierwszy semestr
-    private String valueTermOne;
-    //oceny drugi semestr
-    private String valueTermTwo;
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private Term termValue;
+
 
     //rodzaj kartkowka/sprawdzian itp
-    private String type;
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private TypeMark typeMark;
+
+    private LocalDateTime createdDateTime = LocalDateTime.now();
+
+    private String proposedMark ;
+
+    private String markForTermTwo ;
 
 
     @ManyToOne
@@ -47,5 +55,29 @@ public class Mark {
     private Subject subject;
 
 
+    public Mark(String value, @NonNull Term termValue, @NonNull TypeMark typeMark, LocalDateTime createdDateTime, Student student, Teacher teacher, Subject subject) {
+        this.value = value;
+        this.termValue = termValue;
+        this.typeMark = typeMark;
+        this.createdDateTime = createdDateTime;
+        this.student = student;
+        this.teacher = teacher;
+        this.subject = subject;
+    }
 
+    @Override
+    public String toString() {
+        return "Mark{" +
+                "id=" + id +
+                ", value='" + value + '\'' +
+                ", termValue=" + termValue +
+                ", typeMark=" + typeMark +
+                ", createdDateTime=" + createdDateTime +
+                ", proposedMark='" + proposedMark + '\'' +
+                ", markForTermTwo='" + markForTermTwo + '\'' +
+                ", student=" + student +
+                ", teacher=" + teacher +
+                ", subject=" + subject +
+                '}';
+    }
 }

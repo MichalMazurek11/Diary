@@ -1,51 +1,46 @@
 package org.school.diary.controller;
 
 
-
 import lombok.RequiredArgsConstructor;
-import org.school.diary.dto.UserDTO;
-import org.school.diary.mappers.SignedUserMapper;
-import org.school.diary.model.common.PersonRelatedWithSchool;
-import org.school.diary.model.common.Student;
+import org.school.diary.config.UserPrincipal;
 import org.school.diary.model.common.User;
-import org.school.diary.service.RoleService;
 import org.school.diary.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Controller
 @RequiredArgsConstructor
-public class RegisterController {
+public class HomeController {
 
-    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
-    @Autowired
-    RoleService roleService;
-
-
     @RequestMapping("/")
-    public String deafultPage()   {
+    public String deafultPage() {
         return "/login";
     }
 
     //PANEL PO ZALOGOWANIU
     @GetMapping("/home")
-    public String firstPage(Principal prin, Model model) {
+    public String firstPage(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        User user = userPrincipal.getUser();
+        if(user.getRoles().stream().iterator().next().getName().equals("DIRECTOR")){
 
-        return "/home/home_page";
+            return "redirect:/home/director/rejestracja_ucznia_i_rodzica";
+        }else if(user.getRoles().stream().iterator().next().getName().equals("TEACHER")){
+
+            return "redirect:/home/teacher/plan_lekcji";
+        }else if(user.getRoles().stream().iterator().next().getName().equals("STUDENT")){
+
+            return "redirect:/home/student/plan_lekcji";
+        }else if(user.getRoles().stream().iterator().next().getName().equals("PARENT")){
+
+            return "redirect:/home/parent/plan_lekcji";
+        }else{
+            return "/home/home_page";
+        }
     }
 
     //PANEL LOGOWANIA
@@ -56,10 +51,10 @@ public class RegisterController {
     }
 
 
+/*
     //PANEL DO REJESTRACJI
     @GetMapping("/signup")
-    public String signUp(Model model) {
-
+    public String signUp(Model model){
         List<String> listOfRoles = new ArrayList<>();
         listOfRoles.add("student");
         listOfRoles.add("parent");
@@ -71,7 +66,6 @@ public class RegisterController {
         model.addAttribute("userDTO", new UserDTO());
         return "signup";
     }
-
     //PRZYCISK REJESTRACJI
     @PostMapping("signup")
     public String signup(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult bindingResult, Model model){
@@ -93,7 +87,7 @@ public class RegisterController {
         model.addAttribute("listOfRoles", listOfRoles);
         return "redirect:/login";       // przekierowanie na adres metodą GET
     }
-
+*/
 
 
 }

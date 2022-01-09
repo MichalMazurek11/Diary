@@ -21,11 +21,10 @@
 							<div class="form-group">
 								<label for="password2">Nowe haslo: </label>
 								<input type="password" class="form-control" id="password2" name="password2"  placeholder="">
+								<span  align="center" th:if="${newPassword}">	<div class="alert alert-danger" role="alert"><span th:text="${newPassword}"></span></div></span>
 								</br>
-								<h1   th:if="${newPassword}">	<div class="alert alert-danger" role="alert"><h5 th:text="${newPassword}" ></h5></div></h1>
 							</div>
-
-							<h1   th:if="${message}">	<div class="alert alert-success" role="alert"><h5 th:text="${message}" ></h5></div></h1>
+							<span  align="center" th:if="${message}">	<div class="alert alert-success" role="alert"><span th:text="${message}"></span></div></span>
 							<div class="form-actions" ><button  type="submit"  style="float: right;" class="btn btn-primary">Zmień</button></div>
 						</fieldset>
 					</form>

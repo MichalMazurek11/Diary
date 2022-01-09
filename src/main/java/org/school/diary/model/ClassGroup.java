@@ -29,11 +29,13 @@ public class ClassGroup {
     @OneToMany(mappedBy = "studentsClassGroup")
     private Set<Student> students = new HashSet<>();
 
-    @OneToMany(mappedBy = "classGroup")
-    private Set<Exam> examsClassGroup = new HashSet<>();
 
     @OneToMany(mappedBy = "classGroup")
     private Set<NoteToJournal> noteToJournalsClassGroup = new HashSet<>();
+
+    @OneToMany(mappedBy = "homeworksClassGroup")
+    private Set<Homework> homeworks = new HashSet<>();
+
 
     @Override
     public String toString() {

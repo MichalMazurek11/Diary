@@ -44,24 +44,31 @@
 <!--			</div>-->
 <!--		</div>-->
 <!--	</div>-->
-
+<!--	/home/director/usun_nauczyciela/{id}-->
+<!--	<form  th:action="@{'/home/direcotr/usun_nauczyciela/'+${teacher.id}}"  th:object="${tea} " method="POST"  >-->
 	<table class="table table-striped">
 		<thead>
 		<tr>
-			<th scope="col"></th>
+			<th scope="col">LP.</th>
 			<th scope="col">Imię i nazwisko</th>
 			<th scope="col">PESEL</th>
 			<th scope="col">Data urodzenia</th>
+			<th scope="col">Status</th>
 		</tr>
 		</thead>
 		<tbody>
-		<tr th:each="teacher : ${teacherList}">
-			<th scope="row"> </th>
+		<tr th:each="teacher,iterStat : ${teacherList}">
+			<td th:text="${iterStat.count}"></td>
 		<td th:text="${teacher.firstName + ' ' + teacher.lastName}"></td>
 			<td th:text="${teacher.pesel }"></td>
 			<td th:text="${teacher.dateBirth }"></td>
+			<td style="color: green ;"  class="font-size24" th:if="${teacher.statusTeacher.name()  == 'AKTYWNY'}">AKTYWNY</td>
+			<td style="color: crimson" class="font-size24"th:if="${teacher.statusTeacher.name() == 'NIEAKTYWNY'}">NIEAKTYWNY</td>
 			<td>
-				<a href="#" th:href="@{'/home/director/usun_nauczyciela/'+ ${teacher.id}}" class="btn btn-danger btn-sm px-3">Usuń</a>
+<!--				<a href="#" th:href="@{'/home/director/usun_nauczyciela/'+ ${teacher.id}}" formmethod="post" class="btn btn-danger btn-sm px-3">Zmień status</a>-->
+				<a  href="#" th:href="@{/home/director/usun_nauczyciela/{id}(id=${teacher.id})}" class="btn btn-warning">Zmień status</a>
+<!--				<button  type="submit"  class="btn btn-info">Zmień status</button>-->
+<!--	</form>-->
 			</td>
 		</tr>
 		</tbody>

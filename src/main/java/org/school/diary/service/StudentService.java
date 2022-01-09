@@ -1,6 +1,7 @@
 package org.school.diary.service;
 
 import org.school.diary.model.ClassGroup;
+import org.school.diary.model.common.Parent;
 import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.User;
@@ -32,4 +33,6 @@ public interface StudentService {
     Set<Student> generateListOfStudentsBasedOnLesson(Integer lessonId);
 
     Student findByLogin(String login);
+
+    Student findByParent(Parent parent);
 }

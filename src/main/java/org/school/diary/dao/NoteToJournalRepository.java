@@ -1,7 +1,6 @@
 package org.school.diary.dao;
 
 
-import org.school.diary.model.Mark;
 import org.school.diary.model.NoteToJournal;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;

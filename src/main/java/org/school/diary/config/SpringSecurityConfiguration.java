@@ -1,12 +1,8 @@
 package org.school.diary.config;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.hibernate5.HibernateTemplate;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,11 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
+
 
 @Configuration
 @EnableWebSecurity
@@ -34,14 +28,13 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userPrincipalDetailService).passwordEncoder(passwordEncoder());
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/signup","/error.html","/user/index.html","/login.html","/*").permitAll()
-                .antMatchers("/home").hasAnyRole("PARENT","DIRECTOR","TEACHER","STUDENT")
-                .antMatchers("/home/director/**", "/director/add-teacher.html").hasRole("DIRECTOR")
+                .antMatchers("/error.html", "/login.html").permitAll()
+                .antMatchers("/home").hasAnyRole("PARENT", "DIRECTOR", "TEACHER", "STUDENT")
+                .antMatchers("/home/director/**").hasRole("DIRECTOR")
                 .antMatchers("/home/student/**").hasRole("STUDENT")
                 .antMatchers("/home/teacher/**").hasRole("TEACHER")
                 .and()
@@ -49,7 +42,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .usernameParameter("login")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/home")//co tutaj dac?
+                .defaultSuccessUrl("/home")
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

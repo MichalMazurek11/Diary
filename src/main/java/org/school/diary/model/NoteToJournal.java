@@ -1,11 +1,9 @@
 package org.school.diary.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
+import org.school.diary.model.enums.TypeNote;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,14 +16,16 @@ import java.util.Date;
 public class NoteToJournal {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 
     private Date date;
 
-    private String type;
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private TypeNote typeNote;
 
     @ManyToOne
     @JoinColumn(name = "classGroup_id", referencedColumnName = "id")

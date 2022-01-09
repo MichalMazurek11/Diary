@@ -8,15 +8,14 @@
     <link th:href="@{/css/main.css}" rel="stylesheet"/>
 </head>
 <body>
-
 <header th:insert="fragments.html :: nav"></header>
-
-
+<br/>
 <div class="container">
     <div class="timetable-img text-center">
-        <img src="img/content/timetable.png" alt="">
+<!--        <img src="img/content/timetable.png" alt="">-->
     </div>
     <div class="table-responsive">
+
         <table class="table table-bordered text-center">
             <thead>
             <tr class="bg-light-gray">
@@ -63,11 +62,17 @@
                              th:text="''"></div>
                         <div th:case="false"
                              class="font-size15 text-info"
-                             th:text="'SALA: ' +  ${lessons.getClassRoom().className}"></div>
+                             th:text="'Klasa: '+ ${lessons.getClassGroup().getName()}+' SALA: ' +  ${lessons.getClassRoom().className}"></div>
                     </div>
+                    <br/>
+                    <a  th:if="${lessons.getSubject()!=null}" th:href="@{'/home/teacher/presence/' + ${lessons.getId()}}" th:text="${'sprawdź obecność'}" class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size10 xs-font-size10"></a>
+                    <br/>
+                    <br/>
+                    <a  th:if="${lessons.getSubject()!=null}" th:href="@{'/home/teacher/lekcja/' + ${lessons.id} +'/dodaj_prace_domowa'}" th:text="${'Praca Domowa'}" class="bg-yellow padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size10 xs-font-size10"></a>
+                    <br/>
+                    <br/>
 
-                    <a  th:if="${lessons.getSubject()!=null}" th:href="@{'/home/teacher/presence/' + ${lessons.getId()}}" th:text="${'sprawdź obecność'}" class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size10 xs-font-size10">
-                    </a>
+                    <a  th:if="${lessons.getSubject()!=null}" th:href="@{'/home/teacher/lekcja/' + ${lessons.id} +'/dodaj_nowa_ocene'}" th:text="${'Ocena'}" class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size10 xs-font-size10"></a>
                 </td>
             </tr>
             </tbody>
