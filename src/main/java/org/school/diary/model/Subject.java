@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@Entity
 public class Subject {
 
     @Id

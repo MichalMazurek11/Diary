@@ -53,37 +53,37 @@
 <br/>
 
 <!--test-->
-<div class="table-responsive">
-    <form  th:action="@{/home/teacher/presences}" th:object="${wrapper}" method="POST">
-        <table class="table table-bordered text-center">
-            <thead>
-            <tr class="bg-light-gray">
-                <th class="text-uppercase">LP</th>
-                <th class="text-uppercase">imię i nazwisko</th>
-                <th class="text-uppercase">Obecny</th>
-                <th class="text-uppercase">Nieobecny</th>
-                <th class="text-uppercase">Spóźniony</th>
-                <th class="text-uppercase">Usprawiedliwiony</th>
-            </tr>
-            </thead>
-            <tbody>
+<!--<div class="table-responsive">-->
+<!--    <form  th:action="@{/home/teacher/presences}" th:object="${wrapper}" method="POST">-->
+<!--        <table class="table table-bordered text-center">-->
+<!--            <thead>-->
+<!--            <tr class="bg-light-gray">-->
+<!--                <th class="text-uppercase">LP</th>-->
+<!--                <th class="text-uppercase">imię i nazwisko</th>-->
+<!--                <th class="text-uppercase">Obecny</th>-->
+<!--                <th class="text-uppercase">Nieobecny</th>-->
+<!--                <th class="text-uppercase">Spóźniony</th>-->
+<!--                <th class="text-uppercase">Usprawiedliwiony</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
 
-            <tr th:each="currentClient, iterStat : ${wrapper.getPresenceList()} ">
-                <td th:text="${iterStat.count}"></td>
-                <td th:text="${currentClient.student.firstName} + ' ' + ${currentClient.student.lastName}"></td>  <!--th:field="*{presenceList}"-->
-                <td> <label th:for="'present'+ ${iterStat.count}"><input type="radio"  th:id="'present' + ${iterStat.count}"  th:name="'presence'+${iterStat.count}" th:value="OBECNY"  th:checked="${currentClient.state.name() == 'OBECNY'}"}/></label></td>
-                <td> <label th:for="'absent'+${iterStat.count}"><input type="radio" th:id="'absent'+${iterStat.count}"  th:name="'presence'+${iterStat.count}"  value="NIEOBECNY" th:checked="${currentClient.state.name() == 'NIEOBECNY'}"/></label></td>
-                <td> <label th:for="'delayed'+${iterStat.count}"><input type="radio" th:id="'delayed'+${iterStat.count}" th:name="'presence'+${iterStat.count}" value="SPÓŹNIONY" th:checked="${currentClient.state.name() == 'SPÓŹNIONY'}"/></label></td>
-                <td> <label th:for="'justified'+${iterStat.count}"><input type="radio" th:id="'justified'+${iterStat.count}" th:name="'presence'+${iterStat.count}" value="USPRAWIEDLIWIONY" th:checked="${currentClient.state.name() == 'USPRAWIEDLIWIONY'}"/></label></td>
-            </tr>
+<!--            <tr th:each="currentClient, iterStat : ${wrapper.getPresenceList()} ">-->
+<!--                <td th:text="${iterStat.count}"></td>-->
+<!--                <td th:text="${currentClient.student.firstName} + ' ' + ${currentClient.student.lastName}"></td>  &lt;!&ndash;th:field="*{presenceList}"&ndash;&gt;-->
+<!--                <td> <label th:for="'present'+ ${iterStat.count}"><input type="radio"  th:id="'present' + ${iterStat.count}"  th:name="'presence'+${iterStat.count}" th:value="OBECNY"  th:checked="${currentClient.state.name() == 'OBECNY'}"}/></label></td>-->
+<!--                <td> <label th:for="'absent'+${iterStat.count}"><input type="radio" th:id="'absent'+${iterStat.count}"  th:name="'presence'+${iterStat.count}"  value="NIEOBECNY" th:checked="${currentClient.state.name() == 'NIEOBECNY'}"/></label></td>-->
+<!--                <td> <label th:for="'delayed'+${iterStat.count}"><input type="radio" th:id="'delayed'+${iterStat.count}" th:name="'presence'+${iterStat.count}" value="SPÓŹNIONY" th:checked="${currentClient.state.name() == 'SPÓŹNIONY'}"/></label></td>-->
+<!--                <td> <label th:for="'justified'+${iterStat.count}"><input type="radio" th:id="'justified'+${iterStat.count}" th:name="'presence'+${iterStat.count}" value="USPRAWIEDLIWIONY" th:checked="${currentClient.state.name() == 'USPRAWIEDLIWIONY'}"/></label></td>-->
+<!--            </tr>-->
 
 
-            </tbody>
-        </table>
-        <input class="form-actions" type="submit" value="zapisz zmiany">
-    </form>
-</div>
-</div>
+<!--            </tbody>-->
+<!--        </table>-->
+<!--        <input class="form-actions" type="submit" value="zapisz zmiany">-->
+<!--    </form>-->
+<!--</div>-->
+<!--</div>-->
 
 
 <!--<form  th:action="@{/home/teacher/presences}" th:object="${wrapper}" method="POST">-->

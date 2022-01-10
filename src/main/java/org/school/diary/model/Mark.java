@@ -65,19 +65,19 @@ public class Mark {
         this.subject = subject;
     }
 
-    @Override
-    public String toString() {
-        return "Mark{" +
-                "id=" + id +
-                ", value='" + value + '\'' +
-                ", termValue=" + termValue +
-                ", typeMark=" + typeMark +
-                ", createdDateTime=" + createdDateTime +
-                ", proposedMark='" + proposedMark + '\'' +
-                ", markForTermTwo='" + markForTermTwo + '\'' +
-                ", student=" + student +
-                ", teacher=" + teacher +
-                ", subject=" + subject +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Mark{" +
+//                "id=" + id +
+//                ", value='" + value + '\'' +
+//                ", termValue=" + termValue +
+//                ", typeMark=" + typeMark +
+//                ", createdDateTime=" + createdDateTime +
+//                ", proposedMark='" + proposedMark + '\'' +
+//                ", markForTermTwo='" + markForTermTwo + '\'' +
+//                ", student=" + student +
+//                ", teacher=" + teacher +
+//                ", subject=" + subject +
+//                '}';
+//    }
 }

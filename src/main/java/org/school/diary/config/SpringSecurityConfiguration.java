@@ -19,15 +19,12 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final DataSource dataSource;
     private final UserPrincipalDetailService userPrincipalDetailService;
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userPrincipalDetailService).passwordEncoder(passwordEncoder());
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
