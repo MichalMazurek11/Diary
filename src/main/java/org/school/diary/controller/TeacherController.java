@@ -256,7 +256,7 @@ public class TeacherController {
         PresenceWrapperTest wrapper = new PresenceWrapperTest();
         wrapper.setPresenceList((ArrayList<Presence>) presences);
 
-        System.out.println("Get wrapper : " + wrapper);
+//        System.out.println("Get wrapper : " + wrapper);
 
 
         model.addAttribute("wrapper", wrapper);
@@ -266,8 +266,8 @@ public class TeacherController {
         return "teacher/check_presences";
     }
 
-    @RequestMapping(value = "presences", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String savePresences(@ModelAttribute PresenceWrapperTest wrapper, Model model, ArrayList<Presence> presences, @RequestParam Map<String, String> requestParams) {
+    @RequestMapping(value = "presences/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String savePresences(@PathVariable("id") String id, @ModelAttribute PresenceWrapperTest wrapper, Model model, ArrayList<Presence> presences, @RequestParam Map<String, String> requestParams) {
 
 
         System.out.println("Test wrapp: " + wrapper.getPresenceList());

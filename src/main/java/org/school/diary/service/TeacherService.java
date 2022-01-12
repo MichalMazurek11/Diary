@@ -18,6 +18,8 @@ public interface TeacherService {
 
     void save(PersonRelatedWithSchool Teacher);
 
+    void saveTest(Teacher teacher);
+
     void saveAllTeachers(Set<Teacher> teachers);
 
     List<Teacher> getTeachers();

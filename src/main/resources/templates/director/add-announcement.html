@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments.html :: headerfiles">
 </head>
 <body>
@@ -7,8 +7,7 @@
 <div class="container">
     <div class="row my-5">
     </div>
-    <div
-            style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 24px; padding: 24px;">
+    <div style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 24px; padding: 24px;">
         <div class="card">
             <div class="card-block" style="padding: 24px;">
                 <form th:action="@{/home/director/dodaj_ogloszenie}" method="post">
@@ -42,7 +41,7 @@
     <tr th:each="announcement : ${AnnouncementList}">
         <td th:text="${announcement.text}"></td>
         <td th:text="${announcement.dateTime}"></td>
-        <td  >
+        <td>
             <a  href="#" th:href="@{'/home/director/usun_ogloszenie/'+ ${announcement.id}}" class="btn btn-danger">Delete</a>
         </td>
     </tr>

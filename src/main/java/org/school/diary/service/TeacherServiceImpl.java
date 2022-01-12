@@ -30,9 +30,15 @@ import java.util.stream.Stream;
 public class TeacherServiceImpl implements TeacherService{
 
 
+    @Autowired
+    TeacherService teacherService;
+
+    @Autowired
+    UserService userService;
+
     private final TeacherRepository teacherRepository;
     private final PasswordEncoder passwordEncoder;
-    private final  SubjectService subjectService;
+    private final SubjectService subjectService;
     private final RoleService roleService;
     private final UserRepository userRepository;
 
@@ -58,6 +64,11 @@ public class TeacherServiceImpl implements TeacherService{
     @Override
     public void save(PersonRelatedWithSchool teacher) {
         teacherRepository.save((Teacher) teacher);
+    }
+
+    @Override
+    public void saveTest(Teacher teacher) {
+        teacherRepository.save(teacher);
     }
 
     @Override
@@ -101,18 +112,25 @@ public class TeacherServiceImpl implements TeacherService{
 
     @Override
     public void saveTeacher(LocalDate birthDate, TeacherDTO teacherDTO, Set<Subject> subjectSet) {
-        teacherDTO.setLogin(teacherDTO.getPesel());
-        teacherDTO.setDateBirth(birthDate);
 
         Teacher teacher = new Teacher();
         teacher.setLogin(teacherDTO.getPesel());
-        teacher.setEmail(teacherDTO.getEmail());
+        if(teacherDTO.getEmail().isEmpty()){
+            teacher.setEmail(null);
+        }else{
+            teacher.setEmail(teacherDTO.getEmail());
+        }
         teacher.setFirstName(teacherDTO.getFirstName());
         teacher.setLastName(teacherDTO.getLastName());
         teacher.setDateBirth(birthDate);
         teacher.setPesel(teacherDTO.getPesel());
-        teacher.setSubjects(subjectSet);
-        teacherRepository.save(teacher);
+//        teacher.setSubjects(subjectSet);
+//
+//        System.out.println("id ucznia: "+teacher.getId());
+//        System.out.println("id2: "+teacher.getNoteToJournalsTeacher());
+        teacherService.save(teacher);
+        System.out.println("id ucznia: "+teacher.getId());
+        System.out.println("id2: "+teacher.getNoteToJournalsTeacher());
 
         Set<Subject> foundedSubjects = subjectService.listAllSubject().stream().filter(o -> subjectSet.stream().anyMatch(subject -> subject.getName().equals(o.getName()))).collect(Collectors.toSet());
         foundedSubjects.forEach(subject -> subject.getTeachers().add(teacher));
@@ -120,9 +138,11 @@ public class TeacherServiceImpl implements TeacherService{
         User user = new User();
         Role role1 = roleService.findRoleByName("TEACHER");
         user.setRoles(Collections.singleton(role1));
-        user.setPassword(passwordEncoder.encode(teacherDTO.getPassword()));
+        user.setPassword(teacherDTO.getPassword());
         user.setPersonRelatedWithSchool(teacher);
-        userRepository.save(user);
+        userService.save(user);
+
+
     }
 
 }

@@ -14,7 +14,6 @@ public interface HomeworkRepository extends JpaRepository<Homework,Long> {
     @Override
     List<Homework> findAll();
 
-
     List<Homework> findHomeworkByHomeworksClassGroup(ClassGroup classGroup);
 
     List<Homework> findHomeworkByHomeworkTeacher(Teacher teacher);

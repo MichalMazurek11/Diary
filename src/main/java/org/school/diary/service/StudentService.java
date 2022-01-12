@@ -6,6 +6,7 @@ import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.User;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
@@ -19,8 +20,6 @@ public interface StudentService {
 
     public List<Student> listStudents();
 
-    Student findByEmail(String email);
-
 
     Student findById(long id);
 
@@ -28,7 +27,7 @@ public interface StudentService {
 
     List<Student> findStudentsByStudentsClassGroup(ClassGroup classGroup);
 
-    List<Student> findByStudentsClassGroup(ClassGroup classGroup);
+    List<Student> findByFirstLetter(@Param("firstLetter") String letter);
 
     Set<Student> generateListOfStudentsBasedOnLesson(Integer lessonId);
 

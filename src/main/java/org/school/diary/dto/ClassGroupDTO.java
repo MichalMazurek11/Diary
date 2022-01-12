@@ -17,8 +17,6 @@ import java.util.Set;
 public class ClassGroupDTO {
 
 
-    private long id;
-
 
     private String name;
 

@@ -6,15 +6,16 @@ import org.school.diary.model.ClassGroup;
 import org.school.diary.model.Homework;
 import org.school.diary.model.common.Teacher;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class HomeworkServiceImpl implements HomeworkService {
 
-    private final HomeworkRepository homeworkRepository;
+    @Autowired
+    HomeworkRepository homeworkRepository;
 
     @Override
     public void save(Homework homework) {

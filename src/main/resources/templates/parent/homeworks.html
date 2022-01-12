@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments.html :: headerfiles">
 </head>
 <body>
@@ -9,10 +9,9 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th  scope="col">Treść pracy domowej: </th>
+        <th scope="col">Treść pracy domowej: </th>
         <th scope="col">Data dodania: </th>
         <th scope="col">Termin oddania: </th>
-        <th scope="col">Klasa: </th>
         <th scope="col">Przedmiot: </th>
         <th scope="col"></th>
     </tr>
@@ -22,18 +21,10 @@
         <td th:text="${homework.taskDescription}"></td>
         <td th:text="${homework.createdDateTask}"></td>
         <td th:text="${homework.endDateTask}"></td>
-        <td th:text="${homework.homeworksClassGroup.name}"></td>
         <td th:text="${homework.homewroksSubject.name}"></td>
-
-        <td  >
-            <a  href="#" th:href="@{'/home/parent/praca_domowa/'+ ${homework.id}+'/odpowiedz'}" class="btn btn-info">Sprawdź</a>
-        </td>
+        <td><a  href="#" th:href="@{'/home/parent/praca_domowa/'+ ${homework.id}+'/odpowiedz'}" class="btn btn-info">Sprawdź</a></td>
     </tr>
     </tbody>
 </table>
-
-
-
-
 </body>
 </html>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface AnnouncementRepository extends JpaRepository<Announcement,Integer> {
 
 
+
 }
 
 

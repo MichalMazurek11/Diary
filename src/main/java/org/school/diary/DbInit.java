@@ -36,7 +36,9 @@ public class DbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
 //        createRoles();
+//        createDirectorTest();
 //        createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
 //        createClassRooms();
 //        createTeachers();
@@ -52,8 +54,32 @@ public class DbInit implements CommandLineRunner {
     }
 
 
+    private void createDirectorTest() {
+        //moj dyrektor Michał zeby szybciej sie logowac
+        Director director2 = new Director();
+        director2.setFirstName("Ewa");
+        director2.setLastName("Skalska");
+        director2.setPesel("93604726712");
+        director2.setDateBirth(LocalDate.parse("1980-01-01"));
+        director2.setEmail("123456@o2.pl");
+        director2.setLogin("123456");
+        director2.setId(1L);
+        directorService.save(director2);
+
+        User user4 = new User();
+        Role role2 = roleService.findRoleByName("DIRECTOR");
+        user4.setRoles(Collections.singleton(role2));
+        user4.setPassword("123");
+        user4.setPersonRelatedWithSchool(director2);
+        userService.save(user4);
+
+    }
+
+
+
     private void  createRoles(){
-        roleService.saveAllRoles(Arrays.asList(new Role(1L,"TEACHER"),
+        roleService.saveAllRoles(Arrays.asList(
+                new Role(1L,"TEACHER"),
                 new Role(2L,"PARENT"),
                 new Role(3L,"STUDENT"),
                 new Role(4L,"DIRECTOR")));
@@ -186,14 +212,14 @@ public class DbInit implements CommandLineRunner {
         studentService.saveStudent(student);
 
 
-        Set<Subject> subjects = subjectService.listAllSubject().stream().limit(2).collect(Collectors.toSet());
-        TeacherDTO teacherDTO = TeacherDTO.builder()
-                .firstName("Maciej")
-                .lastName("Stańczak")
-                .email("1234@o2.pl")
-                .pesel("1234")
-                .password("123")
-                .login("1234").build();
+        Set<Subject> subjects = subjectService.listAllSubject().stream().limit(3).collect(Collectors.toSet());
+        TeacherDTO teacherDTO = new TeacherDTO();
+        teacherDTO.setFirstName("Maciej");
+        teacherDTO.setLastName("Stańczak");
+        teacherDTO.setEmail("1234@o2.pl");
+        teacherDTO.setPesel("1234");
+        teacherDTO.setPassword("123");
+        teacherDTO.setLogin("1234");
         teacherService.saveTeacher(LocalDate.parse("1988-02-02"),teacherDTO,subjects);
 
     }
@@ -447,10 +473,25 @@ public class DbInit implements CommandLineRunner {
 
 
     private void createClassGroups(List<String> classNames) {
-        Set<ClassGroup> classGroups = classNames.stream()
-                .map(ClassGroup::new)
-                .collect(Collectors.toSet());
-        classGroupService.saveClassGroups(classGroups);
+        ClassGroup classGroup1 = new ClassGroup(1L,"1A");
+        ClassGroup classGroup2 = new ClassGroup(2L,"2B");
+        ClassGroup classGroup3 = new ClassGroup(3L,"3C");
+        ClassGroup classGroup4 = new ClassGroup(4L,"4B");
+        ClassGroup classGroup5 = new ClassGroup(5L,"2C");
+        ClassGroup classGroup6 = new ClassGroup(6L,"4G");
+        ClassGroup classGroup7 = new ClassGroup(7L,"2D");
+
+        classGroupService.addClassGroup(classGroup1);
+        classGroupService.addClassGroup(classGroup2);
+        classGroupService.addClassGroup(classGroup3);
+        classGroupService.addClassGroup(classGroup4);
+        classGroupService.addClassGroup(classGroup5);
+        classGroupService.addClassGroup(classGroup6);
+        classGroupService.addClassGroup(classGroup7);
+//        Set<ClassGroup> classGroups = classNames.stream()
+//                .map(ClassGroup::new)
+//                .collect(Collectors.toSet());
+//        classGroupService.saveClassGroups(classGroups);
     }
 
     private void createSubjects() {

@@ -36,6 +36,7 @@
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/generuj_plan_lekcji}">Plan lekcji</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/ustawienia}">Ustawienia</a></li>
 			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/ustawienia}">Ustawienia</a></li>
+			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/sprawdz_prace_domowa}">Praca domowa</a></li>
 <!--			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/sprawdzian}">Sprawdzian</a>-->
 			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/parent/ustawienia}">Ustawienia</a>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/konta}">Konta</a></li>
@@ -93,14 +94,14 @@
 				</div>
 			</li>
 
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop6" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Praca domowa
-				</a>
-				<div class="dropdown-menu" >
-<!--					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_prace_domowa}">Dodaj prace domowa</a>-->
-					<a class="dropdown-item" th:href="@{/home/teacher/sprawdz_prace_domowa}">Sprawdz prace domowa</a>
-				</div>
-			</li>
+<!--			<li class="nav-item dropdown">-->
+<!--				<a class="nav-link dropdown-toggle" href="#" id="navbardrop6" data-toggle="dropdown" sec:authorize="hasRole('ROLE_TEACHER')">Praca domowa-->
+<!--				</a>-->
+<!--				<div class="dropdown-menu" >-->
+<!--&lt;!&ndash;					<a class="dropdown-item" th:href="@{/home/teacher/dodaj_prace_domowa}">Dodaj prace domowa</a>&ndash;&gt;-->
+<!--					<a class="dropdown-item" th:href="@{/home/teacher/sprawdz_prace_domowa}">Sprawdz prace domowa</a>-->
+<!--				</div>-->
+<!--			</li>-->
 
 
 		</ul>

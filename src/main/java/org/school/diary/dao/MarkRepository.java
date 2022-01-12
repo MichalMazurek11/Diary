@@ -18,8 +18,6 @@ public interface MarkRepository extends JpaRepository<Mark,Long> {
 
     List<Mark> findAllByStudentAndSubjectAndTermValue(Student student, Subject subject, Term term);
 
-
-
     List<Mark> findAllByStudent(Student student);
 
     List<Mark> findAllBySubject(Subject subject);

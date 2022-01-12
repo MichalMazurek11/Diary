@@ -42,6 +42,9 @@ public class StudentController {
     @GetMapping("/home/student/uwagi")
     public String getNotes(Model model, Principal principal) {
         Student student = studentService.findByLogin(principal.getName());
+        List<Student> studentList = studentService.findByFirstLetter("Ma");
+
+        System.out.println("1lista: "+ studentList);
 
         model.addAttribute("noteToJournalList", noteToJournalService.findAllByStudent(student));
         return "student/note_to_journals";

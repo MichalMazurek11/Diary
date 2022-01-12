@@ -19,8 +19,6 @@ public interface LessonHourRepository extends JpaRepository<LessonHour, Integer>
 
     List<LessonHour> findAllByTeacher(Teacher teacher);
 
-
-
     LessonHour findAllByid(int id);
 
     @Override

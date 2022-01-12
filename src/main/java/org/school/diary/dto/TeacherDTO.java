@@ -17,11 +17,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
 public class TeacherDTO {
 
 
-    private Long id;
     @NotBlank(message = "Pole nie może byc puste")
     private String firstName;
 

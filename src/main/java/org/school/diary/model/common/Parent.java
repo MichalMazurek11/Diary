@@ -21,6 +21,8 @@ import java.util.Set;
 @Getter
 @Setter
 public class Parent extends PersonRelatedWithSchool {
+
+
     @OneToMany(mappedBy = "parent")
     private Set<Student> students = new HashSet<>();
 }

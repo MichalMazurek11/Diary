@@ -23,9 +23,9 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
 
+@RequestMapping
 @RequiredArgsConstructor
 @Controller
-@RequestMapping
 public class DirectorController {
 
     private final ClassGroupService classGroupService;
@@ -38,6 +38,45 @@ public class DirectorController {
     private final DirectorService directorService;
     private final RoleService roleService;
     private final ParentService parentService;
+
+    //WYSWIETLENIE OGLOSZEN
+    @GetMapping("/home/director/dodaj_ogloszenie")
+    public String getAnnouncement(Model model) {
+
+        model.addAttribute("Announcement", new Announcement());
+        model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
+        return "director/add-announcement";
+    }
+    //DODANIE OGLOSZENIA
+    @PostMapping("/home/director/dodaj_ogloszenie")
+    public String addAnnouncement(Announcement announcement, Model model, Principal principal) {
+
+        if(announcement.getText().isEmpty()){
+
+            model.addAttribute("messageError", "Pole nie może być puste");
+        }else{
+            LocalDate localDate = LocalDate.now();
+            Director director = directorService.findByLogin(principal.getName());
+            announcement.setDirectorsAnnouncement(director);
+            announcement.setDateTime(localDate);
+            announcementService.saveAnnouncement(announcement);
+        }
+
+        model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
+        return "director/add-announcement";
+    }
+
+    //USUNIECIE OGLOSZENIA
+    @GetMapping("home/director/usun_ogloszenie/{id}")
+    public String deleteAnnouncement(@PathVariable("id") String id, Model model) {
+        announcementService.deleteAnnouncement(Integer.parseInt(id));
+
+        model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
+        return "redirect:/home/director/dodaj_ogloszenie";
+    }
+
+
+
 
 
     //NAUCZYCIEL
@@ -250,44 +289,6 @@ public class DirectorController {
         return "redirect:/home/director/usun_klase";
     }
 
-
-    //WYSWIETLENIE OGLOSZEN
-    @GetMapping("/home/director/dodaj_ogloszenie")
-    public String getAnnouncement(Model model) {
-
-        model.addAttribute("Announcement", new Announcement());
-        model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
-        return "director/add-announcement";
-    }
-
-    @PostMapping("/home/director/dodaj_ogloszenie")
-    public String addAnnouncement(Announcement announcement, Model model, Principal principal) {
-
-
-        if(announcement.getText().isEmpty()){
-
-            model.addAttribute("messageError", "Pole nie może być puste");
-        }else{
-            LocalDate localDate = LocalDate.now();
-            Director director = directorService.findByLogin(principal.getName());
-            announcement.setDirectorsAnnouncement(director);
-            announcement.setDateTime(localDate);
-            announcementService.saveAnnouncement(announcement);
-        }
-
-
-        model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
-        return "director/add-announcement";
-    }
-
-    //USUNIECIE OGLOSZENIA
-    @GetMapping("home/director/usun_ogloszenie/{id}")
-    public String deleteAnnouncement(@PathVariable("id") String id, Model model) {
-        announcementService.deleteAnnouncement(Integer.parseInt(id));
-
-        model.addAttribute("AnnouncementList", sortAnnouncementbyDate(announcementService.listAnnouncements()));
-        return "redirect:/home/director/dodaj_ogloszenie";
-    }
 
     public List<Announcement> sortAnnouncementbyDate(List<Announcement> tmp) {
 

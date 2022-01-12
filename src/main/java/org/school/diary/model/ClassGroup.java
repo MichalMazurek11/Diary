@@ -16,7 +16,7 @@ import java.util.Set;
 public class ClassGroup {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NonNull
@@ -36,6 +36,11 @@ public class ClassGroup {
     @OneToMany(mappedBy = "homeworksClassGroup")
     private Set<Homework> homeworks = new HashSet<>();
 
+
+    public ClassGroup(long id, @NonNull String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     @Override
     public String toString() {

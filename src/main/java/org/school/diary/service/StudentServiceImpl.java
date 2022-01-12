@@ -35,9 +35,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findByStudentsClassGroup(ClassGroup classGroup) {
-        return studentRepository.findByStudentsClassGroup(classGroup);
+    public List<Student> findByFirstLetter(String letter) {
+        return studentRepository.findByFirstLetter(letter);
     }
+
 
     @Override
     public Set<Student> generateListOfStudentsBasedOnLesson(Integer lessonId) {
@@ -76,10 +77,7 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findAll();
     }
 
-    @Override
-    public Student findByEmail(String email) {
-        return studentRepository.findByEmail(email);
-    }
+
 
 //    @Override
 //    public Student findOneByUuid(UUID studentUuid) {
