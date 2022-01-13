@@ -5,16 +5,17 @@ spring:
     username: root
     password:
 
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: edziennikAplikacjaWebowa@gmail.com
-#    password:
-#    properties:
-#      mail:
-#        smtp:
-#          starttls:
-#            enable: true
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: edziennikaplikacjawebowa@gmail.com
+  password: zaq1@WSX
+  protocol: smtp
+  tls: true
+  properties.mail.smtp:
+    auth: true
+    starttls.enable: true
+    ssl.trust: smtp.gmail.com
 
   jpa:
     properties:

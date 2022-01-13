@@ -38,7 +38,8 @@
 			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/ustawienia}">Ustawienia</a></li>
 			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/sprawdz_prace_domowa}">Praca domowa</a></li>
 <!--			<li sec:authorize="hasRole('ROLE_TEACHER')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/teacher/sprawdzian}">Sprawdzian</a>-->
-			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/parent/ustawienia}">Ustawienia</a>
+			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/parent/ustawienia}">Ustawienia</a></li>
+			<li sec:authorize="hasRole('ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/parent/zmiana_hasla}">Konto</a></li>
 			<li sec:authorize="hasRole('ROLE_DIRECTOR')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/director/konta}">Konta</a></li>
 			<li sec:authorize="hasAnyRole('ROLE_STUDENT','ROLE_TEACHER','ROLE_PARENT')" class="nav-item"><a class="nav-link" href="#" th:href="@{/home/ogloszenia}">Ogłoszenia</a></li>
 

@@ -28,6 +28,7 @@ import java.util.*;
 @Controller
 public class DirectorController {
 
+    private final MailService mailService;
     private final ClassGroupService classGroupService;
     private final UserService userService;
     private final TeacherService teacherService;
@@ -109,10 +110,23 @@ public class DirectorController {
 
             return "director/add-teacher";
         }else{
-            LocalDate birthDate = LocalDate.parse(dateToParse);
-//            subjectSet.forEach(topic -> System.out.println("Przedmiot: " + topic.getName()));
-            teacherService.saveTeacher(birthDate, teacherDTO, subjectSet);
 
+            boolean isPeselExists = userService.existsUserByPersonRelatedWithSchoolPesel(teacherDTO.getPesel());
+            boolean isEmailExists = userService.existsUserByPersonRelatedWithSchoolEmail(teacherDTO.getEmail());
+
+            if(isPeselExists || isEmailExists){
+                if(isEmailExists){
+                    model.addAttribute("messageEmail", "Taki email już istnieje!");
+                }else {
+                    model.addAttribute("messagePESEL", "Taki PESEL już istnieje!");
+                }
+
+            }else {
+
+                LocalDate birthDate = LocalDate.parse(dateToParse);
+//            subjectSet.forEach(topic -> System.out.println("Przedmiot: " + topic.getName()));
+                teacherService.saveTeacher(birthDate, teacherDTO, subjectSet);
+            }
         }
 
         model.addAttribute("listSubjects", sortSubjectByName(subjectService.listAllSubject()));
@@ -334,38 +348,43 @@ public class DirectorController {
 
             return "director/add-student-and-parent";
         } else {
+            String checkPesel = userDTO.getPesel();
+            boolean isPeselExists =userService.existsUserByPersonRelatedWithSchoolPesel(checkPesel);
+            if(isPeselExists){
+                model.addAttribute("messagePESEL", "Taki PESEL już istnieje!");
+            }else {
 
-            Student student = new Student();
-            student.setLogin(userDTO.getPesel());
-            student.setFirstName(userDTO.getFirstName());
-            student.setLastName(userDTO.getLastName());
-            student.setPesel(userDTO.getPesel());
-            student.setDateBirth(LocalDate.parse(userDTO.getBirthDate()));
+                Student student = new Student();
+                student.setLogin(userDTO.getPesel());
+                student.setFirstName(userDTO.getFirstName());
+                student.setLastName(userDTO.getLastName());
+                student.setPesel(userDTO.getPesel());
+                student.setDateBirth(LocalDate.parse(userDTO.getBirthDate()));
 
-            studentService.saveStudent(student);
+                studentService.saveStudent(student);
 
-            User user = new User();
-            Role role1 = roleService.findRoleByName("STUDENT");
-            user.setRoles(Collections.singleton(role1));
-            user.setPassword(userDTO.getPassword());
-            user.setPersonRelatedWithSchool(student);
-            userService.save(user);
+                User user = new User();
+                Role role1 = roleService.findRoleByName("STUDENT");
+                user.setRoles(Collections.singleton(role1));
+                user.setPassword(userDTO.getPassword());
+                user.setPersonRelatedWithSchool(student);
+                userService.save(user);
 
-            Parent parent = new Parent();
-            parent.setLogin(userDTO.getPesel() + "r");
-            parentService.save(parent);
+                Parent parent = new Parent();
+                parent.setLogin(userDTO.getPesel() + "r");
+                parentService.save(parent);
 
-            User user2 = new User();
-            Role role2 = roleService.findRoleByName("PARENT");
-            user2.setRoles(Collections.singleton(role2));
-            user2.setPassword(password2);
-            user2.setPersonRelatedWithSchool(parent);
-            userService.save(user2);
+                User user2 = new User();
+                Role role2 = roleService.findRoleByName("PARENT");
+                user2.setRoles(Collections.singleton(role2));
+                user2.setPassword(password2);
+                user2.setPersonRelatedWithSchool(parent);
+                userService.save(user2);
 
-            student.setParent(parent);
-            studentService.saveStudent(student);
+                student.setParent(parent);
+                studentService.saveStudent(student);
 
-
+            }
         }
         model.addAttribute("userDTO", new UserDTO());
         return "director/add-student-and-parent";       // przekierowanie na adres metodą GET
@@ -393,9 +412,9 @@ public class DirectorController {
     @PostMapping("/home/director/konto/{id}")
     public String AccountChanges(@PathVariable("id") String id, @ModelAttribute User user, Model model) {
 
-        User userToUpdate = userService.findById(Long.parseLong(id));
+        User userToUpdate = userService.findById(Long.parseLong(id)); //znaleziony user po ID
 
-        PersonRelatedWithSchool personRelatedWithSchool = new PersonRelatedWithSchool();
+        PersonRelatedWithSchool personRelatedWithSchool = userToUpdate.getPersonRelatedWithSchool();
         personRelatedWithSchool.setPesel(user.getPersonRelatedWithSchool().getPesel());
         personRelatedWithSchool.setFirstName(user.getPersonRelatedWithSchool().getFirstName());
         personRelatedWithSchool.setLastName(user.getPersonRelatedWithSchool().getLastName());

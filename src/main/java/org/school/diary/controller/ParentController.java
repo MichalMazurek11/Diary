@@ -7,16 +7,14 @@ import org.school.diary.model.AnswearToHomework;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.Homework;
 import org.school.diary.model.common.Parent;
+import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.User;
 import org.school.diary.service.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -123,6 +121,48 @@ public class ParentController {
         model.addAttribute("answearToHomework", answearToHomework);
         return "parent/homework_answear";
     }
+
+
+    //zmiana hasla
+
+    @GetMapping("/home/parent/zmiana_hasla")
+    public String changeEmailParent(Model model, Principal principal,@ModelAttribute Parent parent) {
+
+        parent = parentService.findByLogin(principal.getName());
+
+
+        model.addAttribute("parent", parent);
+        return "parent/edit-parent-account";
+    }
+
+    @PostMapping("/home/parent/zmiana_hasla")
+    public String AccountChanges( @ModelAttribute Parent parent,Principal principal, Model model) {
+        String mailToSave = parent.getEmail();
+        boolean checkIfEmailExists = userService.existsUserByPersonRelatedWithSchoolEmail(mailToSave);
+
+
+
+        if(mailToSave.isEmpty() || checkIfEmailExists){
+            if(mailToSave.isEmpty()){
+                model.addAttribute("messageError1", "Podany email jest pusty");
+            }else{
+                model.addAttribute("messageError2", "Podany email już jest zajęty");
+            }
+            return "parent/edit-parent-account";
+        }else{
+            parent = parentService.findByLogin(principal.getName());
+            parent.setEmail(mailToSave);
+
+            parentService.save(parent);
+
+            return "redirect:/home/parent/plan_lekcji";
+        }
+
+    }
+
+
+
+
 
 
 }

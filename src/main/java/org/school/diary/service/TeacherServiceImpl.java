@@ -125,12 +125,8 @@ public class TeacherServiceImpl implements TeacherService{
         teacher.setDateBirth(birthDate);
         teacher.setPesel(teacherDTO.getPesel());
 //        teacher.setSubjects(subjectSet);
-//
-//        System.out.println("id ucznia: "+teacher.getId());
-//        System.out.println("id2: "+teacher.getNoteToJournalsTeacher());
-        teacherService.save(teacher);
-        System.out.println("id ucznia: "+teacher.getId());
-        System.out.println("id2: "+teacher.getNoteToJournalsTeacher());
+
+        teacherRepository.save(teacher);
 
         Set<Subject> foundedSubjects = subjectService.listAllSubject().stream().filter(o -> subjectSet.stream().anyMatch(subject -> subject.getName().equals(o.getName()))).collect(Collectors.toSet());
         foundedSubjects.forEach(subject -> subject.getTeachers().add(teacher));
@@ -138,9 +134,9 @@ public class TeacherServiceImpl implements TeacherService{
         User user = new User();
         Role role1 = roleService.findRoleByName("TEACHER");
         user.setRoles(Collections.singleton(role1));
-        user.setPassword(teacherDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(teacherDTO.getPassword()));
         user.setPersonRelatedWithSchool(teacher);
-        userService.save(user);
+        userRepository.save(user);
 
 
     }

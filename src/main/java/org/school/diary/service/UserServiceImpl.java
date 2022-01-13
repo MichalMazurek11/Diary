@@ -104,6 +104,20 @@ public class UserServiceImpl implements UserService{
         return userRepository.test(id);
     }
 
+    @Override
+    public User findByPersonRelatedWithSchool(PersonRelatedWithSchool personRelatedWithSchool) {
+        return userRepository.findByPersonRelatedWithSchool(personRelatedWithSchool);
+    }
+
+    @Override
+    public boolean existsUserByPersonRelatedWithSchoolEmail(String email) {
+        return userRepository.existsUserByPersonRelatedWithSchoolEmail(email);
+    }
+
+    @Override
+    public boolean existsUserByPersonRelatedWithSchoolPesel(String pesel) {
+        return userRepository.existsUserByPersonRelatedWithSchoolPesel(pesel);
+    }
 
 
 //    @Override

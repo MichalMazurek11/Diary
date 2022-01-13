@@ -1,6 +1,7 @@
 package org.school.diary.service;
 
 import org.school.diary.dto.UserDTO;
+import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 import org.school.diary.model.common.User;
@@ -27,7 +28,11 @@ public interface UserService {
 
     User test(long id);
 
+    User findByPersonRelatedWithSchool(PersonRelatedWithSchool personRelatedWithSchool);
 
+    boolean existsUserByPersonRelatedWithSchoolEmail(String email);
+
+    boolean existsUserByPersonRelatedWithSchoolPesel(String pesel);
 
 //    Boolean existContractForPerson(@Param("pid") String personId);
 }

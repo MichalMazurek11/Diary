@@ -132,15 +132,15 @@ public class DbInit implements CommandLineRunner {
     }
 
     private void createLessonIntervals() {
-        final int lessonTime = 45;
-        final int[] breaks = new int[]{5, 10, 20};
+        final int lessonTime = 45; // czas lekcji
+        final int[] breaks = new int[]{5, 10, 20}; //randomowe przerwy
 //        List<Integer> givenList = Arrays.asList(4,5,6,7,8,9);
 //        Random rand = new Random();
 //        int randomElement = givenList.get(rand.nextInt(givenList.size()));
         final Random random = new Random();
         List<LessonInterval> lessonIntervals = new ArrayList<>();
         LocalTime tempTime = LocalTime.of(8, 00);
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 10; i++) { // ilosc lekcji
             lessonIntervals.add(new LessonInterval(i, tempTime, tempTime.plusMinutes(lessonTime)));
             tempTime = tempTime.plusMinutes(lessonTime);
             tempTime = tempTime.plusMinutes(breaks[random.nextInt(breaks.length)]);
@@ -154,19 +154,20 @@ public class DbInit implements CommandLineRunner {
         HashMap<String, String> firstNameAndLastName = new HashMap<>();
         firstNameAndLastName.put("Maciej", "Wasilewski");
         firstNameAndLastName.put("Kewin", "Kozłowski");
-        firstNameAndLastName.put("Gniewomir", "Czarnecki");
-        firstNameAndLastName.put("Ludwik", "Sobczak");
+        firstNameAndLastName.put("Ryszard", "Czarnecki");
+        firstNameAndLastName.put("Weronika", "Sobczak");
         firstNameAndLastName.put("Rafał", "Kaźmierczak");
         firstNameAndLastName.put("Gustaw", "Kowalski");
-        firstNameAndLastName.put("Marek", "Laskowska");
+        firstNameAndLastName.put("Marek", "Laskowski");
         firstNameAndLastName.put("Juliusz", "Krupa");
-        firstNameAndLastName.put("Piotr", "Mróz");
-        firstNameAndLastName.put("Gracjan", "Krajewska");
+        firstNameAndLastName.put("Wiktoria", "Mróz");
+        firstNameAndLastName.put("Danuta", "Krajewska");
         firstNameAndLastName.put("Marcel", "Andrzejewski");
         firstNameAndLastName.put("Julian", "Kozłowski");
-        firstNameAndLastName.put("Kamil", "Szewczyk");
+        firstNameAndLastName.put("Agata", "Szewczyk");
         firstNameAndLastName.put("Kajetan", "Sawicki");
         firstNameAndLastName.put("Bogumił", "Lewandowski");
+
 
         Set<Teacher> teachers = firstNameAndLastName.entrySet().stream()
                 .map(entry -> new Teacher(entry.getKey(), entry.getValue()))

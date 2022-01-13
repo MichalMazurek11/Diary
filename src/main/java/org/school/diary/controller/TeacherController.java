@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/home/teacher/")
 public class TeacherController {
 
+    private final MailService mailService;
     private final ClassGroupService classGroupService;
     private final UserService userService;
     private final TeacherService teacherService;
@@ -98,12 +99,23 @@ public class TeacherController {
             } else {
                 noteToJournal.setTypeNote(TypeNote.POCHWAŁA);
             }
+            String typeNoteMail = noteToJournal.getTypeNote()+"";
             noteToJournal.setName(descriptionNote);
             noteToJournal.setTeacher(teacher);
             noteToJournal.setDate(date);
             noteToJournal.setStudent(student);
             noteToJournal.setClassGroup(student.getStudentsClassGroup());
             noteToJournalService.save(noteToJournal);
+
+            String mailParent = student.getParent().getEmail();
+
+            if( Objects.isNull(mailParent) || mailParent.isEmpty()){
+
+            }else{
+                LocalDate date2 = LocalDate.now();
+                mailService.sendEmail(mailParent,typeNoteMail.toUpperCase(Locale.ROOT)+ " dodano ","Uwaga dnia: "+date2+". "+descriptionNote);
+            }
+
 
             model.addAttribute("messageSuccess", "Dodano");
             model.addAttribute("noteToJournal", new NoteToJournal());
@@ -641,6 +653,8 @@ public class TeacherController {
         valueList.add("5+");
         valueList.add("6");
 
+
+
         model.addAttribute("mark", mark);
         model.addAttribute("valueList", valueList);
         model.addAttribute("typeMarkList",typeMarkList);
@@ -729,6 +743,18 @@ public class TeacherController {
             mark.setStudent(student);
 
             markService.save(mark);
+
+            String mailParent = student.getParent().getEmail();
+
+            if( Objects.isNull(mailParent) || mailParent.isEmpty()){
+
+            }else{
+                LocalDate date2 = LocalDate.now();
+                mailService.sendEmail(mailParent,"Dodano ocene "+ date2,"Dodano ocene "+ mark.getValue() + " z "+ mark.getTypeMark().getText() +" .Przedmiot:" + mark.getSubject().getName());
+            }
+
+
+
 
             model.addAttribute("messageSuccess", "Ocena została dodana");
             return "redirect:/home/teacher/lekcja/{id}/dodaj_nowa_ocene";

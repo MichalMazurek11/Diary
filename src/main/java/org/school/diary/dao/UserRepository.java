@@ -1,6 +1,7 @@
 package org.school.diary.dao;
 
 
+import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.User;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,6 +33,13 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "join PersonRelatedWithSchool prws on u.personRelatedWithSchool.id=prws.id " +
             "where prws.id=:id")
     User test(long id);
+
+    User findByPersonRelatedWithSchool(PersonRelatedWithSchool personRelatedWithSchool);
+
+    boolean existsUserByPersonRelatedWithSchoolEmail(String email);
+
+    boolean existsUserByPersonRelatedWithSchoolPesel(String pesel);
+
 
 //    @Query("SELECT COUNT(c)> 0 FROM User c WHERE c.personRelatedWithSchool.login = :pid")
 //    Boolean existContractForPerson(@Param("pid") String personId);

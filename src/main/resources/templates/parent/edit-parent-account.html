@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments.html :: headerfiles">
+</head>
+<body>
+<header th:insert="fragments.html :: nav"></header>
+
+<div class="container">
+    <div style="width: 500px; margin-left: auto; margin-right: auto; margin-top: 24px; padding: 24px;">
+        <div class="card">
+            <div class="card-header" style="padding: 24px;">
+                <i class="fa fa-user"></i> Dodaj email</div>
+            <div class="card-block" style="padding: 24px;">
+                <form   th:action="@{'/home/parent/zmiana_hasla'}" th:object="${parent}"  method="POST" }>
+                        <div class="form-group ">
+                            <label for="email">email: </label>
+                            <input  id="email"  name="email" class="form-control" type="email" th:field="*{email}" th:value="*{email}"/>
+                            <span  align="center" th:if="${messageError1}">	<div class="alert alert-danger" role="alert"><span th:text="${messageError1}"></span></div></span>
+                            <span  align="center" th:if="${messageError2}">	<div class="alert alert-danger" role="alert"><span th:text="${messageError2}"></span></div></span>
+                        </div>
+                    <div>
+
+                        <button type="submit"  class="btn btn-primary" style="float: right;">Dodaj email</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
