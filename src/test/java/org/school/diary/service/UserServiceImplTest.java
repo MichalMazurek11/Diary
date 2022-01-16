@@ -1,5 +1,6 @@
 package org.school.diary.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,7 +59,7 @@ public class UserServiceImplTest {
     public void shouldFindUserBasedOnEmail(){
 //        userRepository = mock(UserRepository.class);
         when(userRepository.existsUserByPersonRelatedWithSchoolEmail(email)).thenReturn(true);
-        userService.existsUserByEmail(email);
+        Assertions.assertThat(userService.existsUserByEmail(email)).isEqualTo(true);
         verify(userRepository,times(1)).existsUserByPersonRelatedWithSchoolEmail(email);
     }
 }
