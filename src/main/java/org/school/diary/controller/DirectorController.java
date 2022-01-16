@@ -10,9 +10,7 @@ import org.school.diary.model.*;
 import org.school.diary.model.common.*;
 import org.school.diary.model.enums.StatusTeacher;
 import org.school.diary.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -111,8 +109,8 @@ public class DirectorController {
             return "director/add-teacher";
         }else{
 
-            boolean isPeselExists = userService.existsUserByPersonRelatedWithSchoolPesel(teacherDTO.getPesel());
-            boolean isEmailExists = userService.existsUserByPersonRelatedWithSchoolEmail(teacherDTO.getEmail());
+            boolean isPeselExists = userService.existsUserByPesel(teacherDTO.getPesel());
+            boolean isEmailExists = userService.existsUserByEmail(teacherDTO.getEmail());
 
             if(isPeselExists || isEmailExists){
                 if(isEmailExists){
@@ -349,7 +347,7 @@ public class DirectorController {
             return "director/add-student-and-parent";
         } else {
             String checkPesel = userDTO.getPesel();
-            boolean isPeselExists =userService.existsUserByPersonRelatedWithSchoolPesel(checkPesel);
+            boolean isPeselExists =userService.existsUserByPesel(checkPesel);
             if(isPeselExists){
                 model.addAttribute("messagePESEL", "Taki PESEL już istnieje!");
             }else {

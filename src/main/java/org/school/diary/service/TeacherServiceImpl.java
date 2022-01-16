@@ -30,19 +30,13 @@ import java.util.stream.Stream;
 public class TeacherServiceImpl implements TeacherService{
 
 
-    @Autowired
-    TeacherService teacherService;
-
-    @Autowired
-    UserService userService;
-
     private final TeacherRepository teacherRepository;
     private final PasswordEncoder passwordEncoder;
     private final SubjectService subjectService;
     private final RoleService roleService;
     private final UserRepository userRepository;
 
-//    @Override
+//    @OverrideFv
 //    public void saveTeacher(Teacher teacher, LocalDate birthDate, Set<Subject> subjectSet) {
 //        Set<Subject> matchesSubjects = subjectService.listAllSubject().stream().filter(subjectSet::contains).collect(Collectors.toSet());
 //        Subject subject = subjectService.listAllSubject().get(0);

@@ -13,23 +13,23 @@
         <div class="card">
             <div class="card-block" style="padding: 24px;">
 
-                <form th:action="@{'/home/teacher/sprawdz_prace_domowa/'+${answearToHomework.homework.id}+'/odpowiedz/'+ ${answearToHomework.id}+'/dodaj_ocene'}"  th:object="${answearToHomework}"  method="GET" >
+                <form th:action="@{'/home/teacher/sprawdz_prace_domowa/'+${answerToHomework.homework.id}+'/odpowiedz/'+ ${answerToHomework.id}+'/dodaj_ocene'}"  th:object="${answerToHomework}"  method="GET" >
                     <fieldset>
                         <center><h6>Dodaj prace domową</h6></center>
                         <br>
 
                         <div class="form-group">
                             <label for="taskDescription">Odpowiedź ucznia: </label>
-                            <textarea type="text" class="form-control" id="taskDescription" name="taskDescription" th:field="*{answearForHomework}" th:value="*{answearForHomework}" rows="3" disabled></textarea>
+                            <textarea type="text" class="form-control" id="taskDescription" name="taskDescription" th:field="*{answerForHomework}" th:value="*{answerForHomework}" rows="3" disabled></textarea>
 
                         </div>
 
                         <br/>
                         <span  align="center" th:if="${messageError}">	<div class="alert alert-danger" role="alert"><span th:text="${messageError}"></span></div></span>
                         <div class="form-actions" style="margin-top: 12px;">
-                        <button th:if="${answearToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" type="submit" style="float: right;" class="btn btn-primary">Oceń </button>
-                        <button th:if="${answearToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}" type="submit" style="float: right;" class="btn btn-primary" disabled>Oceń </button>
-                        <button th:if="${answearToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" type="submit" style="float: right;" class="btn btn-primary" >Oceń </button>
+                        <button th:if="${answerToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" type="submit" style="float: right;" class="btn btn-primary">Oceń </button>
+                        <button th:if="${answerToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}" type="submit" style="float: right;" class="btn btn-primary" disabled>Oceń </button>
+                        <button th:if="${answerToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" type="submit" style="float: right;" class="btn btn-primary" >Oceń </button>
                         </div>
                     </fieldset>
                 </form>

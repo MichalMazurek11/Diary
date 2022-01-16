@@ -34,7 +34,7 @@ public class StudentController {
     private final NoteToJournalService noteToJournalService;
     private final MarkService markService;
     private final HomeworkService homeworkService;
-    private final AnswearToHomeworkService answearToHomeworkService;
+    private final AnswerToHomeworkService answerToHomeworkService;
 
 
     //UWAGI POCHWALY
@@ -191,20 +191,20 @@ public class StudentController {
     //prace_domowe
 
     @GetMapping("/home/student/praca_domowa/{id}/dodaj_odpowiedz")
-    public String getHomeworkAnswear(@PathVariable("id") String id, Model model, Principal principal) {
+    public String getHomeworkAnswer(@PathVariable("id") String id, Model model, Principal principal) {
 
         Homework homework = homeworkService.findById(Long.parseLong(id));
 
         Student student = studentService.findByLogin(principal.getName());
 
-        AnswearToHomework answearToHomework = answearToHomeworkService.findByHomeworkAndStudent(homework, student);
+        AnswerToHomework answerToHomework = answerToHomeworkService.findByHomeworkAndStudent(homework, student);
 
-        model.addAttribute("answearToHomework", answearToHomework);
-        return "student/homework_answear";
+        model.addAttribute("answerToHomework", answerToHomework);
+        return "student/homework_answer";
     }
 
     @PostMapping("/home/student/praca_domowa/{id}/dodaj_odpowiedz")
-    public String addHomeworkAnswear(@PathVariable("id") String id, Model model, Principal principal, @ModelAttribute AnswearToHomework answearToHomework) {
+    public String addHomeworkAnswer(@PathVariable("id") String id, Model model, Principal principal, @ModelAttribute AnswerToHomework answerToHomework) {
 
         Homework homework = homeworkService.findById(Long.parseLong(id));
 
@@ -213,43 +213,43 @@ public class StudentController {
         LocalDate nowDate = LocalDate.now();
         LocalDate endDate = homework.getEndDateTask();
 
-        boolean isEnableToSentAnswear = nowDate.isBefore(endDate);
+        boolean isEnableToSentAnswer = nowDate.isBefore(endDate);
 
-        AnswearToHomework answearToHomework2 = answearToHomeworkService.findByHomeworkAndStudent(homework, student);
-        boolean answaer = Objects.equals(answearToHomework2.getStateAnswaerToHomework(), StateAnswaerToHomework.NIEODDANA);
+        AnswerToHomework answerToHomework2 = answerToHomeworkService.findByHomeworkAndStudent(homework, student);
+        boolean answaer = Objects.equals(answerToHomework2.getStateAnswaerToHomework(), StateAnswaerToHomework.NIEODDANA);
 
         //jesli praca jest nieoddana to
         if (answaer) {
 
-            if (answearToHomework.getAnswearForHomework().isEmpty()) {
+            if (answerToHomework.getAnswerForHomework().isEmpty()) {
 
                 model.addAttribute("messageError2", "Nie możesz wysłać pustej odpowiedzi");
-                model.addAttribute("answearToHomework", answearToHomework2);
-                return "student/homework_answear";
+                model.addAttribute("answerToHomework", answerToHomework2);
+                return "student/homework_answer";
             } else {
 
 
                 //sprawdz czy data dzisiejsza jest przed terminem oddania pracy
-                if (isEnableToSentAnswear || nowDate.isEqual(endDate)) {
+                if (isEnableToSentAnswer || nowDate.isEqual(endDate)) {
 
-                    answearToHomework2.setAnswearForHomework(answearToHomework.getAnswearForHomework());
-                    answearToHomework2.setStateAnswaerToHomework(StateAnswaerToHomework.WYSŁANA);
-                    answearToHomeworkService.saveAnswear(answearToHomework2);
+                    answerToHomework2.setAnswerForHomework(answerToHomework.getAnswerForHomework());
+                    answerToHomework2.setStateAnswaerToHomework(StateAnswaerToHomework.WYSLANA);
+                    answerToHomeworkService.saveAnswer(answerToHomework2);
 
-                    model.addAttribute("answearToHomework", answearToHomework2);
+                    model.addAttribute("answerToHomework", answerToHomework2);
                     return "redirect:/home/student/prace_domowe";
                 } else {
 
                     model.addAttribute("messageError", "Nie możesz wysłać odpowiedzi po terminie");
-                    model.addAttribute("answearToHomework", answearToHomework2);
-                    return "student/homework_answear";
+                    model.addAttribute("answerToHomework", answerToHomework2);
+                    return "student/homework_answer";
                 }
             }
         } else {
 
 
-            model.addAttribute("answearToHomework", answearToHomework2);
-            return "student/homework_answear";
+            model.addAttribute("answerToHomework", answerToHomework2);
+            return "student/homework_answer";
         }
     }
 

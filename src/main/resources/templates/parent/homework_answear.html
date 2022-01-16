@@ -11,11 +11,11 @@
             style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 24px; padding: 24px;">
         <div class="card">
             <div class="card-block" style="padding: 24px;">
-                <form th:action="@{/home/parent/praca_domowa/} " method="GET" th:object="${answearToHomework}"   >
+                <form th:action="@{/home/parent/praca_domowa/} " method="GET" th:object="${answerToHomework}"   >
                     <fieldset>
-                        <h6 style="text-align: center" th:if="${answearToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" >Dodaj odpowiedź</h6>
-                        <h6 style="text-align: center" th:if="${answearToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}" >Odpowiedz zostala sprawdzona</h6>
-                        <h6 style="text-align: center" th:if="${answearToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" >Odpowiedz zostala wysłana</h6>
+                        <h6 style="text-align: center" th:if="${answerToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" >Dodaj odpowiedź</h6>
+                        <h6 style="text-align: center" th:if="${answerToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}" >Odpowiedz zostala sprawdzona</h6>
+                        <h6 style="text-align: center" th:if="${answerToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" >Odpowiedz zostala wysłana</h6>
                         <br>
 
                         <div class="form-group" >
@@ -25,14 +25,14 @@
                         </div>
 
                         <div class="form-group" >
-                            <label for="answearForHomework">Odpowiedź: </label>
-                            <textarea  type="text" th:field="*{answearForHomework}" th:value="*{answearForHomework}"  class="form-control" id="answearForHomework" name="answearForHomework"  rows="6"  disabled></textarea>
+                            <label for="answerForHomework">Odpowiedź: </label>
+                            <textarea  type="text" th:field="*{answerForHomework}" th:value="*{answerForHomework}"  class="form-control" id="answerForHomework" name="answerForHomework"  rows="6"  disabled></textarea>
 
                         </div>
                         <div class="form-actions" style="margin-top: 12px;" >
-                        <h5  style="color: red;text-align: center" class="font-size24" th:if="${answearToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}"   disabled>Brak pracy domowej</h5>
-                        <h5 style="color: green;text-align: center" class="font-size24" th:if="${answearToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}"  disabled>Praca została sprawdzona</h5>
-                        <h5 style="color: green;text-align: center" class="font-size24" th:if="${answearToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}"   disabled>Praca domowa została wysłana</h5>
+                        <h5  style="color: red;text-align: center" class="font-size24" th:if="${answerToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}"   disabled>Brak pracy domowej</h5>
+                        <h5 style="color: green;text-align: center" class="font-size24" th:if="${answerToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}"  disabled>Praca została sprawdzona</h5>
+                        <h5 style="color: green;text-align: center" class="font-size24" th:if="${answerToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}"   disabled>Praca domowa została wysłana</h5>
                         </div>
 
                         <div class="form-actions" style="margin-top: 12px;" >

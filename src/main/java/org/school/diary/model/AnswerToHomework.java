@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @RequiredArgsConstructor
-public class AnswearToHomework {
+public class AnswerToHomework {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class AnswearToHomework {
 
     @NonNull
     @Column(length = 3000)
-    private String answearForHomework;
+    private String answerForHomework;
 
     @NonNull
     @Enumerated(EnumType.STRING)
@@ -36,8 +36,8 @@ public class AnswearToHomework {
     private Student student;
 
 
-    public AnswearToHomework(@NonNull String answearForHomework, @NonNull StateAnswaerToHomework stateAnswaerToHomework, Homework homework, Student student) {
-        this.answearForHomework = answearForHomework;
+    public AnswerToHomework(@NonNull String answerForHomework, @NonNull StateAnswaerToHomework stateAnswaerToHomework, Homework homework, Student student) {
+        this.answerForHomework = answerForHomework;
         this.stateAnswaerToHomework = stateAnswaerToHomework;
         this.homework = homework;
         this.student = student;
@@ -45,9 +45,9 @@ public class AnswearToHomework {
 
     @Override
     public String toString() {
-        return "AnswearToHomework{" +
+        return "AnswerToHomework{" +
                 "id=" + id +
-                ", answearForHomework='" + answearForHomework + '\'' +
+                ", answerForHomework='" + answerForHomework + '\'' +
                 ", stateAnswaerToHomework=" + stateAnswaerToHomework +
                 ", homework=" + homework +
                 ", student=" + student +

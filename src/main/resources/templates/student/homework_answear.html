@@ -12,30 +12,30 @@
             style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 24px; padding: 24px;">
         <div class="card">
             <div class="card-block" style="padding: 24px;">
-                <form th:action="@{'/home/student/praca_domowa/'+ ${answearToHomework.homework.id} +'/dodaj_odpowiedz'}" th:object="${answearToHomework}"  method="post" >
+                <form th:action="@{'/home/student/praca_domowa/'+ ${answerToHomework.homework.id} +'/dodaj_odpowiedz'}" th:object="${answerToHomework}"  method="post" >
                     <fieldset>
-                        <center><h6 th:if="${answearToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" >Dodaj odpowiedź</h6></center>
-                        <center><h6 th:if="${answearToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}" >Odpowiedz zostala sprawdzona</h6></center>
-                        <center><h6 th:if="${answearToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" >Odpowiedz zostala wysłana</h6></center>
+                        <center><h6 th:if="${answerToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" >Dodaj odpowiedź</h6></center>
+                        <center><h6 th:if="${answerToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}" >Odpowiedz zostala sprawdzona</h6></center>
+                        <center><h6 th:if="${answerToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" >Odpowiedz zostala wysłana</h6></center>
                         <br>
 
                         <div class="form-group" >
-                            <label for="answearForHomework">Treść pracy domowej: </label>
+                            <label for="answerForHomework">Treść pracy domowej: </label>
                             <textarea  type="text" class="form-control" th:field="*{homework.taskDescription}" th:value="*{homework.taskDescription}"id="taskDescription" name="taskDescription"  rows="6"  disabled></textarea>
 
                         </div>
 
                         <div class="form-group" >
-                            <label for="answearForHomework">Odpowiedź: </label>
-                            <textarea th:if="${answearToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" type="text" class="form-control" id="answearForHomework" name="answearForHomework"  rows="6"  ></textarea>
-                            <textarea th:if="${answearToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA' || answearToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" th:field="*{answearForHomework}" th:value="*{answearForHomework}" type="text" class="form-control" id="answearForHomework1" name="answearForHomework2"  rows="6"  disabled></textarea>
+                            <label for="answerForHomework">Odpowiedź: </label>
+                            <textarea th:if="${answerToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" type="text" class="form-control" id="answerForHomework" name="answerForHomework"  rows="6"  ></textarea>
+                            <textarea th:if="${answerToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA' || answerToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" th:field="*{answerForHomework}" th:value="*{answerForHomework}" type="text" class="form-control" id="answerForHomework1" name="answerForHomework2"  rows="6"  disabled></textarea>
                         </div>
                         <span  align="center" th:if="${messageError}">	<div class="alert alert-danger" role="alert"><span th:text="${messageError}"></span></div></span>
                         <span  align="center" th:if="${messageError2}">	<div class="alert alert-danger" role="alert"><span th:text="${messageError2}"></span></div></span>
                         <div class="form-actions" style="margin-top: 12px;" >
-                            <button th:if="${answearToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" type="submit" style="float: right;" class="btn btn-primary">Dodaj odpowiedź</button>
-                            <button th:if="${answearToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}" type="submit" style="float: right;" class="btn btn-primary" disabled>Dodaj odpowiedź</button>
-                            <button th:if="${answearToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" type="submit" style="float: right;" class="btn btn-primary" disabled>Dodaj odpowiedź</button>
+                            <button th:if="${answerToHomework.stateAnswaerToHomework.name() == 'NIEODDANA'}" type="submit" style="float: right;" class="btn btn-primary">Dodaj odpowiedź</button>
+                            <button th:if="${answerToHomework.stateAnswaerToHomework.name() == 'SPRAWDZONA'}" type="submit" style="float: right;" class="btn btn-primary" disabled>Dodaj odpowiedź</button>
+                            <button th:if="${answerToHomework.stateAnswaerToHomework.name() == 'WYSŁANA'}" type="submit" style="float: right;" class="btn btn-primary" disabled>Dodaj odpowiedź</button>
                         </div>
 
                     </fieldset>

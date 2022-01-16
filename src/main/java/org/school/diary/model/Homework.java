@@ -45,7 +45,7 @@ public class Homework {
     private Teacher homeworkTeacher;
 
     @OneToMany(mappedBy = "homework")
-    private Set<AnswearToHomework> answearToHomeworkSet= new HashSet<>();
+    private Set<AnswerToHomework> answerToHomeworkSet= new HashSet<>();
 
 
     @Override
@@ -58,7 +58,7 @@ public class Homework {
                 ", homeworksClassGroup=" + homeworksClassGroup +
                 ", homewroksSubject=" + homewroksSubject +
                 ", homeworkTeacher=" + homeworkTeacher +
-                ", answearToHomeworkSet=" + answearToHomeworkSet +
+                ", answerToHomeworkSet=" + answerToHomeworkSet +
                 '}';
     }
 }

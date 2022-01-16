@@ -13,7 +13,7 @@
         <div class="card">
             <div class="card-block" style="padding: 24px;">
 
-                <form th:action="@{'/home/teacher/sprawdz_prace_domowa/'+${answearToHomework.homework.id}+'/odpowiedz/'+${answearToHomework.id}+'/dodaj_ocene'}" th:object="${answearToHomework}"  method="post" >
+                <form th:action="@{'/home/teacher/sprawdz_prace_domowa/'+${answerToHomework.homework.id}+'/odpowiedz/'+${answerToHomework.id}+'/dodaj_ocene'}" th:object="${answerToHomework}"  method="post" >
                     <fieldset>
                         <center><h6>Oceń prace domową</h6></center>
                         <br>

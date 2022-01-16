@@ -2,12 +2,10 @@ package org.school.diary.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.school.diary.config.UserPrincipal;
-import org.school.diary.dto.UserDTO;
-import org.school.diary.model.AnswearToHomework;
+import org.school.diary.model.AnswerToHomework;
 import org.school.diary.model.ClassGroup;
 import org.school.diary.model.Homework;
 import org.school.diary.model.common.Parent;
-import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.User;
 import org.school.diary.service.*;
@@ -36,7 +34,7 @@ public class ParentController {
     private final ParentService parentService;
     private final NoteToJournalService noteToJournalService;
     private final HomeworkService homeworkService;
-    private final AnswearToHomeworkService answearToHomeworkService;
+    private final AnswerToHomeworkService answerToHomeworkService;
 
     //USTAWIENIA
     @GetMapping("/home/parent/ustawienia")
@@ -108,7 +106,7 @@ public class ParentController {
 
 
     @GetMapping("/home/parent/praca_domowa/{id}/odpowiedz")
-    public String getHomeworkAnswear(@PathVariable("id") String id, Model model, Principal principal) {
+    public String getHomeworkAnswer(@PathVariable("id") String id, Model model, Principal principal) {
 
         Homework homework = homeworkService.findById(Long.parseLong(id));
 
@@ -116,10 +114,10 @@ public class ParentController {
 
         Student student = studentService.findByParent(parent);
 
-        AnswearToHomework answearToHomework = answearToHomeworkService.findByHomeworkAndStudent(homework, student);
+        AnswerToHomework answerToHomework = answerToHomeworkService.findByHomeworkAndStudent(homework, student);
 
-        model.addAttribute("answearToHomework", answearToHomework);
-        return "parent/homework_answear";
+        model.addAttribute("answerToHomework", answerToHomework);
+        return "parent/homework_answer";
     }
 
 
@@ -138,7 +136,7 @@ public class ParentController {
     @PostMapping("/home/parent/zmiana_hasla")
     public String AccountChanges( @ModelAttribute Parent parent,Principal principal, Model model) {
         String mailToSave = parent.getEmail();
-        boolean checkIfEmailExists = userService.existsUserByPersonRelatedWithSchoolEmail(mailToSave);
+        boolean checkIfEmailExists = userService.existsUserByEmail(mailToSave);
 
 
 

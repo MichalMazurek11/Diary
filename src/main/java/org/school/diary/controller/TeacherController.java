@@ -3,7 +3,6 @@ package org.school.diary.controller;
 import lombok.RequiredArgsConstructor;
 import org.school.diary.config.UserPrincipal;
 import org.school.diary.model.*;
-import org.school.diary.model.common.PersonRelatedWithSchool;
 import org.school.diary.model.common.Student;
 import org.school.diary.model.common.Teacher;
 import org.school.diary.model.common.User;
@@ -41,7 +40,7 @@ public class TeacherController {
     private final LessonHourService lessonHourService;
     private final PresenceService presenceService;
     private final HomeworkService homeworkService;
-    private final AnswearToHomeworkService answearToHomeworkService;
+    private final AnswerToHomeworkService answerToHomeworkService;
     private final MarkService markService;
 
     //Wubór klasy przy wprowadzeniu uwagi
@@ -362,7 +361,7 @@ public class TeacherController {
             homeworkService.save(homework);
 
             model.addAttribute("messageSuccess", "Praca domowa została dodana");
-            List<AnswearToHomework> answearToHomeworksList = answearToHomeworkService.generateAndSaveEmptyAnswear(homework.getHomeworksClassGroup(), homework);
+            List<AnswerToHomework> answerToHomeworksList = answerToHomeworkService.generateAndSaveEmptyAnswer(homework.getHomeworksClassGroup(), homework);
             model.addAttribute("lessonHour", lessonHour);
         }
 
@@ -388,28 +387,28 @@ public class TeacherController {
 
         Homework homework = homeworkService.findById(Long.parseLong(id));
 
-        List<AnswearToHomework> list = answearToHomeworkService.findAllByHomework(homework);
-        model.addAttribute("answearToHomework", new AnswearToHomework());
-        model.addAttribute("answearToHomeworksList", list);
-        return "teacher/check-homework-answears";
+        List<AnswerToHomework> list = answerToHomeworkService.findAllByHomework(homework);
+        model.addAttribute("answerToHomework", new AnswerToHomework());
+        model.addAttribute("answerToHomeworksList", list);
+        return "teacher/check-homework-answers";
     }
 
-    @GetMapping("sprawdz_prace_domowa/{id}/odpowiedz/{answear.id}")
-    public String getAnsweartudent(@PathVariable("id") String id, @PathVariable("answear.id") String studentId, Model model) {
+    @GetMapping("sprawdz_prace_domowa/{id}/odpowiedz/{answer_id}")
+    public String getAnswertudent(@PathVariable("id") String id, @PathVariable("answer_id") String studentId, Model model) {
 
 
-        AnswearToHomework answearToHomework = answearToHomeworkService.findById(Long.parseLong(studentId));
+        AnswerToHomework answerToHomework = answerToHomeworkService.findById(Long.parseLong(studentId));
 
 
-        model.addAttribute("answearToHomework", answearToHomework);
-        return "teacher/check-homework-student-answear";
+        model.addAttribute("answerToHomework", answerToHomework);
+        return "teacher/check-homework-student-answer";
     }
 
-    @GetMapping("sprawdz_prace_domowa/{id}/odpowiedz/{answear.id}/dodaj_ocene")
-    public String getMarkForAnswear(@PathVariable("id") String id, @PathVariable("answear.id") String studentId, Model model) {
+    @GetMapping("sprawdz_prace_domowa/{id}/odpowiedz/{answer_id}/dodaj_ocene")
+    public String getMarkForAnswer(@PathVariable("id") String id, @PathVariable("answer_id") String studentId, Model model) {
 
 
-        AnswearToHomework answearToHomework = answearToHomeworkService.findById(Long.parseLong(studentId));
+        AnswerToHomework answerToHomework = answerToHomeworkService.findById(Long.parseLong(studentId));
 
         List<String> valueList = new ArrayList<>();
         valueList.add("1");
@@ -435,12 +434,12 @@ public class TeacherController {
         model.addAttribute("termList", termList);
         model.addAttribute("valueList", valueList);
         model.addAttribute("mark", new Mark());
-        model.addAttribute("answearToHomework", answearToHomework);
-        return "teacher/add-mark-homework-student-answear";
+        model.addAttribute("answerToHomework", answerToHomework);
+        return "teacher/add-mark-homework-student-answer";
     }
 
-    @PostMapping("sprawdz_prace_domowa/{id}/odpowiedz/{answear.id}/dodaj_ocene")
-    public String addMarkForAnswear(@PathVariable("id") String id, @PathVariable("answear.id") String studentId, @RequestParam Map<String, String> requestParams, Model model, Principal principal) {
+    @PostMapping("sprawdz_prace_domowa/{id}/odpowiedz/{answer_id}/dodaj_ocene")
+    public String addMarkForAnswer(@PathVariable("id") String id, @PathVariable("answer_id") String studentId, @RequestParam Map<String, String> requestParams, Model model, Principal principal) {
 
         List<String> valueList = new ArrayList<>();
         valueList.add("1");
@@ -463,13 +462,13 @@ public class TeacherController {
         termList.add(Term.SEMESTR_I);
         termList.add(Term.SEMESTR_II);
 
-        AnswearToHomework answearToHomework = answearToHomeworkService.findById(Long.parseLong(studentId));
+        AnswerToHomework answerToHomework = answerToHomeworkService.findById(Long.parseLong(studentId));
 
         Teacher teacher = teacherService.findByLogin(principal.getName());
 
-        Student student = answearToHomework.getStudent();
+        Student student = answerToHomework.getStudent();
 
-        Subject subject = answearToHomework.getHomework().getHomewroksSubject();
+        Subject subject = answerToHomework.getHomework().getHomewroksSubject();
 
         String term = requestParams.get("term");
         String markString = requestParams.get("mark");
@@ -485,15 +484,15 @@ public class TeacherController {
         mark.setTermValue(termToSave);
 
         markService.save(mark);
-        answearToHomework.setStateAnswaerToHomework(StateAnswaerToHomework.SPRAWDZONA);
+        answerToHomework.setStateAnswaerToHomework(StateAnswaerToHomework.SPRAWDZONA);
 
-        answearToHomeworkService.saveAnswear(answearToHomework);
+        answerToHomeworkService.saveAnswer(answerToHomework);
 
         model.addAttribute("termList", termList);
         model.addAttribute("valueList", valueList);
         model.addAttribute("mark", new Mark());
-        model.addAttribute("answearToHomework", answearToHomework);
-        return "teacher/add-mark-homework-student-answear";
+        model.addAttribute("answerToHomework", answerToHomework);
+        return "teacher/add-mark-homework-student-answer";
     }
 
     //Ocena

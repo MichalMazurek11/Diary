@@ -29,7 +29,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="answaer,iterStat : ${answearToHomeworksList}" >
+                <tr th:each="answaer,iterStat : ${answerToHomeworksList}" >
                     <td th:text="${iterStat.count}"></td>
                     <td th:text="${answaer.student.firstName} + ' ' + ${answaer.student.lastName}"></td>
                     <td style="color: red" class="font-size24"th:if="${answaer.stateAnswaerToHomework.name() == 'NIEODDANA'}">NIEODDANA</td>

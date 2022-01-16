@@ -10,10 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-@Component
 public class SignedUserMapper {
 
-    public PersonRelatedWithSchool mapPersonRelatedWithSchoolToSpecificImplementation(UserDTO userDTO) {
+    public static PersonRelatedWithSchool mapPersonRelatedWithSchoolToSpecificImplementation(UserDTO userDTO) {
         PersonRelatedWithSchool personRelatedWithSchool = new PersonRelatedWithSchool();
         switch (userDTO.getPersonRole().toLowerCase()) {
             case "teacher":
@@ -32,7 +31,6 @@ public class SignedUserMapper {
         personRelatedWithSchool.setEmail(userDTO.getEmail());
         personRelatedWithSchool.setFirstName(userDTO.getFirstName());
         personRelatedWithSchool.setLastName(userDTO.getLastName());
-//        personRelatedWithSchool.setFirstName(userDTO.get);//TODO add firstname to form
         personRelatedWithSchool.setDateBirth(LocalDate.parse(userDTO.getBirthDate()));
         personRelatedWithSchool.setPesel(userDTO.getPesel());
         return personRelatedWithSchool;

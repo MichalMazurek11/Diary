@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService{
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final SignedUserMapper signedUserMapper;
     private final RoleRepository roleRepository;
 
     private final TeacherService teacherService;
@@ -48,11 +47,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveNewUser(UserDTO userDTO) {
+    public User saveNewUser(UserDTO userDTO) {
 
         String personRole = userDTO.getPersonRole();
         Role role = roleRepository.findByName(personRole.toUpperCase()).orElseThrow(NotFoundException::new);
-        PersonRelatedWithSchool personRelatedWithSchool = signedUserMapper.mapPersonRelatedWithSchoolToSpecificImplementation(userDTO);
+        PersonRelatedWithSchool personRelatedWithSchool = SignedUserMapper.mapPersonRelatedWithSchoolToSpecificImplementation(userDTO);
 
         //TODO: stworzyć fabrykę serwisów
         if (personRelatedWithSchool instanceof Teacher){
@@ -74,7 +73,7 @@ public class UserServiceImpl implements UserService{
         user.setRoles(Collections.singleton(role));
         user.setPersonRelatedWithSchool(personRelatedWithSchool);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
 //    @Override
@@ -110,20 +109,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean existsUserByPersonRelatedWithSchoolEmail(String email) {
+    public boolean existsUserByEmail(String email) {
         return userRepository.existsUserByPersonRelatedWithSchoolEmail(email);
     }
 
     @Override
-    public boolean existsUserByPersonRelatedWithSchoolPesel(String pesel) {
+    public boolean existsUserByPesel(String pesel) {
         return userRepository.existsUserByPersonRelatedWithSchoolPesel(pesel);
     }
-
-
-//    @Override
-//    public Boolean existContractForPerson(String personId) {
-//        return userRepository.existContractForPerson(personId);
-//    }
 
 
 }
