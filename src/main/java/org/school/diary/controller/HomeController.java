@@ -4,22 +4,26 @@ package org.school.diary.controller;
 import lombok.RequiredArgsConstructor;
 import org.school.diary.config.UserPrincipal;
 import org.school.diary.model.common.User;
+import org.school.diary.dto.Quote;
+import org.school.diary.service.QuotesRestService;
 import org.school.diary.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
 
     private final UserService userService;
+    private final QuotesRestService quotesRestService;
 
     @RequestMapping("/")
-    public String deafultPage() {
-        return "/login";
+    public String deafultPage(Model model) {
+        Quote quote = quotesRestService.getRandomQuote();
+        model.addAttribute("quote",quote);
+        return "index";
     }
 
     //PANEL PO ZALOGOWANIU

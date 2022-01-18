@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments.html :: headerfiles">
+    <title>Panel Logowania</title>
+</head>
+<body>
+<form action="/login">
+    <button type="submit"  class="btn btn-primary">Zaloguj się</button>
+</form>
+<h2><center>WITAJ W NASZEJ SUPER SZKOLE</center></h2>
+<center><img src="https://www.tampabay.com/resizer//qHa-nl1IdnoZt0yACcGt0YOoePM=/1600x900/smart/cloudfront-us-east-1.images.arcpublishing.com/tbt/U7L5UAVFPVC37GCNO4FCMLSO5A.jpg"
+     alt="Schoole" width="1280" height="720"></center>
+<h3 th:text="${quote.getQuote()}"></h3>
+<h3 th:text="${'~' + quote.getAuthor()}"></h3>
+</body>
+</html>
+
+
+
+

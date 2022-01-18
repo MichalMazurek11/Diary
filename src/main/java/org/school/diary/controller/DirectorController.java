@@ -26,7 +26,7 @@ import java.util.*;
 @Controller
 public class DirectorController {
 
-    private final MailService mailService;
+//    private final MailService mailService;
     private final ClassGroupService classGroupService;
     private final UserService userService;
     private final TeacherService teacherService;

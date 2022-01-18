@@ -7,6 +7,7 @@ import org.school.diary.model.common.*;
 import org.school.diary.model.enums.ClassRoomDuty;
 import org.school.diary.service.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.school.diary.model.enums.ClassRoomDuty.PE;
-
+@Profile("init")
 @Component
 @RequiredArgsConstructor
 public class DbInit implements CommandLineRunner {
@@ -37,7 +38,7 @@ public class DbInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        /*createRoles();
+        createRoles();
         createDirectorTest();
         createClassGroups(Arrays.asList("1A", "2B", "3C", "4B", "2C", "4G", "2D"));
         createClassRooms();
@@ -48,7 +49,7 @@ public class DbInit implements CommandLineRunner {
         createWeekdays();
         createLessonPlan();
         createDirector();
-        students();*/
+        students();
 
 
     }
