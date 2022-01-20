@@ -11,12 +11,13 @@ import java.util.Optional;
 @Service
 public class QuotesRestService {
 
-   public Quote getRandomQuote(){
-       RestTemplate restTemplate = new RestTemplate();
-       Quote quote = restTemplate.getForObject("https://mquotesapi.herokuapp.com/random", Quote.class);
-       return Optional.ofNullable(quote).orElseGet(() -> new Quote("",""));
-   }
+    private final String url = "https://mquotesapi.herokuapp.com/random";
 
+    public Quote getRandomQuote() {
+        RestTemplate restTemplate = new RestTemplate();
+        Quote quote = restTemplate.getForObject(url, Quote.class);
+        return Optional.ofNullable(quote).orElseGet(() -> new Quote("", ""));
+    }
 
 }
 
